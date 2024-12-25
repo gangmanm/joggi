@@ -9,4 +9,3 @@ export default function ClientThemeProvider({
 }) {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }
-``;
