@@ -16,6 +16,9 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
     font-family: "Pretendard", Arial, Helvetica, sans-serif;
     overflow: hidden; /* 가로/세로 스크롤 방지 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 

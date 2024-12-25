@@ -2,12 +2,13 @@ import { styled } from "styled-components";
 import Image from "next/image";
 
 export const Main = styled.div`
-  width: 500px;
+  width: 450px;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 1px solid black;
   @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
     width: 100vw;
     height: 100vh;
@@ -30,13 +31,13 @@ export const Title = styled.div`
   width: 100%;
   height: 76px;
   font-size: 67px;
-  font-weight: 800;
+  font-weight: 900;
   color: ${({ theme }) => theme.colors.point};
   text-align: center;
 `;
 
 export const LoginButton = styled.div`
-  width: 173px;
+  width: 200px;
   height: 47px;
   background-color: ${({ theme }) => theme.colors.point};
   box-shadow: inset 0px 3px 3px rgba(110, 110, 110, 0.3);
