@@ -1,11 +1,14 @@
 {
-  "homepage": "joggi.co.kr",
   "name": "joggi",
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predeploy": "next build",
+    "deploy": "gh-pages -d .next",
+    "dev": "next dev",
     "build": "next build",
-    "deploy": "gh-pages -d out"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "react": "^19.0.0",

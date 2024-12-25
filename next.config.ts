@@ -1,11 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
-  basePath: "/joggi", // GitHub Pages 저장소 이름
-  assetPrefix: "/joggi", // GitHub Pages 저장소 이름
+  basePath: "",
+  assetPrefix: "https://joggi.co.kr",
+  trailingSlash: true, // URL 끝에 슬래시 추가
 };
 
 export default nextConfig;
-
-// 빈 export 구문 추가
-export {};
