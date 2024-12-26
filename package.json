@@ -5,10 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "export": "next build"
+    "export": "next build",
+    "generate-types": "npx supabase gen types typescript --project-id kpcncpbypqhktrcxhgax --schema public > src/types/supabase.ts"
   },
   "dependencies": {
     "@netlify/plugin-nextjs": "^5.9.2",
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.47.10",
+    "@tanstack/react-query": "^5.62.10",
     "next": "^15.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

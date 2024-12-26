@@ -1,13 +1,16 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: "export",
-  basePath: "",
-  assetPrefix: "https://jogi.co.kr",
-  trailingSlash: true, // URL 끝에 슬래시 추가
-  reactStrictMode: true,
-  compiler: {
-    styledComponents: true, // styled-components 활성화
-  },
-};
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   output: "export",
+//   basePath: "",
+//   assetPrefix: "https://jogi.co.kr",
+//   trailingSlash: true,
+//   reactStrictMode: true,
+//   compiler: {
+//     styledComponents: true,
+//   },
+//   images: {
+//     unoptimized: true,
+//   },
+// };
 
-export default nextConfig;
+// export default nextConfig;

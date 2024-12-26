@@ -1,8 +1,11 @@
+// RootLayout.tsx (Server Component)
+import ReactQueryClientProviders from "../../config/ReactQueryClientProvider";
 import GlobalStyle from "../../styles/globalStyles";
 import ClientThemeProvider from "./ClientThemeProvider";
+import AuthProvider from "../../components/AuthProvider"; // New component
 
 export const metadata = {
-  title: "JOGGI",
+  title: "JOGI",
   description: "신개념 가계부 웹 어플리케이션",
 };
 
@@ -12,13 +15,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <ClientThemeProvider>
-          <GlobalStyle />
-          {children}
-        </ClientThemeProvider>
-      </body>
-    </html>
+    <ReactQueryClientProviders>
+      <html lang="en">
+        <body>
+          <ClientThemeProvider>
+            <GlobalStyle />
+            {children}
+          </ClientThemeProvider>
+        </body>
+      </html>
+    </ReactQueryClientProviders>
   );
 }

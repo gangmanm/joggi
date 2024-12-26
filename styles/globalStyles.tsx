@@ -20,6 +20,11 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
     justify-content: center;
   }
+  @media screen and (min-device-pixel-ratio: 2) {
+  svg {
+    shape-rendering: crispEdges;
+  }
+}
 `;
 
 export default GlobalStyle;
