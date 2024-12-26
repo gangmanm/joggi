@@ -59,10 +59,16 @@ export default function Home() {
               {setting === "income" ? "11만 233원" : "5만 100원"}
             </S.TotalText>
           </S.TotalMainText>
-          <S.TotalSubContainer
-            setting={setting}
-            onClick={toggleSetting}
-          ></S.TotalSubContainer>
+          <S.TotalSubContainer setting={setting} onClick={toggleSetting}>
+            <S.TotalSubText>
+              <S.SubHeaderText setting={setting}>
+                {setting === "income" ? "오늘의 지출" : "오늘의 수입"}
+              </S.SubHeaderText>
+              <S.SubTotalText setting={setting}>
+                {setting === "income" ? "5만 100원" : "11만 233원"}
+              </S.SubTotalText>
+            </S.TotalSubText>
+          </S.TotalSubContainer>
         </S.TotalMainContainer>
       </S.SubContainer>
     </S.MainContainer>

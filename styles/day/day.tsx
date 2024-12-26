@@ -40,9 +40,18 @@ export const TotalMainText = styled.div`
   align-items: center;
 `;
 
+export const TotalSubText = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const HeaderText = styled.div<{ setting: string }>`
   width: 100%;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: ${({ theme, setting }) =>
     setting === "income" ? theme.colors.point : theme.colors.white};
@@ -79,4 +88,28 @@ export const TotalSubContainer = styled.div<{ setting: string }>`
   align-items: center;
 `;
 
-export const TotalSubText = styled.div``;
+export const SubHeaderText = styled.div<{ setting: string }>`
+  width: 100%;
+  font-size: 13px;
+  font-weight: 700;
+  color: ${({ theme, setting }) =>
+    setting === "income" ? theme.colors.white : theme.colors.point};
+
+  display: flex;
+  align-items: center;
+  padding: 4px;
+`;
+
+export const SubTotalText = styled.div<{ setting: string }>`
+  width: 100%;
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  font-weight: 700;
+  color: ${({ theme, setting }) =>
+    setting === "income" ? theme.colors.white : theme.colors.point};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
