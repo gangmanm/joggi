@@ -1,3 +1,4 @@
+import ReactQueryClientProviders from "../../config/ReactQueryClientProvider";
 import GlobalStyle from "../../styles/globalStyles";
 import ClientThemeProvider from "./ClientThemeProvider";
 
@@ -12,13 +13,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <ClientThemeProvider>
-          <GlobalStyle />
-          {children}
-        </ClientThemeProvider>
-      </body>
-    </html>
+    <ReactQueryClientProviders>
+      <html lang="en">
+        <body>
+          <ClientThemeProvider>
+            <GlobalStyle />
+            {children}
+          </ClientThemeProvider>
+        </body>
+      </html>
+    </ReactQueryClientProviders>
   );
 }
