@@ -3,7 +3,7 @@ import * as S from "../../../styles/day/day";
 import { Header } from "../../../styles/header";
 import { useState, useEffect } from "react";
 import { createClient } from "../../../utils/supabase/client"; // Supabase 클라이언트 가져오기
-import { Session, Subscription } from "@supabase/supabase-js"; // Import Session and Subscription types
+import { Session } from "@supabase/supabase-js"; // Import Session and Subscription types
 
 const supabase = createClient();
 
