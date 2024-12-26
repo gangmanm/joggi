@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import Image from "next/image";
 
 export const Main = styled.div`
   width: 450px;
