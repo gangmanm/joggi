@@ -10,6 +10,7 @@ export const theme = {
     primary: "#FF9A2F",
     secondary: "#FFE1A5",
     point: "#E7740F",
+    white: "#FFFFFF",
   },
 
   fontsize: {

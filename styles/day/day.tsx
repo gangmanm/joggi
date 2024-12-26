@@ -17,10 +17,12 @@ export const SubContainer = styled.div`
   height: 100%;
   padding: 12px;
 `;
-export const TotalMainContainer = styled.div`
+
+export const TotalMainContainer = styled.div<{ setting: string }>`
   width: 100%;
   height: 113px;
-  background-color: ${({ theme }) => theme.colors.secondary};
+  background-color: ${({ theme, setting }) =>
+    setting === "income" ? theme.colors.secondary : theme.colors.point};
   border-radius: 6px;
   padding: 7px;
 
@@ -38,33 +40,37 @@ export const TotalMainText = styled.div`
   align-items: center;
 `;
 
-export const HeaderText = styled.div`
+export const HeaderText = styled.div<{ setting: string }>`
   width: 100%;
   font-size: 11px;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.point};
+  color: ${({ theme, setting }) =>
+    setting === "income" ? theme.colors.point : theme.colors.white};
 
   display: flex;
   align-items: center;
   padding: 4px;
 `;
 
-export const TotalText = styled.div`
+export const TotalText = styled.div<{ setting: string }>`
+  width: 100%;
   width: 100%;
   height: 100%;
   font-size: 20px;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.point};
+  color: ${({ theme, setting }) =>
+    setting === "income" ? theme.colors.point : theme.colors.white};
 
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-export const TotalSubContainer = styled.div`
+export const TotalSubContainer = styled.div<{ setting: string }>`
   width: 100%;
   height: 100%;
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme, setting }) =>
+    setting === "income" ? theme.colors.point : theme.colors.secondary};
   border-radius: 6px;
   padding: 4px;
 
