@@ -8,7 +8,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true, // styled-components 활성화
   },
+  images: {
+    unoptimized: true,
+  },
 };
-//   reactStrictMode: true,
 
 export default nextConfig;
