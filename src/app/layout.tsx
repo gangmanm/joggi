@@ -1,7 +1,6 @@
-// RootLayout.tsx (Server Component)
 import ReactQueryClientProviders from "../../config/ReactQueryClientProvider";
-import GlobalStyle from "../../styles/globalStyles";
-import ClientThemeProvider from "./ClientThemeProvider";
+import StyledComponentsRegistry from "./registry";
+import LoadingWrapper from "../../components/LoadingWrapper";
 
 export const metadata = {
   title: "JOGI",
@@ -17,10 +16,9 @@ export default function RootLayout({
     <ReactQueryClientProviders>
       <html lang="en">
         <body>
-          <ClientThemeProvider>
-            <GlobalStyle />
-            {children}
-          </ClientThemeProvider>
+          <StyledComponentsRegistry>
+            <LoadingWrapper>{children}</LoadingWrapper>
+          </StyledComponentsRegistry>
         </body>
       </html>
     </ReactQueryClientProviders>

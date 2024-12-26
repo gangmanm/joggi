@@ -19,12 +19,9 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #f5f5f5; /* 배경색 설정 */
   }
-  @media screen and (min-device-pixel-ratio: 2) {
-  svg {
-    shape-rendering: crispEdges;
-  }
-}
+
 `;
 
 export default GlobalStyle;

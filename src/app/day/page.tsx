@@ -1,15 +1,16 @@
 "use client";
+
 import * as S from "../../../styles/day/day";
 import { Header } from "../../../styles/header";
 import { useState, useEffect } from "react";
-import { createClient } from "../../../utils/supabase/client"; // Supabase 클라이언트 가져오기
-import { Session } from "@supabase/supabase-js"; // Import Session and Subscription types
+import { createClient } from "../../../utils/supabase/client";
+import { Session } from "@supabase/supabase-js";
 
 const supabase = createClient();
 
 export default function Home() {
   const [setting, setSetting] = useState("income");
-  const [session, setSession] = useState<Session | null>(null); // Correctly type the session state
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
 
   const toggleSetting = () => {
     setSetting((prevSetting) =>
@@ -17,28 +18,33 @@ export default function Home() {
     );
   };
 
-  // Track session state on client side
   useEffect(() => {
+    let isMounted = true;
+
     // Set initial session state
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+      if (isMounted) {
+        setSession(session);
+      }
     });
 
     // Listen for session changes
-    const { subscription } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (isMounted) {
         setSession(session);
       }
-    ).data;
+    });
 
     // Cleanup the subscription
     return () => {
-      subscription.unsubscribe(); // Properly call unsubscribe
+      isMounted = false;
+      subscription.unsubscribe(); // Properly unsubscribe
     };
   }, []);
 
-  // Render a loading state while the session is being initialized
-  if (session === null) {
+  if (session === undefined) {
     return <S.MainContainer>Loading...</S.MainContainer>;
   }
 
