@@ -22,6 +22,11 @@ export default function Home() {
 
   // Google 로그인 핸들러
   const handleGoogleLogin = async () => {
+    const redirectUrl =
+      process.env.NODE_ENV === "production"
+        ? "https://your-production-domain.com/day" // 배포 환경 URL
+        : "http://localhost:3000/day"; // 로컬 개발 URL
+
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -29,7 +34,7 @@ export default function Home() {
           access_type: "offline",
           prompt: "consent",
         },
-        redirectTo: `${window.location.origin}`, // 로그인 후 리다이렉트 URL
+        redirectTo: redirectUrl, // 동적 리디렉션 URL
       },
     });
 
