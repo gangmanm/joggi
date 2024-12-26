@@ -10,7 +10,7 @@ const supabase = createClient();
 export default function Home() {
   // Google 로그인 핸들러
   const handleGoogleLogin = async () => {
-    const redirectUrl = "http://localhost:3000/day"; // 배포 환경 URL
+    const redirectUrl = process.env.NEXT_PUBLIC_REDIRECT_URL; // 배포 환경 URL
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",

@@ -50,7 +50,6 @@ export default function Home() {
 
   return (
     <S.MainContainer>
-      <Header />
       <S.SubContainer>
         <S.TotalMainContainer setting={setting}>
           <S.TotalMainText>
