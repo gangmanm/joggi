@@ -10,11 +10,21 @@ export default function Home() {
           src="/image/logo.png"
           alt="로고 아이콘"
           layout="fill"
-          objectFit="cover"
+          objectFit="contain"
         />
       </S.ImageContainer>
       <S.Title>JOGI</S.Title>
-      <S.LoginButton>구글로 로그인</S.LoginButton>
+      <S.LoginButton>
+        <S.GoogleImageContainer>
+          <Image
+            src="/image/google.png"
+            alt="구글 로고 아이콘"
+            layout="fill"
+            objectFit="contain"
+          />
+        </S.GoogleImageContainer>
+        구글로 로그인
+      </S.LoginButton>
     </S.Main>
   );
 }

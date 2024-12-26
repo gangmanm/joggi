@@ -8,7 +8,6 @@ export const Main = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
   @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
     width: 100vw;
     height: 100vh;
@@ -23,8 +22,8 @@ export const Header = styled.div`
 
 export const ImageContainer = styled.div`
   position: relative;
-  width: 287px;
-  height: 91px;
+  width: 150px;
+  height: 60px;
 `;
 
 export const Title = styled.div`
@@ -37,7 +36,7 @@ export const Title = styled.div`
 `;
 
 export const LoginButton = styled.div`
-  width: 200px;
+  width: 150px;
   height: 47px;
   background-color: ${({ theme }) => theme.colors.point};
   box-shadow: inset 0px 3px 3px rgba(110, 110, 110, 0.3);
@@ -47,4 +46,17 @@ export const LoginButton = styled.div`
   color: white;
   margin-top: 19px;
   border-radius: 13px;
+`;
+
+export const GoogleImageContainer = styled.div`
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  background-color: white;
+  overflow: hidden;
+  margin-right: 10px;
 `;
