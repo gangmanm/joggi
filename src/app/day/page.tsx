@@ -1,7 +1,6 @@
 "use client";
 
 import * as S from "../../../styles/day/day";
-import { Header } from "../../../styles/header";
 import { useState, useEffect } from "react";
 import { createClient } from "../../../utils/supabase/client";
 import { Session } from "@supabase/supabase-js";
