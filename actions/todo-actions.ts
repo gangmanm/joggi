@@ -7,7 +7,6 @@ export type ExpenseRow = Database["public"]["Tables"]["expense"]["Row"];
 export type ExpenseInsert = Database["public"]["Tables"]["expense"]["Insert"];
 export type ExpenseUpdate = Database["public"]["Tables"]["expense"]["Update"];
 
-  searchInput = ""
 export async function getExpense(): Promise<ExpenseRow[]> {
   try {
     // Supabase 클라이언트 생성
