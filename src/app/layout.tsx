@@ -2,7 +2,7 @@ import GlobalStyle from "../../styles/globalStyles";
 import ClientThemeProvider from "./ClientThemeProvider";
 
 export const metadata = {
-  title: "JOGGI",
+  title: "JOGI",
   description: "신개념 가계부 웹 어플리케이션",
 };
 

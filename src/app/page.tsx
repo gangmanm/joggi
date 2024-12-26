@@ -7,7 +7,7 @@ export default function Home() {
     <S.Main>
       <S.ImageContainer>
         <Image
-          src="/image/logo.svg"
+          src="/image/logo.png"
           alt="로고 아이콘"
           layout="fill"
           objectFit="cover"

@@ -9,5 +9,6 @@ const nextConfig = {
     styledComponents: true, // styled-components 활성화
   },
 };
+//   reactStrictMode: true,
 
 export default nextConfig;
