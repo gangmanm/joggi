@@ -1,6 +1,8 @@
+// RootLayout.tsx (Server Component)
 import ReactQueryClientProviders from "../../config/ReactQueryClientProvider";
 import GlobalStyle from "../../styles/globalStyles";
 import ClientThemeProvider from "./ClientThemeProvider";
+import AuthProvider from "../../components/AuthProvider"; // New component
 
 export const metadata = {
   title: "JOGI",

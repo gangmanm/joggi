@@ -46,6 +46,8 @@ export const LoginButton = styled.div`
   color: white;
   margin-top: 19px;
   border-radius: 13px;
+  cursor: pointer;
+  font-weight: 600;
 `;
 
 export const GoogleImageContainer = styled.div`
