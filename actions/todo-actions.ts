@@ -1,6 +1,6 @@
 "use server";
 
-import { Database } from "@/types/supabase";
+import { Database } from "../src/types/supabase";
 import { createServerSupabaseClient } from "../utils/supabase/server";
 
 export type ExpenseRow = Database["public"]["Tables"]["expense"]["Row"];

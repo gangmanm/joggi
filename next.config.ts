@@ -1,5 +1,5 @@
 const nextConfig = {
-  output: "standalone", // 변경
+  output: "export",
   basePath: "",
   assetPrefix: "https://jogi.co.kr",
   trailingSlash: true,
@@ -11,5 +11,7 @@ const nextConfig = {
     unoptimized: true,
   },
 };
+
+console.log("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
 
 export default nextConfig;
