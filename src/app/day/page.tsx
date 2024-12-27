@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "../../../utils/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import Price from "../../../components/day/Price";
+import TotalPrice from "../../../components/day/TotalPrice";
 
 const supabase = createClient();
 
@@ -73,6 +74,7 @@ export default function Home() {
         </S.TotalMainContainer>
       </S.SubContainer>
       <S.PriceContainer>
+        <TotalPrice setting={setting} />
         <Price setting={setting} />
       </S.PriceContainer>
     </S.MainContainer>

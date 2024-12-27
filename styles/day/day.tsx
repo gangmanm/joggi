@@ -53,7 +53,7 @@ export const HeaderText = styled.div<{ setting: string }>`
   font-size: 13px;
   font-weight: 700;
   color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.point : theme.colors.white};
+    setting === "income" ? theme.colors.point : theme.colors.secondary};
 
   display: flex;
   align-items: center;
@@ -67,7 +67,7 @@ export const TotalText = styled.div<{ setting: string }>`
   font-size: 20px;
   font-weight: 700;
   color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.point : theme.colors.white};
+    setting === "income" ? theme.colors.point : theme.colors.secondary};
 
   display: flex;
   align-items: center;
@@ -92,7 +92,7 @@ export const SubHeaderText = styled.div<{ setting: string }>`
   font-size: 13px;
   font-weight: 700;
   color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.white : theme.colors.point};
+    setting === "income" ? theme.colors.secondary : theme.colors.point};
 
   display: flex;
   align-items: center;
@@ -106,7 +106,7 @@ export const SubTotalText = styled.div<{ setting: string }>`
   font-size: 20px;
   font-weight: 700;
   color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.white : theme.colors.point};
+    setting === "income" ? theme.colors.secondary : theme.colors.point};
 
   display: flex;
   align-items: center;
