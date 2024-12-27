@@ -1,35 +1,53 @@
 "use client";
 
-import * as S from "../../../styles/day/day";
 import { useState, useEffect } from "react";
+import * as S from "../../../styles/day/day";
 import { createClient } from "../../../utils/supabase/client";
 import { Session } from "@supabase/supabase-js";
-import Price from "../../../components/day/Price";
 import TotalPrice from "../../../components/day/TotalPrice";
+import GeneratePrice from "../../../components/day/GeneratePrice";
+import Price from "../../../components/day/Price";
 
 const supabase = createClient();
 
 export default function Home() {
   const [setting, setSetting] = useState("income");
   const [session, setSession] = useState<Session | null | undefined>(undefined);
+  const [showGeneratePrice, setShowGeneratePrice] = useState(false);
+  const [entries, setEntries] = useState<{ source: string; amount: string }[]>(
+    []
+  );
+  const [currentEntry, setCurrentEntry] = useState({ source: "", amount: "" });
 
-  const toggleSetting = () => {
-    setSetting((prevSetting) =>
-      prevSetting === "income" ? "outcome" : "income"
-    );
+  const handleInputChange = (field: "source" | "amount", value: string) => {
+    setCurrentEntry((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleAddEntryAction = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setEntries((prevEntries) => [...prevEntries, currentEntry]);
+      setCurrentEntry({ source: "", amount: "" });
+      setShowGeneratePrice(false);
+    }
+  };
+
+  const toggleSettingAction = () => {
+    setSetting((prev) => (prev === "income" ? "outcome" : "income"));
+  };
+
+  const toggleGeneratePriceAction = () => {
+    setShowGeneratePrice((prev) => !prev);
   };
 
   useEffect(() => {
     let isMounted = true;
 
-    // Set initial session state
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (isMounted) {
         setSession(session);
       }
     });
 
-    // Listen for session changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -38,15 +56,14 @@ export default function Home() {
       }
     });
 
-    // Cleanup the subscription
     return () => {
       isMounted = false;
-      subscription.unsubscribe(); // Properly unsubscribe
+      subscription.unsubscribe();
     };
   }, []);
 
-  if (session === undefined) {
-    return <S.MainContainer>Loading...</S.MainContainer>;
+  if (session) {
+    console.log("사용자 session", session);
   }
 
   return (
@@ -61,7 +78,7 @@ export default function Home() {
               {setting === "income" ? "11만 233원" : "5만 100원"}
             </S.TotalText>
           </S.TotalMainText>
-          <S.TotalSubContainer setting={setting} onClick={toggleSetting}>
+          <S.TotalSubContainer setting={setting} onClick={toggleSettingAction}>
             <S.TotalSubText>
               <S.SubHeaderText setting={setting}>
                 {setting === "income" ? "오늘의 지출" : "오늘의 수입"}
@@ -74,8 +91,26 @@ export default function Home() {
         </S.TotalMainContainer>
       </S.SubContainer>
       <S.PriceContainer>
-        <TotalPrice setting={setting} />
-        <Price setting={setting} />
+        <TotalPrice
+          setting={setting}
+          toggleGeneratePrice={toggleGeneratePriceAction}
+        />
+        {showGeneratePrice && (
+          <GeneratePrice
+            setting={setting}
+            onSourceChangeAction={(value) => handleInputChange("source", value)}
+            onAmountChangeAction={(value) => handleInputChange("amount", value)}
+            onKeyDown={handleAddEntryAction} // Enter 이벤트 처리
+          />
+        )}
+        {[...entries].reverse().map((entry, index) => (
+          <Price
+            key={index}
+            setting={setting}
+            source={entry.source}
+            amount={entry.amount}
+          />
+        ))}
       </S.PriceContainer>
     </S.MainContainer>
   );

@@ -7,7 +7,7 @@ export type ExpenseRow = Database["public"]["Tables"]["expense"]["Row"];
 export type ExpenseInsert = Database["public"]["Tables"]["expense"]["Insert"];
 export type ExpenseUpdate = Database["public"]["Tables"]["expense"]["Update"];
 
-export async function getExpense(): Promise<ExpenseRow[]> {
+export async function getBudget(): Promise<ExpenseRow[]> {
   try {
     // Supabase 클라이언트 생성
     const supabase = await createServerSupabaseClient();
@@ -28,3 +28,5 @@ export async function getExpense(): Promise<ExpenseRow[]> {
     return [];
   }
 }
+
+export async function addExpense():
