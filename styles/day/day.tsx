@@ -10,12 +10,11 @@ export const MainContainer = styled.div`
     width: 100vw;
     height: 100vh;
   }
+  padding: 12px;
 `;
 
 export const SubContainer = styled.div`
   width: 100%;
-  height: 100%;
-  padding: 12px;
 `;
 
 export const TotalMainContainer = styled.div<{ setting: string }>`
@@ -112,4 +111,12 @@ export const SubTotalText = styled.div<{ setting: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const PriceContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;

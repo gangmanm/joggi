@@ -4,6 +4,7 @@ import * as S from "../../../styles/day/day";
 import { useState, useEffect } from "react";
 import { createClient } from "../../../utils/supabase/client";
 import { Session } from "@supabase/supabase-js";
+import Price from "../../../components/day/Price";
 
 const supabase = createClient();
 
@@ -71,6 +72,9 @@ export default function Home() {
           </S.TotalSubContainer>
         </S.TotalMainContainer>
       </S.SubContainer>
+      <S.PriceContainer>
+        <Price setting={setting} />
+      </S.PriceContainer>
     </S.MainContainer>
   );
 }
