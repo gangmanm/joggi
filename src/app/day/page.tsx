@@ -135,7 +135,7 @@ export default function Home() {
     const handleFocus = () => {
       setScrollTop(window.scrollY || document.documentElement.scrollTop);
       document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollTop}px`;
+      document.body.style.top = `-${scrollTop + 40}px`;
       document.body.style.overflow = "hidden";
       document.body.style.width = "100%";
     };
