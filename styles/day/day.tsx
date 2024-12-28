@@ -11,13 +11,14 @@ export const MainContainer = styled.div.withConfig({
   padding: 12px;
   transition: margin-top 0.3s ease;
 
-  margin-top: ${(props) => (props.isScrolled ? "60px" : "0")};
+  margin-top: ${(props) => (props.isScrolled ? "100px" : "0")};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
     width: 100vw;
     height: 100vh;
   }
 `;
+
 export const Header = styled.div`
   width: 100%;
   height: 60px;
