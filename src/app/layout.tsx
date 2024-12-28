@@ -24,9 +24,11 @@ export default function RootLayout({
           <meta name="description" content={metadata.description} />
         </head>
         <body>
-          <StyledComponentsRegistry>
-            <LoadingWrapper>{children}</LoadingWrapper>
-          </StyledComponentsRegistry>
+          <div className="wrap">
+            <StyledComponentsRegistry>
+              <LoadingWrapper>{children}</LoadingWrapper>
+            </StyledComponentsRegistry>
+          </div>
         </body>
       </html>
     </ReactQueryClientProviders>
