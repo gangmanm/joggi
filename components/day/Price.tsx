@@ -4,9 +4,17 @@ interface PriceProps {
   setting: string;
   amount: string | null;
   source: string | null;
+  budgetId: string;
+  handleDeleteAction: (budgetId: string) => Promise<void>;
 }
 
-export default function Price({ setting, amount, source }: PriceProps) {
+export default function Price({
+  setting,
+  amount,
+  source,
+  budgetId,
+  handleDeleteAction,
+}: PriceProps) {
   return (
     <S.MainContainer setting={setting}>
       <S.TagContainer setting={setting}>태그</S.TagContainer>
@@ -14,7 +22,10 @@ export default function Price({ setting, amount, source }: PriceProps) {
         <S.PriceName>{source}</S.PriceName>
         <S.Price>{amount}</S.Price>
       </S.PriceContainer>
-      <S.DeleteContainer setting={setting}>
+      <S.DeleteContainer
+        setting={setting}
+        onClick={() => handleDeleteAction(budgetId)}
+      >
         {setting === "income" ? "-" : "+"}
       </S.DeleteContainer>
     </S.MainContainer>

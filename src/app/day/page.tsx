@@ -6,7 +6,11 @@ import { Session } from "@supabase/supabase-js";
 import TotalPrice from "../../../components/day/TotalPrice";
 import GeneratePrice from "../../../components/day/GeneratePrice";
 import Price from "../../../components/day/Price";
-import { addBudget, getBudget } from "../../../actions/budget-actions";
+import {
+  addBudget,
+  getBudget,
+  deleteBudget,
+} from "../../../actions/budget-actions";
 import { createClient } from "../../../utils/supabase/client";
 
 type Entry = {
@@ -37,6 +41,18 @@ export default function Home() {
 
   const supabase = createClient();
 
+  const handleDelete = async (budgetId: string) => {
+    const success = await deleteBudget(budgetId);
+
+    if (success) {
+      setEntries((prev) =>
+        prev.filter((budget) => budget.budget_id !== budgetId)
+      );
+    } else {
+      console.error("Failed to delete budget.");
+    }
+  };
+
   const handleInputChange = (field: "source" | "amount", value: string) => {
     setCurrentEntry((prev) => ({ ...prev, [field]: value }));
   };
@@ -49,7 +65,9 @@ export default function Home() {
         alert("Source and amount are required!");
         return;
       }
+
       setShowGeneratePrice(false);
+
       const newEntry = {
         source: currentEntry.source,
         amount: currentEntry.amount,
@@ -57,12 +75,13 @@ export default function Home() {
         setting: setting,
         user_id: session?.user.id,
       };
+
       setEntries((prevEntries) => [
         {
           ...newEntry,
-          budget_id: "", // 초기값 설정
-          tag: null, // 초기값 설정
-        } as Entry, // 타입 강제 지정
+          budget_id: "",
+          tag: null,
+        } as Entry,
         ...prevEntries,
       ]);
 
@@ -70,14 +89,17 @@ export default function Home() {
 
       if (!success) {
         setError("Failed to add budget. Please try again.");
+        return;
       } else {
         setError(null);
       }
 
       setCurrentEntry({ source: "", amount: "" });
+
+      const budgets = await getBudget(session?.user.id || ""); // user_id 확인
+      setEntries(budgets.reverse());
     }
   };
-
   const toggleSettingAction = () => {
     setSetting((prev) => (prev === "income" ? "outcome" : "income"));
   };
@@ -94,7 +116,7 @@ export default function Home() {
       if (isMounted) {
         setSession(data.session);
         if (data.session?.user.id) {
-          const budgets = await getBudget(data.session.user.id); // user_id를 기반으로 데이터 가져오기
+          const budgets = await getBudget(data.session.user.id);
           setEntries(budgets);
         }
       }
@@ -149,13 +171,15 @@ export default function Home() {
           />
         )}
         {entries
-          .filter((entry) => entry.setting === setting) // 현재 setting과 일치하는 항목만 필터링
+          .filter((entry) => entry.setting === setting)
           .map((entry, index) => (
             <Price
               key={index}
               setting={setting}
               source={entry.source}
               amount={entry.amount}
+              budgetId={entry.budget_id}
+              handleDeleteAction={handleDelete}
             />
           ))}
       </S.PriceContainer>

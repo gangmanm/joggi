@@ -51,24 +51,24 @@ const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* 박스 크기 계산 방식 설정 */
+    box-sizing: border-box; 
   }
 
   html, body {
     width: 100vw;
     height: 100vh;
     font-family: "Paperlogy", "Pretendard", Arial, Helvetica, sans-serif;
-    overflow: hidden; /* 가로/세로 스크롤 방지 */
+    overflow: hidden; 
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f5f5f5; /* 배경색 설정 */
+    background-color: #f5f5f5; 
   }
 
   input, textarea {
-    all: unset; /* 기본 스타일 초기화 */
-    font-family: inherit; /* 부모 요소의 폰트 상속 */
-    font-size: inherit; /* 부모 요소의 폰트 크기 상속 */
+    all: unset; 
+    font-family: inherit; 
+    font-size: inherit; 
   }
 `;
 

@@ -29,7 +29,7 @@ export const TagContainer = styled.div<{ setting: string }>`
 `;
 
 export const PriceContainer = styled.div<{ setting: string }>`
-  width: calc(70% - 30px); /* 공백 추가 */
+  width: calc(70% - 30px);
   height: 100%;
   color: ${({ theme, setting }) =>
     setting === "income" ? theme.colors.point : theme.colors.secondary};

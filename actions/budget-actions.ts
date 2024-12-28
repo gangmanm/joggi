@@ -19,7 +19,7 @@ export async function addBudget(budgetData: BudgetInsert): Promise<boolean> {
 
     return true;
   } catch (err) {
-    console.error("Unexpected error in addExpense:", err);
+    console.error("Unexpected error in addBudget:", err);
     return false;
   }
 }
@@ -42,5 +42,26 @@ export async function getBudget(userId: string): Promise<BudgetRow[]> {
   } catch (err) {
     console.error("Unexpected error in getBudget:", err);
     return [];
+  }
+}
+
+export async function deleteBudget(budgetId: string): Promise<boolean> {
+  try {
+    const supabase = await createServerSupabaseClient();
+
+    const { error } = await supabase
+      .from("budget")
+      .delete()
+      .eq("budget_id", budgetId);
+
+    if (error) {
+      console.error("Error deleting budget:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error("Unexpected error in deleteBudget:", err);
+    return false;
   }
 }

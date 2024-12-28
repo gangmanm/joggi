@@ -45,30 +45,36 @@ export const PriceName = styled.input<{ setting: string }>`
   text-align: center;
   &::placeholder {
     color: ${({ theme, setting }) =>
-      setting === "income"
-        ? theme.colors.primary
-        : theme.colors.secondary}; /* placeholder 텍스트 색상 */
-    font-weight: 400;
+      setting === "income" ? theme.colors.primary : theme.colors.secondary};
+    font-weight: 600;
   }
 `;
 
-export const Price = styled.input<{ setting: string }>`
+export const Price = styled.input.attrs({
+  type: "number",
+})<{ setting: string }>`
   width: 100%;
   height: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 800;
-  text-align: center; 
-  padding: 0; 
-  border: none; 
-  outline: none; 
+  text-align: center;
+  padding: 0;
+  border: none;
+  outline: none;
+
+  -moz-appearance: textfield;
+  appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    display: none;
+  }
 
   &::placeholder {
     color: ${({ theme, setting }) =>
-      setting === "income"
-        ? theme.colors.primary
-        : theme.colors.secondary};
-    font-weight: 400;
+      setting === "income" ? theme.colors.primary : theme.colors.secondary};
+    font-weight: 600;
   }
 `;

@@ -24,15 +24,12 @@ export default function TotalPrice({
 
   return (
     <S.TotalPriceContainer setting={setting}>
-      <S.PriceAddButton setting={setting} onClick={toggleGeneratePriceAction}>
-        {setting === "income" ? "+" : "-"}
-      </S.PriceAddButton>
       <S.TotalPriceText setting={setting}>13만 3천원</S.TotalPriceText>
       <S.PriceAddButton
         setting={reverseSetting}
         onClick={toggleGeneratePriceAction}
       >
-        {setting === "income" ? "-" : "+"}
+        {setting === "income" ? "+" : "-"}
       </S.PriceAddButton>
     </S.TotalPriceContainer>
   );
