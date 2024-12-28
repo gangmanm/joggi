@@ -24,7 +24,6 @@ export default function RootLayout({
           <meta name="description" content={metadata.description} />
         </head>
         <body>
-          <header></header>
           <StyledComponentsRegistry>
             <LoadingWrapper>{children}</LoadingWrapper>
           </StyledComponentsRegistry>

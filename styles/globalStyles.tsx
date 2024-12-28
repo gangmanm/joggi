@@ -66,23 +66,6 @@ const GlobalStyle = createGlobalStyle`
     background-color: #f5f5f5; 
     -webkit-overflow-scrolling: auto;
   }
-  header {
-  width: 450px;
-  height: 35px;
-  background-color: #FFBA2F;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    height: 35px;
-  }
-}
-
-  body.fixed {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
 
   input, textarea {
     all: unset; 

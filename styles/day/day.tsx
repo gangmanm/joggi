@@ -13,7 +13,11 @@ export const MainContainer = styled.div`
   padding: 12px;
 `;
 
-export const Header = styled.div``;
+export const Header = styled.div`
+  width: 100%;
+  height: 60px;
+  background-color: ${({ theme }) => theme.colors.primary};
+`;
 
 export const SubContainer = styled.div`
   width: 100%;

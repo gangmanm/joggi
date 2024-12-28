@@ -126,7 +126,7 @@ export default function Home() {
 
   return (
     <S.MainContainer>
-      
+      <S.Header></S.Header>
       <S.SubContainer>
         <S.TotalMainContainer setting={setting}>
           <S.TotalMainText>

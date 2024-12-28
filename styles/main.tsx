@@ -13,12 +13,6 @@ export const Main = styled.div`
   }
 `;
 
-export const Header = styled.div`
-  width: 100%;
-  height: 60px;
-  background-color: ${({ theme }) => theme.colors.primary};
-`;
-
 export const ImageContainer = styled.div`
   position: relative;
   width: 150px;
