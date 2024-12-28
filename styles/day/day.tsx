@@ -10,7 +10,7 @@ export const MainContainer = styled.div.withConfig({
   align-items: center;
   padding: 12px;
   transition: margin-top 0.3s ease;
-
+  overflow: scroll;
   margin-top: ${(props) => (props.isScrolled ? "100px" : "0")};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
@@ -131,5 +131,4 @@ export const PriceContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  overflow: scroll;
 `;

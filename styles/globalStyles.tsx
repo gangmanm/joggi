@@ -58,7 +58,6 @@ const GlobalStyle = createGlobalStyle`
     width: 100vw;
     height: 100vh;
     font-family: "Paperlogy", "Pretendard", Arial, Helvetica, sans-serif;
-    overflow: hidden; 
     display: flex;
     flex-direction: column;
     align-items: center;
