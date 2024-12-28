@@ -64,7 +64,7 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
     justify-content: center;
     background-color: #f5f5f5; 
-    -webkit-overflow-scrolling: auto;
+    overscroll-behavior: none;
   }
 
   input, textarea {
