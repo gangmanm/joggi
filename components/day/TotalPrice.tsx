@@ -6,11 +6,13 @@ import * as S from "../../styles/day/total-price";
 interface PriceProps {
   setting: string;
   toggleGeneratePriceAction: () => void;
+  totalAmount: string;
 }
 
 export default function TotalPrice({
   setting,
   toggleGeneratePriceAction,
+  totalAmount,
 }: PriceProps) {
   const [reverseSetting, setReverseSetting] = useState("income");
 
@@ -24,7 +26,7 @@ export default function TotalPrice({
 
   return (
     <S.TotalPriceContainer setting={setting}>
-      <S.TotalPriceText setting={setting}>13만 3천원</S.TotalPriceText>
+      <S.TotalPriceText setting={setting}>{totalAmount}</S.TotalPriceText>
       <S.PriceAddButton
         setting={reverseSetting}
         onClick={toggleGeneratePriceAction}

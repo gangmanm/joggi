@@ -2,7 +2,7 @@
 
 import * as S from "../../styles/main";
 import Image from "next/image";
-import { createClient } from "../../utils/supabase/client"; // Supabase 클라이언트 가져오기
+import { createClient } from "../../utils/supabase/client";
 import { useEffect } from "react";
 
 const supabase = createClient();
@@ -11,8 +11,7 @@ export default function Home() {
   // Google 로그인 핸들러
   const handleGoogleLogin = async () => {
     try {
-      const redirectUrl = process.env.NEXT_PUBLIC_REDIRECT_URL || "/"; // 동적 리디렉션 URL
-
+      const redirectUrl = process.env.NEXT_PUBLIC_REDIRECT_URL || "/";
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {

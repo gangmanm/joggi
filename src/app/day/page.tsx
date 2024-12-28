@@ -12,32 +12,22 @@ import {
   deleteBudget,
 } from "../../../actions/budget-actions";
 import { createClient } from "../../../utils/supabase/client";
-
-type Entry = {
-  amount: string | null;
-  budget_id: string;
-  created_at: string;
-  setting: string | null;
-  source: string | null;
-  tag: string | null;
-  user_id: string | null;
-};
-
-type InputValue = {
-  amount: string;
-  source: string;
-};
+import { Budget, InputValue } from "../../types/budget";
+import { useCalculateTotal } from "../../hooks/useCalculateTotal";
 
 export default function Home() {
   const [setting, setSetting] = useState("income");
   const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [showGeneratePrice, setShowGeneratePrice] = useState(false);
-  const [entries, setEntries] = useState<Entry[]>([]);
+  const [entries, setEntries] = useState<Budget[]>([]);
   const [currentEntry, setCurrentEntry] = useState<InputValue>({
     source: "",
     amount: "",
   });
   const [error, setError] = useState<string | null>(null);
+
+  const { formattedIncomeTotal, formattedOutcomeTotal, formattedTotal } =
+    useCalculateTotal(entries);
 
   const supabase = createClient();
 
@@ -68,12 +58,12 @@ export default function Home() {
 
       setShowGeneratePrice(false);
 
-      const newEntry = {
+      const newEntry: Omit<Budget, "budget_id" | "tag"> = {
         source: currentEntry.source,
         amount: currentEntry.amount,
         created_at: new Date().toISOString(),
-        setting: setting,
-        user_id: session?.user.id,
+        setting,
+        user_id: session?.user.id || "",
       };
 
       setEntries((prevEntries) => [
@@ -81,7 +71,7 @@ export default function Home() {
           ...newEntry,
           budget_id: "",
           tag: null,
-        } as Entry,
+        } as Budget,
         ...prevEntries,
       ]);
 
@@ -96,10 +86,11 @@ export default function Home() {
 
       setCurrentEntry({ source: "", amount: "" });
 
-      const budgets = await getBudget(session?.user.id || ""); // user_id 확인
+      const budgets = await getBudget(session?.user.id || "");
       setEntries(budgets.reverse());
     }
   };
+
   const toggleSettingAction = () => {
     setSetting((prev) => (prev === "income" ? "outcome" : "income"));
   };
@@ -117,7 +108,7 @@ export default function Home() {
         setSession(data.session);
         if (data.session?.user.id) {
           const budgets = await getBudget(data.session.user.id);
-          setEntries(budgets);
+          setEntries(budgets.reverse());
         }
       }
     };
@@ -130,7 +121,7 @@ export default function Home() {
   }, [supabase]);
 
   if (error) {
-    <S.MainContainer>error</S.MainContainer>;
+    return <S.MainContainer>{error}</S.MainContainer>;
   }
 
   return (
@@ -142,7 +133,9 @@ export default function Home() {
               {setting === "income" ? "오늘의 수입" : "오늘의 지출"}
             </S.HeaderText>
             <S.TotalText setting={setting}>
-              {setting === "income" ? "11만 233원" : "5만 100원"}
+              {setting === "income"
+                ? formattedIncomeTotal
+                : formattedOutcomeTotal}
             </S.TotalText>
           </S.TotalMainText>
           <S.TotalSubContainer setting={setting} onClick={toggleSettingAction}>
@@ -151,7 +144,9 @@ export default function Home() {
                 {setting === "income" ? "오늘의 지출" : "오늘의 수입"}
               </S.SubHeaderText>
               <S.SubTotalText setting={setting}>
-                {setting === "income" ? "5만 100원" : "11만 233원"}
+                {setting === "income"
+                  ? formattedOutcomeTotal
+                  : formattedIncomeTotal}
               </S.SubTotalText>
             </S.TotalSubText>
           </S.TotalSubContainer>
@@ -161,6 +156,7 @@ export default function Home() {
         <TotalPrice
           setting={setting}
           toggleGeneratePriceAction={toggleGeneratePriceAction}
+          totalAmount={formattedTotal}
         />
         {showGeneratePrice && (
           <GeneratePrice

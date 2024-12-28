@@ -19,7 +19,7 @@ export const TotalPriceText = styled.div<{ setting: string }>`
   width: 100%;
   font-size: 18px;
   font-weight: 800;
-  color: ${({ setting }) => (setting === "income" ? "#414141" : "#910202")};
+  color: #910202;
   display: flex;
   align-items: center;
   justify-content: center;

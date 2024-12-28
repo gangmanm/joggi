@@ -1,5 +1,6 @@
 "use client";
 import * as S from "../../styles/day/price";
+import { useNumberFormatter } from "../../src/hooks/useNumberFormatter";
 interface PriceProps {
   setting: string;
   amount: string | null;
@@ -15,12 +16,16 @@ export default function Price({
   budgetId,
   handleDeleteAction,
 }: PriceProps) {
+  let formattedAmount = "0";
+  if (amount) {
+    formattedAmount = useNumberFormatter(amount);
+  }
   return (
     <S.MainContainer setting={setting}>
       <S.TagContainer setting={setting}>태그</S.TagContainer>
       <S.PriceContainer setting={setting}>
         <S.PriceName>{source}</S.PriceName>
-        <S.Price>{amount}</S.Price>
+        <S.Price>{formattedAmount}</S.Price>
       </S.PriceContainer>
       <S.DeleteContainer
         setting={setting}
