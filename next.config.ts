@@ -1,6 +1,6 @@
 const nextConfig = {
   basePath: "",
-  assetPrefix: "https://jogi.co.kr",
+  assetPrefix: "",
   trailingSlash: true,
   reactStrictMode: true,
   compiler: {
