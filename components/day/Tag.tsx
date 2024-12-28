@@ -1,7 +1,7 @@
 "use client";
 
 import * as S from "../../styles/day/tag";
-import { getTag, addTag } from "../../actions/budget-actions";
+import { getTag, addTag, deleteTag } from "../../actions/budget-actions";
 import { useState, useEffect } from "react";
 import { Database } from "../../src/types/supabase";
 export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
@@ -35,6 +35,16 @@ export default function Tag({
     setTagAction(tagName);
     setTagModalVisibleAction(false);
     onTagChangeAction(tagName);
+  };
+
+  const handleDelete = async (tagId: string) => {
+    const success = await deleteTag(tagId);
+
+    if (success) {
+      setTags((prev) => prev.filter((tag) => tag.id !== tagId));
+    } else {
+      console.error("Failed to delete budget.");
+    }
   };
 
   const handleAddTag = async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -108,7 +118,11 @@ export default function Tag({
       </S.TagBox>
 
       {tags.map((tag) => (
-        <S.TagBox key={tag.id} setting={setting}>
+        <S.TagBox
+          key={tag.id}
+          setting={setting}
+          onClick={() => handleDelete(tag.id)}
+        >
           <S.TagText
             setting={setting}
             onClick={() => handleSelectTag(tag.name || "태그")}

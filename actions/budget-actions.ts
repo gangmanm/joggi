@@ -67,6 +67,28 @@ export async function addTag(
   }
 }
 
+// 태그 삭제
+export async function deleteTag(tagId: string): Promise<boolean> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { error } = await supabase.from("tag").delete().eq("id", tagId);
+
+    if (error) {
+      console.error("Error deleting budget:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(
+      "Unexpected error in deleteBudget:",
+      err instanceof Error ? err.message : err
+    );
+    return false;
+  }
+}
+
 // 예산 추가
 export async function addBudget(budgetData: BudgetInsert): Promise<boolean> {
   try {
