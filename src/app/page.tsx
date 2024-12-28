@@ -10,23 +10,27 @@ const supabase = createClient();
 export default function Home() {
   // Google 로그인 핸들러
   const handleGoogleLogin = async () => {
-    const redirectUrl = process.env.NEXT_PUBLIC_REDIRECT_URL; // 배포 환경 URL
+    try {
+      const redirectUrl = process.env.NEXT_PUBLIC_REDIRECT_URL || "/"; // 동적 리디렉션 URL
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+          redirectTo: redirectUrl, // Google OAuth 성공 후 리디렉션될 URL
         },
-        redirectTo: redirectUrl, // 동적 리디렉션 URL
-      },
-    });
+      });
 
-    if (error) {
-      console.error("로그인 오류:", error.message);
-    } else {
-      console.log("로그인 성공:", data);
+      if (error) {
+        console.error("로그인 오류:", error.message);
+      } else {
+        console.log("로그인 성공:", data);
+      }
+    } catch (error) {
+      console.error("예기치 못한 오류:", error);
     }
   };
 
