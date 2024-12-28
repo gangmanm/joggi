@@ -1,8 +1,6 @@
 import { styled } from "styled-components";
 
-export const MainContainer = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== "isScrolled", // isScrolled를 DOM으로 전달하지 않음
-})<{ isScrolled: boolean }>`
+export const MainContainer = styled.div`
   width: 450px;
   height: 100%;
   display: flex;
@@ -11,8 +9,6 @@ export const MainContainer = styled.div.withConfig({
   padding: 12px;
   transition: margin-top 0.3s ease;
   overflow: scroll;
-  margin-top: ${(props) => (props.isScrolled ? "100px" : "0")};
-
   @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
     width: 100vw;
     height: 100vh;

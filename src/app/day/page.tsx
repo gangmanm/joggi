@@ -127,44 +127,12 @@ export default function Home() {
     };
   }, [supabase]);
 
-  useEffect(() => {
-    // 스크롤 이벤트 등록
-    window.addEventListener("scroll", handleScroll);
-
-    // 키보드가 나타날 때 스크롤 방지
-    const handleFocus = () => {
-      setScrollTop(window.scrollY || document.documentElement.scrollTop);
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollTop - 40}px`;
-      document.body.style.overflow = "hidden";
-      document.body.style.width = "100%";
-    };
-
-    // 키보드가 사라질 때 스크롤 복원
-    const handleBlur = () => {
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.overflow = "";
-      document.body.style.width = "";
-      window.scrollTo(0, scrollTop); // 이전 스크롤 위치로 복원
-    };
-
-    window.addEventListener("focusin", handleFocus);
-    window.addEventListener("focusout", handleBlur);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("focusin", handleFocus);
-      window.removeEventListener("focusout", handleBlur);
-    };
-  }, [scrollTop]);
-
   if (error) {
-    return <S.MainContainer isScrolled={isScrolled}>{error}</S.MainContainer>;
+    return <S.MainContainer>{error}</S.MainContainer>;
   }
 
   return (
-    <S.MainContainer isScrolled={isScrolled}>
+    <S.MainContainer>
       <S.SubContainer>
         <S.TotalMainContainer setting={setting}>
           <S.TotalMainText>
