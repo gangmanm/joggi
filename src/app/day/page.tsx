@@ -32,6 +32,7 @@ export default function Home() {
     useCalculateTotal(entries);
 
   const supabase = createClient();
+  const [year, month, day] = selectedDate.date.split("-");
 
   const handleDelete = async (budgetId: string) => {
     const success = await deleteBudget(budgetId);
@@ -143,7 +144,7 @@ export default function Home() {
         <S.TotalMainContainer setting={setting}>
           <S.TotalMainText>
             <S.HeaderText setting={setting}>
-              {setting === "income" ? "오늘의 수입" : "오늘의 지출"}
+              {month}월 {day}일의 {setting === "income" ? "수입" : "지출"}
             </S.HeaderText>
             <S.TotalText setting={setting}>
               {setting === "income"
@@ -154,7 +155,7 @@ export default function Home() {
           <S.TotalSubContainer setting={setting} onClick={toggleSettingAction}>
             <S.TotalSubText>
               <S.SubHeaderText setting={setting}>
-                {setting === "income" ? "오늘의 지출" : "오늘의 수입"}
+                {month}월 {day}일의 {setting === "income" ? "지출" : "수입"}
               </S.SubHeaderText>
               <S.SubTotalText setting={setting}>
                 {setting === "income"

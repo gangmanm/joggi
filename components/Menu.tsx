@@ -13,6 +13,10 @@ export default function Menu() {
     router.push("/month"); // "/month"로 라우팅
   };
 
+  const handleRouteToDay = () => {
+    router.push("/day");
+  };
+
   return (
     <>
       {/* 메뉴 컨테이너 클릭 시 openMenu 상태 변경 */}
@@ -38,7 +42,7 @@ export default function Menu() {
               style={{ objectFit: "contain" }}
             />
           </S.SubMenuImageContainer>
-          <S.SubMenuImageContainer>
+          <S.SubMenuImageContainer onClick={handleRouteToDay}>
             <Image
               src="/image/day.png"
               alt="일 메뉴"
