@@ -37,17 +37,21 @@ export const PriceContainer = styled.div<{ setting: string }>`
 
 export const PriceName = styled.input<{ setting: string }>`
   width: 100%;
-  height: 40%;
+  height: 44%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 10px;
+  font-size: 16px;
   text-align: center;
   &::placeholder {
     color: ${({ theme, setting }) =>
       setting === "income" ? theme.colors.primary : theme.colors.secondary};
     font-weight: 600;
   }
+
+  transform: scale(0.6);
+  transform-origin: left top;
+  padding-left: 30%;
 `;
 
 export const Price = styled.input.attrs({
