@@ -126,6 +126,13 @@ export default function Home() {
     };
   }, [supabase]);
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   if (error) {
     return <S.MainContainer isScrolled={isScrolled}>{error}</S.MainContainer>;
   }
