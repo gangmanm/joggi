@@ -13,6 +13,8 @@ export const MainContainer = styled.div`
   padding: 12px;
 `;
 
+export const Header = styled.div``;
+
 export const SubContainer = styled.div`
   width: 100%;
 `;

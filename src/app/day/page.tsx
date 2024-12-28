@@ -126,6 +126,7 @@ export default function Home() {
 
   return (
     <S.MainContainer>
+      
       <S.SubContainer>
         <S.TotalMainContainer setting={setting}>
           <S.TotalMainText>
@@ -164,6 +165,7 @@ export default function Home() {
             onSourceChangeAction={(value) => handleInputChange("source", value)}
             onAmountChangeAction={(value) => handleInputChange("amount", value)}
             onKeyDownAction={handleAddEntryAction}
+            userId={session?.user.id || " "}
           />
         )}
         {entries

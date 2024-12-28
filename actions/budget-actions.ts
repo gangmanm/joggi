@@ -5,6 +5,28 @@ import { createServerSupabaseClient } from "../utils/supabase/server";
 
 export type BudgetInsert = Database["public"]["Tables"]["budget"]["Insert"];
 export type BudgetRow = Database["public"]["Tables"]["budget"]["Row"];
+export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
+
+export async function getTag(userId: string): Promise<TagRow[]> {
+  try {
+    const supabase = await createServerSupabaseClient();
+
+    const { data, error } = await supabase
+      .from("tag")
+      .select("*")
+      .eq("user_id", userId);
+
+    if (error) {
+      console.error("Error fetching budgets:", error.message);
+      return [];
+    }
+
+    return data || [];
+  } catch (err) {
+    console.error("Unexpected error in getBudget:", err);
+    return [];
+  }
+}
 
 export async function addBudget(budgetData: BudgetInsert): Promise<boolean> {
   try {

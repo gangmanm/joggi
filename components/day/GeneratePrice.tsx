@@ -9,6 +9,7 @@ interface PriceProps {
   onSourceChangeAction: (value: string) => void;
   onAmountChangeAction: (value: string) => void;
   onKeyDownAction: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  userId: string;
 }
 
 export default function GeneratePrice({
@@ -16,8 +17,10 @@ export default function GeneratePrice({
   onSourceChangeAction,
   onAmountChangeAction,
   onKeyDownAction,
+  userId,
 }: PriceProps) {
   const [tagModalVisible, setTagModalVisible] = useState(false);
+  const [tag, setTag] = useState("태그");
 
   const toggleTagModal = () => {
     setTagModalVisible((prev) => !prev); // 모달 열고 닫기 상태 토글
@@ -27,11 +30,13 @@ export default function GeneratePrice({
     <S.MainContainer setting={setting}>
       {/* 태그 버튼 */}
       <S.TagContainer setting={setting} onClick={toggleTagModal}>
-        태그
+        {tag}
       </S.TagContainer>
 
       {/* 태그 모달 */}
-      {tagModalVisible && <Tag setting={setting} />}
+      {tagModalVisible && (
+        <Tag setting={setting} userId={userId} setTagAction={setTag} />
+      )}
 
       <S.PriceContainer setting={setting}>
         <S.PriceName
