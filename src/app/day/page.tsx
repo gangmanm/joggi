@@ -14,7 +14,7 @@ import {
 import { createClient } from "../../../utils/supabase/client";
 import { Budget, InputValue } from "../../types/budget";
 import { useCalculateTotal } from "../../hooks/useCalculateTotal";
-
+import Menu from "../../../components/Menu";
 export default function Home() {
   const [setting, setSetting] = useState("income");
   const [session, setSession] = useState<Session | null | undefined>(undefined);
@@ -130,6 +130,7 @@ export default function Home() {
 
   return (
     <S.MainContainer>
+      <Menu />
       <S.SubContainer>
         <S.TotalMainContainer setting={setting}>
           <S.TotalMainText>
