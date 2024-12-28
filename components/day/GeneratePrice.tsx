@@ -1,5 +1,8 @@
 "use client";
+
 import * as S from "../../styles/day/generate-price";
+import { useState } from "react";
+import Tag from "./Tag";
 
 interface PriceProps {
   setting: string;
@@ -14,9 +17,22 @@ export default function GeneratePrice({
   onAmountChangeAction,
   onKeyDownAction,
 }: PriceProps) {
+  const [tagModalVisible, setTagModalVisible] = useState(false);
+
+  const toggleTagModal = () => {
+    setTagModalVisible((prev) => !prev); // 모달 열고 닫기 상태 토글
+  };
+
   return (
     <S.MainContainer setting={setting}>
-      <S.TagContainer setting={setting}>태그</S.TagContainer>
+      {/* 태그 버튼 */}
+      <S.TagContainer setting={setting} onClick={toggleTagModal}>
+        태그
+      </S.TagContainer>
+
+      {/* 태그 모달 */}
+      {tagModalVisible && <Tag setting={setting} />}
+
       <S.PriceContainer setting={setting}>
         <S.PriceName
           placeholder={
