@@ -5,9 +5,18 @@ import * as S from "../../../styles/month/month";
 import useCalendarContext from "../../../components/month/useCalendarContext";
 import Menu from "../../../components/Menu";
 import { useRouter } from "next/navigation";
+import { useBudgetByTag } from "../../hooks/useBudgetByTag";
 export default function Month() {
   const { selectedDate } = useCalendarContext();
   const router = useRouter(); // useRouter 대신 next/navigation의 useRouter 사용
+  const {
+    maxIncomeTagByYear,
+    maxOutcomeTagByYear,
+    maxIncomeTagByMonth,
+    maxOutcomeTagByMonth,
+    maxIncomeTagByDay,
+    maxOutcomeTagByDay,
+  } = useBudgetByTag();
 
   const handleRouteToDay = () => {
     router.push("/day"); // "/month"로 라우팅
@@ -19,13 +28,54 @@ export default function Month() {
     <S.MainContainer>
       <Menu />
       <S.InformationContainer>
-        <S.PriceInformContainer></S.PriceInformContainer>
-        <S.DateContainer>{year}</S.DateContainer>
+        <S.PriceInformContainer>
+          <>
+            {maxIncomeTagByYear.tag !== "No Tag" &&
+              maxIncomeTagByYear.income > 0 && (
+                <>
+                  주로 {maxIncomeTagByYear.tag}를 통해{" "}
+                  {maxIncomeTagByYear.income.toLocaleString()}원을 벌었네요{" "}
+                </>
+              )}
+            {maxOutcomeTagByYear.tag !== "No Tag" &&
+              maxOutcomeTagByYear.outcome > 0 && (
+                <>
+                  주로 {maxOutcomeTagByYear.tag}에{" "}
+                  {maxOutcomeTagByYear.outcome.toLocaleString()}원을 썼네요
+                </>
+              )}
+          </>
+        </S.PriceInformContainer>
+        <S.DateContainer>
+          <S.DateText>{year}년</S.DateText>
+          <S.SubText>당신은</S.SubText>
+        </S.DateContainer>
       </S.InformationContainer>
       {/* 상단 정보 섹션 */}
       <S.InformationContainer>
-        <S.DateContainer>{month}</S.DateContainer>
-        <S.PriceInformContainer></S.PriceInformContainer>
+        <S.DateContainer>
+          {" "}
+          <S.DateText>{month}월</S.DateText>
+          <S.SubText>당신은</S.SubText>
+        </S.DateContainer>
+        <S.PriceInformContainer>
+          <>
+            {maxIncomeTagByMonth.tag !== "No Tag" &&
+              maxIncomeTagByMonth.income > 0 && (
+                <>
+                  주로 {maxIncomeTagByMonth.tag}를 통해{" "}
+                  {maxIncomeTagByMonth.income.toLocaleString()}원을 벌었네요{" "}
+                </>
+              )}
+            {maxOutcomeTagByMonth.tag !== "No Tag" &&
+              maxOutcomeTagByMonth.outcome > 0 && (
+                <>
+                  주로 {maxOutcomeTagByMonth.tag}에{" "}
+                  {maxOutcomeTagByMonth.outcome.toLocaleString()}원을 썼네요
+                </>
+              )}
+          </>
+        </S.PriceInformContainer>
       </S.InformationContainer>
 
       {/* 캘린더 헤더 및 본문 */}
@@ -34,8 +84,28 @@ export default function Month() {
 
       {/* 선택된 날짜 정보 */}
       <S.InformationContainer>
-        <S.DateContainer onClick={handleRouteToDay}>{day}</S.DateContainer>
-        <S.PriceInformContainer></S.PriceInformContainer>
+        <S.PriceInformContainer>
+          <>
+            {maxIncomeTagByDay.tag !== "No Tag" &&
+              maxIncomeTagByDay.income > 0 && (
+                <>
+                  주로 {maxIncomeTagByDay.tag}를 통해{" "}
+                  {maxIncomeTagByDay.income.toLocaleString()}원을 벌었네요{" "}
+                </>
+              )}
+            {maxOutcomeTagByDay.tag !== "No Tag" &&
+              maxOutcomeTagByDay.outcome > 0 && (
+                <>
+                  주로 {maxOutcomeTagByDay.tag}에{" "}
+                  {maxOutcomeTagByDay.outcome.toLocaleString()}원을 썼네요
+                </>
+              )}
+          </>
+        </S.PriceInformContainer>
+        <S.DateContainer onClick={handleRouteToDay}>
+          <S.DateText>{day}일</S.DateText>
+          <S.SubText>당신은</S.SubText>
+        </S.DateContainer>
       </S.InformationContainer>
     </S.MainContainer>
   );

@@ -27,13 +27,28 @@ export const DateContainer = styled.div`
   height: 125px;
   background-color: ${({ theme }) => theme.colors.point};
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  font-size: 40px;
+  justify-content: center;
   color: white;
   border-radius: 10px;
-  font-weight: 800;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+export const DateText = styled.div`
+  width: 100%;
+  font-weight: 800;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+`;
+
+export const SubText = styled.div`
+  width: 100%;
+  font-weight: 800;
+  font-size: 26px;
+  display: flex;
+  justify-content: center;
 `;
 
 export const PriceInformContainer = styled.div`
@@ -43,4 +58,9 @@ export const PriceInformContainer = styled.div`
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
   margin-left: 6px;
   border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  color: #787878;
+  font-weight: 700;
 `;
