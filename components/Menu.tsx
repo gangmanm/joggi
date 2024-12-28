@@ -14,7 +14,7 @@ export default function Menu() {
   };
 
   return (
-    <S.Menu>
+    <>
       {/* 메뉴 컨테이너 클릭 시 openMenu 상태 변경 */}
       <S.MenuContainer onClick={() => setOpenMenu((prev) => !prev)}>
         <S.MenuImageContainer>
@@ -56,6 +56,6 @@ export default function Menu() {
           </S.SubMenuImageContainer>
         </S.MenuOpen>
       )}
-    </S.Menu>
+    </>
   );
 }
