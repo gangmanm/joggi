@@ -54,7 +54,7 @@ const useCalendar = () => {
     date: format(day, "yyyy-MM-dd"),
     year: format(day, "yyyy"),
     month: format(day, "MM"),
-    day: format(day, "dd"),
+    day: format(day, "d"),
     dayIndexOfWeek: getDay(day),
   }));
 

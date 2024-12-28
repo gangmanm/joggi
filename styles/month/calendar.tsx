@@ -1,58 +1,86 @@
 import styled from "styled-components";
 
 export const HeaderContainer = styled.div`
+  width: 100%;
+  height: 30px;
   display: flex;
   justify-content: space-between;
+  margin-top: 7px;
 `;
 
 export const ChangeButton = styled.div`
+  width: 100%;
+  height: 30px;
   display: flex;
-  justify-content: space-evenly;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
   font-size: 20px;
-  line-height: 25.6px;
+  background-color: ${({ theme }) => theme.colors.point};
+  font-weight: 700;
+  color: white;
+`;
+
+export const ButtonContainer = styled.div`
+  width: 20px;
+  height: 20px;
+  position: relative;
+  margin-left: 10px;
+  margin-right: 10px;
 `;
 
 export const MonthContainer = styled.div`
+  width: 100%;
   display: flex;
+  background-color: ${({ theme }) => theme.colors.secondary};
   flex-direction: column;
-  gap: 15px;
-  background-color: white;
-  padding: 25px 0;
-  border-radius: 20px;
 `;
 
 export const DayWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, minmax(50px, 1fr));
-  grid-row-gap: 15px;
-`;
-export const CalendarItem = styled.div<{ $isSunday: boolean }>`
+  width: 100%;
+  height: 50px;
   display: flex;
   justify-content: center;
-  color: ${({ theme, $isSunday }) =>
-    $isSunday ? theme.colors.error : theme.colors["accent-content"]};
+`;
+
+export const CalendarItem = styled.div<{ $isSunday: boolean }>`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ theme }) => theme.colors.point};
+  color: white;
+  font-weight: 600;
 `;
 
 export const Day = styled.div<{
   $isCurrentMonth?: boolean;
   $isSelectedDate: boolean;
   $isSunday: boolean;
+  $isProfit: boolean;
 }>`
-  padding: 10px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: ${({ theme, $isCurrentMonth, $isSelectedDate, $isSunday }) =>
-    $isSelectedDate
-      ? theme.colors["base-100"]
-      : !$isCurrentMonth
-      ? theme.colors["neutral-content"]
-      : $isSunday
-      ? theme.colors.error
-      : theme.colors["secondary-content"]};
-  background-color: ${({ $isSelectedDate, theme }) =>
-    $isSelectedDate ? theme.colors.primary : "transparent"};
+  color: ${({ $isProfit, theme }) =>
+    $isProfit ? "#ffffff" : theme.colors.point};
+  border: 3px solid
+    ${({ $isSelectedDate, theme }) =>
+      $isSelectedDate ? "#951111" : "transparent"};
+  background-color: ${({ $isProfit, theme }) =>
+    $isProfit ? theme.colors.point : theme.colors.secondary};
+
+  font-weight: 800;
+`;
+
+export const PriceContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 6px;
 `;

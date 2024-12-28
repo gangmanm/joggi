@@ -1,8 +1,12 @@
+"use client";
+
 import ReactQueryClientProviders from "../../config/ReactQueryClientProvider";
 import StyledComponentsRegistry from "./registry";
 import LoadingWrapper from "../../components/LoadingWrapper";
+import { CalendarContext } from "../../components/month/useCalendarContext";
+import useCalendar from "../hooks/useCalendar";
 
-export const metadata = {
+const metadata = {
   title: "JOGI",
   description: "신개념 가계부 웹 어플리케이션",
 };
@@ -12,6 +16,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const calendar = useCalendar();
+
   return (
     <ReactQueryClientProviders>
       <html lang="en">
@@ -24,9 +30,11 @@ export default function RootLayout({
           <meta name="description" content={metadata.description} />
         </head>
         <body>
-          <StyledComponentsRegistry>
-            <LoadingWrapper>{children}</LoadingWrapper>
-          </StyledComponentsRegistry>
+          <CalendarContext.Provider value={calendar}>
+            <StyledComponentsRegistry>
+              <LoadingWrapper>{children}</LoadingWrapper>
+            </StyledComponentsRegistry>
+          </CalendarContext.Provider>
         </body>
       </html>
     </ReactQueryClientProviders>
