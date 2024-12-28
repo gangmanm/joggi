@@ -2,6 +2,7 @@
 import * as S from "../../styles/day/price";
 import { useNumberFormatter } from "../../src/hooks/useNumberFormatter";
 interface PriceProps {
+  tag: string | null;
   setting: string;
   amount: string | null;
   source: string | null;
@@ -10,6 +11,7 @@ interface PriceProps {
 }
 
 export default function Price({
+  tag,
   setting,
   amount,
   source,
@@ -20,7 +22,7 @@ export default function Price({
 
   return (
     <S.MainContainer setting={setting}>
-      <S.TagContainer setting={setting}>태그</S.TagContainer>
+      <S.TagContainer setting={setting}>{tag}</S.TagContainer>
       <S.PriceContainer setting={setting}>
         <S.PriceName>{source}</S.PriceName>
         <S.Price>{formattedAmount}</S.Price>

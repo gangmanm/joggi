@@ -23,6 +23,7 @@ export default function Home() {
   const [currentEntry, setCurrentEntry] = useState<InputValue>({
     source: "",
     amount: "",
+    tag: "",
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -43,7 +44,10 @@ export default function Home() {
     }
   };
 
-  const handleInputChange = (field: "source" | "amount", value: string) => {
+  const handleInputChange = (
+    field: "source" | "amount" | "tag",
+    value: string
+  ) => {
     setCurrentEntry((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -58,9 +62,10 @@ export default function Home() {
 
       setShowGeneratePrice(false);
 
-      const newEntry: Omit<Budget, "budget_id" | "tag"> = {
+      const newEntry: Omit<Budget, "budget_id"> = {
         source: currentEntry.source,
         amount: currentEntry.amount,
+        tag: currentEntry.tag,
         created_at: new Date().toISOString(),
         setting,
         user_id: session?.user.id || "",
@@ -70,7 +75,6 @@ export default function Home() {
         {
           ...newEntry,
           budget_id: "",
-          tag: null,
         } as Budget,
         ...prevEntries,
       ]);
@@ -84,7 +88,7 @@ export default function Home() {
         setError(null);
       }
 
-      setCurrentEntry({ source: "", amount: "" });
+      setCurrentEntry({ source: "", amount: "", tag: "" });
 
       const budgets = await getBudget(session?.user.id || "");
       setEntries(budgets.reverse());
@@ -163,6 +167,7 @@ export default function Home() {
             setting={setting}
             onSourceChangeAction={(value) => handleInputChange("source", value)}
             onAmountChangeAction={(value) => handleInputChange("amount", value)}
+            onTagChangeAction={(value) => handleInputChange("tag", value)}
             onKeyDownAction={handleAddEntryAction}
             userId={session?.user.id || " "}
           />
@@ -176,6 +181,7 @@ export default function Home() {
               source={entry.source}
               amount={entry.amount}
               budgetId={entry.budget_id}
+              tag={entry.tag}
               handleDeleteAction={handleDelete}
             />
           ))}

@@ -11,4 +11,9 @@ export type Budget = {
 export type InputValue = {
   amount: string;
   source: string;
+  tag: string;
+};
+
+export type TagInputValue = {
+  name: string;
 };

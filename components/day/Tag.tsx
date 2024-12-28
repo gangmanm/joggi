@@ -1,19 +1,26 @@
 "use client";
 
 import * as S from "../../styles/day/tag";
-import { getTag } from "../../actions/budget-actions";
+import { getTag, addTag } from "../../actions/budget-actions";
 import { useState, useEffect } from "react";
 import { Database } from "../../src/types/supabase";
-
 export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
 
 interface TagProps {
   setting: string;
   userId: string;
   setTagAction: (name: string) => void;
+  setTagModalVisibleAction: (visible: boolean) => void;
+  onTagChangeAction: (value: string) => void;
 }
 
-export default function Tag({ setting, userId, setTagAction }: TagProps) {
+export default function Tag({
+  setting,
+  userId,
+  setTagAction,
+  setTagModalVisibleAction,
+  onTagChangeAction,
+}: TagProps) {
   const [tags, setTags] = useState<TagRow[]>([]);
   const [inputValue, setInputValue] = useState("");
 
@@ -28,6 +35,40 @@ export default function Tag({ setting, userId, setTagAction }: TagProps) {
   // 태그 선택 핸들러
   const handleSelectTag = (tagName: string) => {
     setTagAction(tagName); // 선택된 태그 업데이트
+    setTagModalVisibleAction(false);
+    onTagChangeAction(tagName);
+  };
+
+  // 태그 추가 핸들러
+  const handleAddTag = async () => {
+    if (!inputValue.trim()) {
+      console.error("Input value is empty!");
+      return;
+    }
+
+    const newTag: Omit<TagRow, "id"> = {
+      name: inputValue.trim(),
+      user_id: userId,
+      created_at: new Date().toISOString(),
+      setting,
+    };
+
+    console.log("Adding new tag with data:", newTag);
+
+    try {
+      const addedTag = await addTag(newTag); // 새 태그 데이터 반환
+
+      if (addedTag) {
+        setTags((prevTags) => [...prevTags, addedTag]); // 반환된 데이터로 상태 업데이트
+        setInputValue(""); // 입력값 초기화
+
+        console.log("Tag added successfully!");
+      } else {
+        console.error("Failed to add tag.");
+      }
+    } catch (error) {
+      console.error("Error adding tag:", error);
+    }
   };
 
   useEffect(() => {
@@ -52,8 +93,11 @@ export default function Tag({ setting, userId, setTagAction }: TagProps) {
           placeholder="태그 추가"
           value={inputValue}
           onChange={handleChange}
+          onKeyDown={(e) => e.key === "Enter" && handleAddTag()}
         />
-        <S.TagButton setting={setting}>+</S.TagButton>
+        <S.TagButton setting={setting} onClick={handleAddTag}>
+          +
+        </S.TagButton>
       </S.TagBox>
 
       {/* 기존 태그 목록 */}

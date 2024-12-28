@@ -8,6 +8,7 @@ interface PriceProps {
   setting: string;
   onSourceChangeAction: (value: string) => void;
   onAmountChangeAction: (value: string) => void;
+  onTagChangeAction: (value: string) => void;
   onKeyDownAction: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   userId: string;
 }
@@ -16,6 +17,7 @@ export default function GeneratePrice({
   setting,
   onSourceChangeAction,
   onAmountChangeAction,
+  onTagChangeAction,
   onKeyDownAction,
   userId,
 }: PriceProps) {
@@ -35,7 +37,13 @@ export default function GeneratePrice({
 
       {/* 태그 모달 */}
       {tagModalVisible && (
-        <Tag setting={setting} userId={userId} setTagAction={setTag} />
+        <Tag
+          setting={setting}
+          userId={userId}
+          setTagAction={setTag}
+          setTagModalVisibleAction={setTagModalVisible}
+          onTagChangeAction={onTagChangeAction}
+        />
       )}
 
       <S.PriceContainer setting={setting}>
