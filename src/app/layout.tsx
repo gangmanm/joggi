@@ -15,6 +15,14 @@ export default function RootLayout({
   return (
     <ReactQueryClientProviders>
       <html lang="en">
+        <head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+          />
+          <title>{metadata.title}</title>
+          <meta name="description" content={metadata.description} />
+        </head>
         <body>
           <StyledComponentsRegistry>
             <LoadingWrapper>{children}</LoadingWrapper>
