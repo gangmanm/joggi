@@ -7,8 +7,6 @@ export const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 12px;
-  transition: margin-top 0.3s ease;
-  overflow: scroll;
   @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
     width: 100vw;
     height: 100vh;
@@ -127,4 +125,5 @@ export const PriceContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding-bottom: 40px;
 `;
