@@ -11,7 +11,7 @@ export const MainContainer = styled.div.withConfig({
   padding: 12px;
   transition: margin-top 0.3s ease;
 
-  margin-top: ${(props) => (props.isScrolled ? "40px" : "0")};
+  margin-top: ${(props) => (props.isScrolled ? "60px" : "0")};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
     width: 100vw;
