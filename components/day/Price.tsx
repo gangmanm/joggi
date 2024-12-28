@@ -16,10 +16,8 @@ export default function Price({
   budgetId,
   handleDeleteAction,
 }: PriceProps) {
-  let formattedAmount = "0";
-  if (amount) {
-    formattedAmount = useNumberFormatter(amount);
-  }
+  let formattedAmount = useNumberFormatter(amount || 0);
+
   return (
     <S.MainContainer setting={setting}>
       <S.TagContainer setting={setting}>태그</S.TagContainer>
