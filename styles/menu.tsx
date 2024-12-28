@@ -13,16 +13,6 @@ export const MenuContainer = styled.div`
   justify-content: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   cursor: pointer; /* 클릭 가능 표시 */
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.Mobile}) {
-    bottom: 5%;
-    right: 38%;
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.PCLarge}) {
-    bottom: 5%;
-    right: 42%;
-  }
 `;
 
 export const MenuImageContainer = styled.div`
