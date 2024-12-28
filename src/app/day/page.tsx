@@ -26,10 +26,11 @@ export default function Home() {
   });
   const [error, setError] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollTop, setScrollTop] = useState(0);
 
   const handleScroll = () => {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    setIsScrolled(scrollTop > 0); // 스크롤 위치가 0보다 크면 true
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    setIsScrolled(scrollY > 0); // 스크롤 위치가 0보다 크면 true
   };
 
   const { formattedIncomeTotal, formattedOutcomeTotal, formattedTotal } =
@@ -127,11 +128,36 @@ export default function Home() {
   }, [supabase]);
 
   useEffect(() => {
+    // 스크롤 이벤트 등록
     window.addEventListener("scroll", handleScroll);
+
+    // 키보드가 나타날 때 스크롤 방지
+    const handleFocus = () => {
+      setScrollTop(window.scrollY || document.documentElement.scrollTop);
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollTop}px`;
+      document.body.style.overflow = "hidden";
+      document.body.style.width = "100%";
+    };
+
+    // 키보드가 사라질 때 스크롤 복원
+    const handleBlur = () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.overflow = "";
+      document.body.style.width = "";
+      window.scrollTo(0, scrollTop); // 이전 스크롤 위치로 복원
+    };
+
+    window.addEventListener("focusin", handleFocus);
+    window.addEventListener("focusout", handleBlur);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("focusin", handleFocus);
+      window.removeEventListener("focusout", handleBlur);
     };
-  }, []);
+  }, [scrollTop]);
 
   if (error) {
     return <S.MainContainer isScrolled={isScrolled}>{error}</S.MainContainer>;

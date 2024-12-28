@@ -64,7 +64,6 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
     justify-content: center;
     background-color: #f5f5f5; 
-    overscroll-behavior: none;
   }
 
   input, textarea {
@@ -73,6 +72,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: inherit; 
     -webkit-appearance: none; 
   }
+  
 
   .scroll-container {
   padding-top: 40px;
