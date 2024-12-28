@@ -65,6 +65,13 @@ const GlobalStyle = createGlobalStyle`
     background-color: #f5f5f5; 
   }
 
+  body.fixed {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
   input, textarea {
     all: unset; 
     font-family: inherit; 
