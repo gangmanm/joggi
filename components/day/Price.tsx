@@ -16,7 +16,7 @@ export default function Price({
   budgetId,
   handleDeleteAction,
 }: PriceProps) {
-  let formattedAmount = useNumberFormatter(amount || 0);
+  const formattedAmount = useNumberFormatter(amount || 0);
 
   return (
     <S.MainContainer setting={setting}>
