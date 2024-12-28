@@ -129,76 +129,65 @@ export default function Home() {
   }
 
   return (
-    <>
-      <S.MainContainer>
-        <Menu />
-        <S.SubContainer>
-          <S.TotalMainContainer setting={setting}>
-            <S.TotalMainText>
-              <S.HeaderText setting={setting}>
-                {setting === "income" ? "오늘의 수입" : "오늘의 지출"}
-              </S.HeaderText>
-              <S.TotalText setting={setting}>
+    <S.MainContainer>
+      <Menu />
+
+      <S.SubContainer>
+        <S.TotalMainContainer setting={setting}>
+          <S.TotalMainText>
+            <S.HeaderText setting={setting}>
+              {setting === "income" ? "오늘의 수입" : "오늘의 지출"}
+            </S.HeaderText>
+            <S.TotalText setting={setting}>
+              {setting === "income"
+                ? formattedIncomeTotal
+                : formattedOutcomeTotal}
+            </S.TotalText>
+          </S.TotalMainText>
+          <S.TotalSubContainer setting={setting} onClick={toggleSettingAction}>
+            <S.TotalSubText>
+              <S.SubHeaderText setting={setting}>
+                {setting === "income" ? "오늘의 지출" : "오늘의 수입"}
+              </S.SubHeaderText>
+              <S.SubTotalText setting={setting}>
                 {setting === "income"
-                  ? formattedIncomeTotal
-                  : formattedOutcomeTotal}
-              </S.TotalText>
-            </S.TotalMainText>
-            <S.TotalSubContainer
-              setting={setting}
-              onClick={toggleSettingAction}
-            >
-              <S.TotalSubText>
-                <S.SubHeaderText setting={setting}>
-                  {setting === "income" ? "오늘의 지출" : "오늘의 수입"}
-                </S.SubHeaderText>
-                <S.SubTotalText setting={setting}>
-                  {setting === "income"
-                    ? formattedOutcomeTotal
-                    : formattedIncomeTotal}
-                </S.SubTotalText>
-              </S.TotalSubText>
-            </S.TotalSubContainer>
-          </S.TotalMainContainer>
-        </S.SubContainer>
-        <S.PriceContainer>
-          <TotalPrice
+                  ? formattedOutcomeTotal
+                  : formattedIncomeTotal}
+              </S.SubTotalText>
+            </S.TotalSubText>
+          </S.TotalSubContainer>
+        </S.TotalMainContainer>
+      </S.SubContainer>
+      <S.PriceContainer>
+        <TotalPrice
+          setting={setting}
+          toggleGeneratePriceAction={toggleGeneratePriceAction}
+          totalAmount={formattedTotal}
+        />
+        {showGeneratePrice && (
+          <GeneratePrice
             setting={setting}
-            toggleGeneratePriceAction={toggleGeneratePriceAction}
-            totalAmount={formattedTotal}
+            onSourceChangeAction={(value) => handleInputChange("source", value)}
+            onAmountChangeAction={(value) => handleInputChange("amount", value)}
+            onTagChangeAction={(value) => handleInputChange("tag", value)}
+            onKeyDownAction={handleAddEntryAction}
+            userId={session?.user.id || " "}
           />
-          {showGeneratePrice && (
-            <GeneratePrice
+        )}
+        {entries
+          .filter((entry) => entry.setting === setting)
+          .map((entry, index) => (
+            <Price
+              key={index}
               setting={setting}
-              onSourceChangeAction={(value) =>
-                handleInputChange("source", value)
-              }
-              onAmountChangeAction={(value) =>
-                handleInputChange("amount", value)
-              }
-              onTagChangeAction={(value) => handleInputChange("tag", value)}
-              onKeyDownAction={handleAddEntryAction}
-              userId={session?.user.id || " "}
+              source={entry.source}
+              amount={entry.amount}
+              budgetId={entry.budget_id}
+              tag={entry.tag}
+              handleDeleteAction={handleDelete}
             />
-          )}
-          {entries
-            .filter((entry) => entry.setting === setting)
-            .map((entry, index) => (
-              <Price
-                key={index}
-                setting={setting}
-                source={entry.source}
-                amount={entry.amount}
-                budgetId={entry.budget_id}
-                tag={entry.tag}
-                handleDeleteAction={handleDelete}
-              />
-            ))}
-        </S.PriceContainer>
-      </S.MainContainer>
-      <S.MenuContainer>
-        <Menu />
-      </S.MenuContainer>
-    </>
+          ))}
+      </S.PriceContainer>
+    </S.MainContainer>
   );
 }

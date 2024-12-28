@@ -7,7 +7,6 @@ export const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 12px;
-  position: fixed;
   z-index: 20;
   @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
     width: 100vw;
@@ -18,8 +17,8 @@ export const MainContainer = styled.div`
 export const MenuContainer = styled.div`
   width: 450px;
   height: 100%;
-  position: fixed;
   z-index: 10;
+  background-color: red;
 `;
 
 export const Header = styled.div`

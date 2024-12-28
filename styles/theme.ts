@@ -1,6 +1,6 @@
 export const theme = {
   breakpoints: {
-    Mobile: "768px",
+    Mobile: "790px",
     Tablet: "1024px",
     PC: "1440px",
     PCLarge: "1600px",
