@@ -5,14 +5,14 @@ interface PriceProps {
   setting: string;
   onSourceChangeAction: (value: string) => void;
   onAmountChangeAction: (value: string) => void;
-  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void; // Enter 이벤트 Prop 추가
+  onKeyDownAction: (e: React.KeyboardEvent<HTMLInputElement>) => void; // Enter 이벤트 Prop 추가
 }
 
 export default function GeneratePrice({
   setting,
   onSourceChangeAction,
   onAmountChangeAction,
-  onKeyDown,
+  onKeyDownAction,
 }: PriceProps) {
   return (
     <S.MainContainer setting={setting}>
@@ -21,12 +21,14 @@ export default function GeneratePrice({
         <S.PriceName
           placeholder="자세한 수입 출처"
           onChange={(e) => onSourceChangeAction(e.target.value)}
-          onKeyDown={onKeyDown} // Enter 이벤트 처리
+          onKeyDown={onKeyDownAction} // Enter 이벤트 처리
+          setting={setting}
         />
         <S.Price
-          placeholder="금액"
+          setting={setting}
           onChange={(e) => onAmountChangeAction(e.target.value)}
-          onKeyDown={onKeyDown} // Enter 이벤트 처리
+          onKeyDown={onKeyDownAction} // Enter 이벤트 처리
+          placeholder="금액"
         />
       </S.PriceContainer>
     </S.MainContainer>

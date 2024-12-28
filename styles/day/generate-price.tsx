@@ -35,7 +35,7 @@ export const PriceContainer = styled.div<{ setting: string }>`
     setting === "income" ? theme.colors.point : theme.colors.secondary};
 `;
 
-export const PriceName = styled.input`
+export const PriceName = styled.input<{ setting: string }>`
   width: 100%;
   height: 40%;
   display: flex;
@@ -43,15 +43,32 @@ export const PriceName = styled.input`
   align-items: center;
   font-size: 10px;
   text-align: center;
+  &::placeholder {
+    color: ${({ theme, setting }) =>
+      setting === "income"
+        ? theme.colors.primary
+        : theme.colors.secondary}; /* placeholder 텍스트 색상 */
+    font-weight: 400;
+  }
 `;
 
-export const Price = styled.input`
+export const Price = styled.input<{ setting: string }>`
   width: 100%;
   height: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 800;
-  text-align: center; /* 텍스트 및 커서를 가로 방향으로 가운데 정렬 */
-  padding: 0; /* 불필요한 여백 제거 */
+  text-align: center; 
+  padding: 0; 
+  border: none; 
+  outline: none; 
+
+  &::placeholder {
+    color: ${({ theme, setting }) =>
+      setting === "income"
+        ? theme.colors.primary
+        : theme.colors.secondary};
+    font-weight: 400;
+  }
 `;

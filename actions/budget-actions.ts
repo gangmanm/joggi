@@ -3,30 +3,44 @@
 import { Database } from "../src/types/supabase";
 import { createServerSupabaseClient } from "../utils/supabase/server";
 
-export type ExpenseRow = Database["public"]["Tables"]["expense"]["Row"];
-export type ExpenseInsert = Database["public"]["Tables"]["expense"]["Insert"];
-export type ExpenseUpdate = Database["public"]["Tables"]["expense"]["Update"];
+export type BudgetInsert = Database["public"]["Tables"]["budget"]["Insert"];
+export type BudgetRow = Database["public"]["Tables"]["budget"]["Row"];
 
-export async function getBudget(): Promise<ExpenseRow[]> {
+export async function addBudget(budgetData: BudgetInsert): Promise<boolean> {
   try {
-    // Supabase 클라이언트 생성
     const supabase = await createServerSupabaseClient();
 
-    // 데이터 조회
-    const { data, error } = await supabase.from("expense").select("*");
+    const { error } = await supabase.from("budget").insert(budgetData);
 
-    // 오류 처리
     if (error) {
-      console.error("Error fetching expenses:", error.message);
+      console.error("Error adding expense:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error("Unexpected error in addExpense:", err);
+    return false;
+  }
+}
+
+export async function getBudget(userId: string): Promise<BudgetRow[]> {
+  try {
+    const supabase = await createServerSupabaseClient();
+
+    const { data, error } = await supabase
+      .from("budget")
+      .select("*")
+      .eq("user_id", userId);
+
+    if (error) {
+      console.error("Error fetching budgets:", error.message);
       return [];
     }
 
     return data || [];
   } catch (err) {
-    // 예기치 않은 오류 처리
-    console.error("Unexpected error in getExpense:", err);
+    console.error("Unexpected error in getBudget:", err);
     return [];
   }
 }
-
-export async function addExpense():

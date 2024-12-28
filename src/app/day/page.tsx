@@ -2,32 +2,79 @@
 
 import { useState, useEffect } from "react";
 import * as S from "../../../styles/day/day";
-import { createClient } from "../../../utils/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import TotalPrice from "../../../components/day/TotalPrice";
 import GeneratePrice from "../../../components/day/GeneratePrice";
 import Price from "../../../components/day/Price";
+import { addBudget, getBudget } from "../../../actions/budget-actions";
+import { createClient } from "../../../utils/supabase/client";
 
-const supabase = createClient();
+type Entry = {
+  amount: string | null;
+  budget_id: string;
+  created_at: string;
+  setting: string | null;
+  source: string | null;
+  tag: string | null;
+  user_id: string | null;
+};
+
+type InputValue = {
+  amount: string;
+  source: string;
+};
 
 export default function Home() {
   const [setting, setSetting] = useState("income");
   const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [showGeneratePrice, setShowGeneratePrice] = useState(false);
-  const [entries, setEntries] = useState<{ source: string; amount: string }[]>(
-    []
-  );
-  const [currentEntry, setCurrentEntry] = useState({ source: "", amount: "" });
+  const [entries, setEntries] = useState<Entry[]>([]);
+  const [currentEntry, setCurrentEntry] = useState<InputValue>({
+    source: "",
+    amount: "",
+  });
+  const [error, setError] = useState<string | null>(null);
+
+  const supabase = createClient();
 
   const handleInputChange = (field: "source" | "amount", value: string) => {
     setCurrentEntry((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleAddEntryAction = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleAddEntryAction = async (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (e.key === "Enter") {
-      setEntries((prevEntries) => [...prevEntries, currentEntry]);
-      setCurrentEntry({ source: "", amount: "" });
+      if (!currentEntry.source.trim() || !currentEntry.amount.trim()) {
+        alert("Source and amount are required!");
+        return;
+      }
       setShowGeneratePrice(false);
+      const newEntry = {
+        source: currentEntry.source,
+        amount: currentEntry.amount,
+        created_at: new Date().toISOString(),
+        setting: setting,
+        user_id: session?.user.id,
+      };
+      setEntries((prevEntries) => [
+        {
+          ...newEntry,
+          budget_id: "", // 초기값 설정
+          tag: null, // 초기값 설정
+        } as Entry, // 타입 강제 지정
+        ...prevEntries,
+      ]);
+
+      const success = await addBudget(newEntry);
+
+      if (!success) {
+        setError("Failed to add budget. Please try again.");
+      } else {
+        setError(null);
+      }
+
+      setCurrentEntry({ source: "", amount: "" });
     }
   };
 
@@ -42,25 +89,23 @@ export default function Home() {
   useEffect(() => {
     let isMounted = true;
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const fetchSessionAndBudgets = async () => {
+      const { data } = await supabase.auth.getSession();
       if (isMounted) {
-        setSession(session);
+        setSession(data.session);
+        if (data.session?.user.id) {
+          const budgets = await getBudget(data.session.user.id); // user_id를 기반으로 데이터 가져오기
+          setEntries(budgets);
+        }
       }
-    });
+    };
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (isMounted) {
-        setSession(session);
-      }
-    });
+    fetchSessionAndBudgets();
 
     return () => {
       isMounted = false;
-      subscription.unsubscribe();
     };
-  }, []);
+  }, [supabase]);
 
   if (session) {
     console.log("사용자 session", session);
@@ -93,24 +138,26 @@ export default function Home() {
       <S.PriceContainer>
         <TotalPrice
           setting={setting}
-          toggleGeneratePrice={toggleGeneratePriceAction}
+          toggleGeneratePriceAction={toggleGeneratePriceAction}
         />
         {showGeneratePrice && (
           <GeneratePrice
             setting={setting}
             onSourceChangeAction={(value) => handleInputChange("source", value)}
             onAmountChangeAction={(value) => handleInputChange("amount", value)}
-            onKeyDown={handleAddEntryAction} // Enter 이벤트 처리
+            onKeyDownAction={handleAddEntryAction}
           />
         )}
-        {[...entries].reverse().map((entry, index) => (
-          <Price
-            key={index}
-            setting={setting}
-            source={entry.source}
-            amount={entry.amount}
-          />
-        ))}
+        {entries
+          .filter((entry) => entry.setting === setting) // 현재 setting과 일치하는 항목만 필터링
+          .map((entry, index) => (
+            <Price
+              key={index}
+              setting={setting}
+              source={entry.source}
+              amount={entry.amount}
+            />
+          ))}
       </S.PriceContainer>
     </S.MainContainer>
   );

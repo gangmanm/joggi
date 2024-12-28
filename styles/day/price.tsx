@@ -29,10 +29,24 @@ export const TagContainer = styled.div<{ setting: string }>`
 `;
 
 export const PriceContainer = styled.div<{ setting: string }>`
-  width: 70%;
+  width: calc(70% - 30px); /* 공백 추가 */
   height: 100%;
   color: ${({ theme, setting }) =>
     setting === "income" ? theme.colors.point : theme.colors.secondary};
+`;
+
+export const DeleteContainer = styled.div<{ setting: string }>`
+  width: 30px;
+  height: 30px;
+  color: ${({ theme, setting }) =>
+    setting === "income" ? theme.colors.secondary : theme.colors.point};
+  background-color: ${({ theme, setting }) =>
+    setting === "income" ? theme.colors.point : theme.colors.secondary};
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
 `;
 
 export const PriceName = styled.div`

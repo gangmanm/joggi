@@ -119,4 +119,5 @@ export const PriceContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  overflow: scroll;
 `;
