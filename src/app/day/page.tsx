@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import * as S from "../../../styles/day/day";
 import { Session } from "@supabase/supabase-js";
@@ -15,6 +14,8 @@ import { createClient } from "../../../utils/supabase/client";
 import { Budget, InputValue } from "../../types/budget";
 import { useCalculateTotal } from "../../hooks/useCalculateTotal";
 import Menu from "../../../components/Menu";
+import useCalendarContext from "../../../components/month/useCalendarContext";
+
 export default function Home() {
   const [setting, setSetting] = useState("income");
   const [session, setSession] = useState<Session | null | undefined>(undefined);
@@ -26,7 +27,7 @@ export default function Home() {
     tag: "",
   });
   const [error, setError] = useState<string | null>(null);
-
+  const { selectedDate } = useCalendarContext();
   const { formattedIncomeTotal, formattedOutcomeTotal, formattedTotal } =
     useCalculateTotal(entries);
 
@@ -69,6 +70,7 @@ export default function Home() {
         created_at: new Date().toISOString(),
         setting,
         user_id: session?.user.id || "",
+        date: selectedDate.date || "",
       };
 
       setEntries((prevEntries) => [
@@ -128,6 +130,11 @@ export default function Home() {
     return <S.MainContainer>{error}</S.MainContainer>;
   }
 
+  // selectedDate와 일치하는 항목 필터링
+  const filteredEntries = entries.filter(
+    (entry) => entry.date === selectedDate.date
+  );
+
   return (
     <S.MainContainer>
       <Menu />
@@ -174,7 +181,7 @@ export default function Home() {
             userId={session?.user.id || " "}
           />
         )}
-        {entries
+        {filteredEntries
           .filter((entry) => entry.setting === setting)
           .map((entry, index) => (
             <Price

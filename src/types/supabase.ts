@@ -14,6 +14,7 @@ export type Database = {
           amount: string | null
           budget_id: string
           created_at: string
+          date: string | null
           setting: string | null
           source: string | null
           tag: string | null
@@ -23,6 +24,7 @@ export type Database = {
           amount?: string | null
           budget_id?: string
           created_at?: string
+          date?: string | null
           setting?: string | null
           source?: string | null
           tag?: string | null
@@ -32,6 +34,7 @@ export type Database = {
           amount?: string | null
           budget_id?: string
           created_at?: string
+          date?: string | null
           setting?: string | null
           source?: string | null
           tag?: string | null

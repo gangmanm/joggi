@@ -78,9 +78,13 @@ export const Day = styled.div<{
   font-weight: 800;
 `;
 
-export const PriceContainer = styled.div`
+export const PriceContainer = styled.div<{
+  $isProfit: boolean;
+}>`
   width: 100%;
   display: flex;
   justify-content: center;
   font-size: 6px;
+  color: ${({ $isProfit, theme }) =>
+    $isProfit ? theme.colors.secondary : theme.colors.point};
 `;
