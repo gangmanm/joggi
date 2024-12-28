@@ -1,5 +1,4 @@
 const nextConfig = {
-  output: "export",
   basePath: "",
   assetPrefix: "https://jogi.co.kr",
   trailingSlash: true,
@@ -9,6 +8,9 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+  },
+  experimental: {
+    serverActions: true, // Server Actions 활성화
   },
 };
 

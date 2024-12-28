@@ -129,8 +129,8 @@ export default function Home() {
     };
   }, [supabase]);
 
-  if (session) {
-    console.log("사용자 session", session);
+  if (error) {
+    <S.MainContainer>error</S.MainContainer>;
   }
 
   return (
