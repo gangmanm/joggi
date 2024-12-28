@@ -25,6 +25,12 @@ export default function Home() {
     amount: "",
   });
   const [error, setError] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleScroll = () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    setIsScrolled(scrollTop > 0); // 스크롤 위치가 0보다 크면 true
+  };
 
   const { formattedIncomeTotal, formattedOutcomeTotal, formattedTotal } =
     useCalculateTotal(entries);
@@ -121,11 +127,11 @@ export default function Home() {
   }, [supabase]);
 
   if (error) {
-    return <S.MainContainer>{error}</S.MainContainer>;
+    return <S.MainContainer isScrolled={isScrolled}>{error}</S.MainContainer>;
   }
 
   return (
-    <S.MainContainer>
+    <S.MainContainer isScrolled={isScrolled}>
       <S.Header></S.Header>
       <S.SubContainer>
         <S.TotalMainContainer setting={setting}>

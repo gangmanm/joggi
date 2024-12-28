@@ -1,18 +1,23 @@
 import { styled } from "styled-components";
 
-export const MainContainer = styled.div`
+export const MainContainer = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "isScrolled", // isScrolled를 DOM으로 전달하지 않음
+})<{ isScrolled: boolean }>`
   width: 450px;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 12px;
+  transition: margin-top 0.3s ease;
+
+  margin-top: ${(props) => (props.isScrolled ? "40px" : "0")};
+
   @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
     width: 100vw;
     height: 100vh;
   }
-  padding: 12px;
 `;
-
 export const Header = styled.div`
   width: 100%;
   height: 60px;

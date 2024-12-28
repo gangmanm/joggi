@@ -67,16 +67,6 @@ const GlobalStyle = createGlobalStyle`
     overscroll-behavior: none;
   }
 
-  .wrap {
-  width: 100vw;
-
-  height: 100vh;
-
-  overflow-y: scroll;
-
-  -webkit-overflow-scrolling: touch;
-}
-
   input, textarea {
     all: unset; 
     font-family: inherit; 
