@@ -73,6 +73,10 @@ const GlobalStyle = createGlobalStyle`
     font-size: inherit; 
     -webkit-appearance: none; 
   }
+
+  .scroll-container {
+  padding-top: 40px;
+}
 `;
 
 export default GlobalStyle;
