@@ -43,7 +43,7 @@ export const TagBox = styled.div<{ setting: string }>`
 `;
 
 export const TagInput = styled.input<{ setting: string }>`
-  width: calc(100% - 30px);
+  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;

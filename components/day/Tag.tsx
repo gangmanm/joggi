@@ -24,7 +24,6 @@ export default function Tag({
   const [tags, setTags] = useState<TagRow[]>([]);
   const [inputValue, setInputValue] = useState("");
 
-  // 입력값 변경 핸들러 (7글자 제한)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value.length <= 7) {
@@ -32,42 +31,52 @@ export default function Tag({
     }
   };
 
-  // 태그 선택 핸들러
   const handleSelectTag = (tagName: string) => {
-    setTagAction(tagName); // 선택된 태그 업데이트
+    setTagAction(tagName);
     setTagModalVisibleAction(false);
     onTagChangeAction(tagName);
   };
 
-  // 태그 추가 핸들러
-  const handleAddTag = async () => {
-    if (!inputValue.trim()) {
-      console.error("Input value is empty!");
-      return;
-    }
+  const handleAddTag = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    console.log("handleAddTag triggered");
 
-    const newTag: Omit<TagRow, "id"> = {
-      name: inputValue.trim(),
-      user_id: userId,
-      created_at: new Date().toISOString(),
-      setting,
-    };
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+      console.log("Enter key detected");
 
-    console.log("Adding new tag with data:", newTag);
+      e.preventDefault();
 
-    try {
-      const addedTag = await addTag(newTag); // 새 태그 데이터 반환
-
-      if (addedTag) {
-        setTags((prevTags) => [...prevTags, addedTag]); // 반환된 데이터로 상태 업데이트
-        setInputValue(""); // 입력값 초기화
-
-        console.log("Tag added successfully!");
-      } else {
-        console.error("Failed to add tag.");
+      if (!inputValue.trim()) {
+        console.error("Input value is empty!");
+        return;
       }
-    } catch (error) {
-      console.error("Error adding tag:", error);
+
+      if (tags.some((tag) => tag.name === inputValue.trim())) {
+        console.error("Tag already exists!");
+        return;
+      }
+
+      const newTag: Omit<TagRow, "id"> = {
+        name: inputValue.trim(),
+        user_id: userId,
+        created_at: new Date().toISOString(),
+        setting,
+      };
+
+      console.log("Adding new tag with data:", newTag);
+
+      try {
+        const addedTag = await addTag(newTag);
+
+        if (addedTag) {
+          setTags((prevTags) => [...prevTags, addedTag]);
+          setInputValue("");
+          console.log("Tag added successfully!");
+        } else {
+          console.error("Failed to add tag.");
+        }
+      } catch (error) {
+        console.error("Error adding tag:", error);
+      }
     }
   };
 
@@ -81,26 +90,23 @@ export default function Tag({
       }
     };
 
-    fetchTags();
+    if (userId) {
+      fetchTags();
+    }
   }, [userId]);
 
   return (
     <S.TagContainer>
-      {/* 태그 입력 및 추가 */}
       <S.TagBox setting={setting}>
         <S.TagInput
           setting={setting}
           placeholder="태그 추가"
           value={inputValue}
           onChange={handleChange}
-          onKeyDown={(e) => e.key === "Enter" && handleAddTag()}
+          onKeyDown={handleAddTag}
         />
-        <S.TagButton setting={setting} onClick={handleAddTag}>
-          +
-        </S.TagButton>
       </S.TagBox>
 
-      {/* 기존 태그 목록 */}
       {tags.map((tag) => (
         <S.TagBox key={tag.id} setting={setting}>
           <S.TagText
