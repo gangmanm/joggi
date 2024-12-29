@@ -16,7 +16,6 @@ const CalendarBody: React.FC = () => {
   const weeks = ["일", "월", "화", "수", "목", "금", "토"];
   const { daysInMonth, selectedDate, currentDate } = useCalendarContext();
   const [entries, setEntries] = useState<Budget[]>([]);
-  const now = new Date();
   const supabase = createClient();
 
   // daysInMonth 배열의 타입 변환
