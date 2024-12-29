@@ -51,16 +51,25 @@ export const SubText = styled.div`
   justify-content: center;
 `;
 
-export const PriceInformContainer = styled.div`
+export const MarginBottom = styled.div`
+  width: 100%;
+  height: 100px;
+  background-color: red;
+`;
+
+export const PriceInformContainer = styled.div<{
+  $isLeft: boolean;
+}>`
   width: calc(100% - 125px);
   height: 125px;
   background-color: white;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
-  margin-left: 6px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   display: flex;
   justify-content: center;
   padding: 10px;
   color: #787878;
   font-weight: 700;
+  margin-left: ${({ $isLeft }) => ($isLeft ? "8px" : "0px")};
+  margin-right: ${({ $isLeft }) => ($isLeft ? "0px" : "8px")};
 `;

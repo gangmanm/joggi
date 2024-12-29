@@ -118,18 +118,16 @@ export default function Tag({
       </S.TagBox>
 
       {tags.map((tag) => (
-        <S.TagBox
-          key={tag.id}
-          setting={setting}
-          onClick={() => handleDelete(tag.id)}
-        >
+        <S.TagBox key={tag.id} setting={setting}>
           <S.TagText
             setting={setting}
             onClick={() => handleSelectTag(tag.name || "태그")}
           >
             {tag.name}
           </S.TagText>
-          <S.TagButton setting={setting}>x</S.TagButton>
+          <S.TagButton setting={setting} onClick={() => handleDelete(tag.id)}>
+            x
+          </S.TagButton>
         </S.TagBox>
       ))}
     </S.TagContainer>

@@ -28,7 +28,7 @@ export default function Month() {
     <S.MainContainer>
       <Menu />
       <S.InformationContainer>
-        <S.PriceInformContainer>
+        <S.PriceInformContainer $isLeft={false}>
           <>
             {maxIncomeTagByYear.tag !== "No Tag" &&
               maxIncomeTagByYear.income > 0 && (
@@ -51,14 +51,13 @@ export default function Month() {
           <S.SubText>당신은</S.SubText>
         </S.DateContainer>
       </S.InformationContainer>
-      {/* 상단 정보 섹션 */}
       <S.InformationContainer>
         <S.DateContainer>
           {" "}
           <S.DateText>{month}월</S.DateText>
           <S.SubText>당신은</S.SubText>
         </S.DateContainer>
-        <S.PriceInformContainer>
+        <S.PriceInformContainer $isLeft={true}>
           <>
             {maxIncomeTagByMonth.tag !== "No Tag" &&
               maxIncomeTagByMonth.income > 0 && (
@@ -84,7 +83,7 @@ export default function Month() {
 
       {/* 선택된 날짜 정보 */}
       <S.InformationContainer>
-        <S.PriceInformContainer>
+        <S.PriceInformContainer $isLeft={false}>
           <>
             {maxIncomeTagByDay.tag !== "No Tag" &&
               maxIncomeTagByDay.income > 0 && (
@@ -107,6 +106,7 @@ export default function Month() {
           <S.SubText>당신은</S.SubText>
         </S.DateContainer>
       </S.InformationContainer>
+      <S.MarginBottom></S.MarginBottom>
     </S.MainContainer>
   );
 }

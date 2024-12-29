@@ -57,8 +57,12 @@ export default function Home() {
     e: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (e.key === "Enter") {
-      if (!currentEntry.source.trim() || !currentEntry.amount.trim()) {
-        alert("Source and amount are required!");
+      if (
+        !currentEntry.source.trim() ||
+        !currentEntry.amount.trim() ||
+        !currentEntry.tag.trim()
+      ) {
+        alert("출처, 금액, 태그를 모두 입력해주세요");
         return;
       }
 
