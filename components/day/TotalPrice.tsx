@@ -14,31 +14,23 @@ export default function TotalPrice({
   toggleGeneratePriceAction,
   totalAmount,
 }: PriceProps) {
-  const [reverseSetting, setReverseSetting] = useState("income");
-
-  useEffect(() => {
-    if (setting === "income") {
-      setReverseSetting("outcome");
-    } else {
-      setReverseSetting("income");
-    }
-  }, [setting]);
-
   return (
-    <S.TotalPriceContainer setting={setting}>
-      <S.TotalPriceText setting={setting}>
-        {parseInt(totalAmount) > 0
-          ? `+${totalAmount}`
-          : parseInt(totalAmount) < 0
-          ? `-${totalAmount}`
-          : totalAmount}
-      </S.TotalPriceText>
-      <S.PriceAddButton
-        setting={reverseSetting}
-        onClick={toggleGeneratePriceAction}
-      >
-        {setting === "income" ? "+" : "-"}
+    <S.TotalPriceMain>
+      <S.PriceAddButton setting={"income"} onClick={toggleGeneratePriceAction}>
+        +
       </S.PriceAddButton>
-    </S.TotalPriceContainer>
+      <S.TotalPriceContainer setting={setting}>
+        <S.TotalPriceText setting={setting}>
+          {parseInt(totalAmount) > 0
+            ? `+${totalAmount}`
+            : parseInt(totalAmount) < 0
+            ? `-${totalAmount}`
+            : totalAmount}
+        </S.TotalPriceText>
+      </S.TotalPriceContainer>
+      <S.PriceAddButton setting={"outcome"} onClick={toggleGeneratePriceAction}>
+        -
+      </S.PriceAddButton>
+    </S.TotalPriceMain>
   );
 }

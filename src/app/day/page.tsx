@@ -142,26 +142,30 @@ export default function Home() {
   return (
     <S.MainContainer>
       <Menu />
-
       <S.SubContainer>
-        <S.TotalMainContainer setting={setting}>
-          <S.TotalMainText>
-            <S.HeaderText setting={setting}>
-              {year}년 {month}월 {day}일의{" "}
-              {setting === "income" ? "수입" : "지출"}
-            </S.HeaderText>
-            <S.TotalText setting={setting}>
-              {setting === "income"
-                ? "+ " + formattedIncomeTotal
-                : "- " + formattedOutcomeTotal}
-            </S.TotalText>
-          </S.TotalMainText>
-          <S.TotalSubContainer setting={setting} onClick={toggleSettingAction}>
+        <TotalPrice
+          setting={setting}
+          toggleGeneratePriceAction={toggleGeneratePriceAction}
+          totalAmount={formattedTotal}
+        />
+        <S.TotalMainContainer>
+          <S.TotalSubContainer setting={"income"} onClick={toggleSettingAction}>
             <S.TotalSubText>
-              <S.SubHeaderText setting={setting}>
-                {year}년 {month}월 {day}일의{" "}
-                {setting === "income" ? "지출" : "수입"}
-              </S.SubHeaderText>
+              <S.SubHeaderText setting={setting}>지출</S.SubHeaderText>
+              <S.SubTotalText setting={setting}>
+                {setting === "income"
+                  ? "- " + formattedOutcomeTotal
+                  : "+ " + formattedIncomeTotal}
+              </S.SubTotalText>
+            </S.TotalSubText>
+          </S.TotalSubContainer>
+          <S.GraphContainer setting={setting}></S.GraphContainer>
+          <S.TotalSubContainer
+            setting={"outcome"}
+            onClick={toggleSettingAction}
+          >
+            <S.TotalSubText>
+              <S.SubHeaderText setting={setting}>수입</S.SubHeaderText>
               <S.SubTotalText setting={setting}>
                 {setting === "income"
                   ? "- " + formattedOutcomeTotal
@@ -172,11 +176,6 @@ export default function Home() {
         </S.TotalMainContainer>
       </S.SubContainer>
       <S.PriceContainer>
-        <TotalPrice
-          setting={setting}
-          toggleGeneratePriceAction={toggleGeneratePriceAction}
-          totalAmount={formattedTotal}
-        />
         {showGeneratePrice && (
           <GeneratePrice
             setting={setting}

@@ -1,41 +1,48 @@
 import styled from "styled-components";
 
-export const TotalPriceContainer = styled.div<{ setting: string }>`
+export const TotalPriceMain = styled.div`
   width: 100%;
   height: 45px;
-  background: ${({ theme, setting }) =>
-    setting === "income"
-      ? `linear-gradient(to left, ${theme.colors.point}, ${theme.colors.secondary})`
-      : `linear-gradient(to right, ${theme.colors.point}, ${theme.colors.secondary})`};
-  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+export const TotalPriceContainer = styled.div<{ setting: string }>`
+  width: 100%;
+  height: 100%;
+  background: ${({ theme }) =>
+    `linear-gradient(to left, ${theme.colors.outcome}, ${theme.colors.income})`};
 
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px;
+
+  border-radius: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
 `;
 
 export const TotalPriceText = styled.div<{ setting: string }>`
   width: 100%;
   font-size: 18px;
   font-weight: 800;
-  color: #910202;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 export const PriceAddButton = styled.div<{ setting: string }>`
-  width: 30px;
-  height: 30px;
+  width: 45px;
+  height: 45px;
   font-size: 18px;
   background-color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.point : theme.colors.secondary};
+    setting === "income" ? theme.colors.income : theme.colors.outcome};
 
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.secondary : theme.colors.point};
+  color: white;
 `;
