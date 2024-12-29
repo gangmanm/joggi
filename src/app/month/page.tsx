@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useBudgetByTag } from "../../hooks/useBudgetByTag";
 export default function Month() {
   const { selectedDate } = useCalendarContext();
-  const router = useRouter(); // useRouter 대신 next/navigation의 useRouter 사용
+  const router = useRouter();
   const {
     totalByYear,
     totalByDay,
@@ -22,9 +22,9 @@ export default function Month() {
   } = useBudgetByTag();
 
   const handleRouteToDay = () => {
-    router.push("/day"); // "/month"로 라우팅
+    router.push("/day");
   };
-  // selectedDate를 나눠서 년, 월, 일 추출
+
   const [year, month, day] = selectedDate.date.split("-");
 
   return (
