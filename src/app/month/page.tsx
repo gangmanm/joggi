@@ -48,7 +48,7 @@ export default function Month() {
                   {maxOutcomeTagByYear.outcome.toLocaleString()}원을 썼네요
                 </>
               )}{" "}
-            전체적으론 {totalByYear.toLocaleString()}원{" "}
+            전체적으론 {Math.abs(totalByYear).toLocaleString()}원{" "}
             {totalByYear > 0 ? "벌었네요" : "손해네요"}
           </>
         </S.PriceInformContainer>
@@ -79,7 +79,7 @@ export default function Month() {
                   {maxOutcomeTagByMonth.outcome.toLocaleString()}원을 썼네요
                 </>
               )}{" "}
-            전체적으론 {totalByMonth.toLocaleString()}원{" "}
+            전체적으론 {Math.abs(totalByMonth).toLocaleString()}원{" "}
             {totalByMonth > 0 ? "벌었네요" : "손해네요"}
           </>
         </S.PriceInformContainer>
@@ -107,7 +107,7 @@ export default function Month() {
                   {maxOutcomeTagByDay.outcome.toLocaleString()}원을 썼네요
                 </>
               )}{" "}
-            전체적으론 {totalByDay.toLocaleString()}원{" "}
+            전체적으론 {Math.abs(totalByDay).toLocaleString()}원{" "}
             {totalByDay > 0 ? "벌었네요" : "손해네요"}
           </>
         </S.PriceInformContainer>

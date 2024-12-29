@@ -26,7 +26,13 @@ export default function TotalPrice({
 
   return (
     <S.TotalPriceContainer setting={setting}>
-      <S.TotalPriceText setting={setting}>{totalAmount}</S.TotalPriceText>
+      <S.TotalPriceText setting={setting}>
+        {parseInt(totalAmount) > 0
+          ? `+${totalAmount}`
+          : parseInt(totalAmount) < 0
+          ? `-${totalAmount}`
+          : totalAmount}
+      </S.TotalPriceText>
       <S.PriceAddButton
         setting={reverseSetting}
         onClick={toggleGeneratePriceAction}

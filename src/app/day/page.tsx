@@ -152,8 +152,8 @@ export default function Home() {
             </S.HeaderText>
             <S.TotalText setting={setting}>
               {setting === "income"
-                ? formattedIncomeTotal
-                : formattedOutcomeTotal}
+                ? "+ " + formattedIncomeTotal
+                : "- " + formattedOutcomeTotal}
             </S.TotalText>
           </S.TotalMainText>
           <S.TotalSubContainer setting={setting} onClick={toggleSettingAction}>
@@ -164,8 +164,8 @@ export default function Home() {
               </S.SubHeaderText>
               <S.SubTotalText setting={setting}>
                 {setting === "income"
-                  ? formattedOutcomeTotal
-                  : formattedIncomeTotal}
+                  ? "- " + formattedOutcomeTotal
+                  : "+ " + formattedIncomeTotal}
               </S.SubTotalText>
             </S.TotalSubText>
           </S.TotalSubContainer>
