@@ -151,11 +151,9 @@ export default function Home() {
         <S.TotalMainContainer>
           <S.TotalSubContainer setting={"income"} onClick={toggleSettingAction}>
             <S.TotalSubText>
-              <S.SubHeaderText setting={setting}>지출</S.SubHeaderText>
+              <S.SubHeaderText setting={setting}>수입</S.SubHeaderText>
               <S.SubTotalText setting={setting}>
-                {setting === "income"
-                  ? "- " + formattedOutcomeTotal
-                  : "+ " + formattedIncomeTotal}
+                {formattedIncomeTotal}
               </S.SubTotalText>
             </S.TotalSubText>
           </S.TotalSubContainer>
@@ -165,11 +163,9 @@ export default function Home() {
             onClick={toggleSettingAction}
           >
             <S.TotalSubText>
-              <S.SubHeaderText setting={setting}>수입</S.SubHeaderText>
+              <S.SubHeaderText setting={setting}>지출</S.SubHeaderText>
               <S.SubTotalText setting={setting}>
-                {setting === "income"
-                  ? "- " + formattedOutcomeTotal
-                  : "+ " + formattedIncomeTotal}
+                {formattedOutcomeTotal}
               </S.SubTotalText>
             </S.TotalSubText>
           </S.TotalSubContainer>

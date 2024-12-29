@@ -1,17 +1,61 @@
 import { styled } from "styled-components";
 
-export const MainContainer = styled.div<{ setting: string }>`
-  width: 100%;
-  height: 45px;
-  background-color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.secondary : theme.colors.point};
-  display: flex;
+export const MainContainer = styled.div<{ setting: string; tagcolor: string }>`
+  width: 450px;
+  height: 500px;
+  @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
+    width: 100vw;
+    height: 50vh;
+  }
+  background-color: ${({ tagcolor }) => tagcolor};
+  position: fixed;
+  bottom: 0;
   align-items: center;
   margin-top: 12px;
-  border-radius: 6px;
-  padding: 8px;
+  border-radius: 36px 36px 0px 0px;
+  padding: 20px;
 `;
 
+export const InputContainer = styled.div`
+  width: 100%;
+  height: 30%;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const InputTopContainer = styled.div`
+  width: 100%;
+  height: 50%;
+  display: flex;
+`;
+export const InputBottomContainer = styled.div`
+  width: 100%;
+  height: 50%;
+`;
+
+export const InputTagContainer = styled.div<{ tagcolor: string }>`
+  width: 30%;
+  height: 100%;
+  background-color: white;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${({ tagcolor }) => tagcolor};
+  font-weight: 600;
+`;
+
+export const InputNameContainer = styled.div`
+  width: 70%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+`;
 export const TagContainer = styled.div<{ setting: string }>`
   width: 30%;
   height: 100%;
@@ -37,48 +81,30 @@ export const PriceContainer = styled.div<{ setting: string }>`
 
 export const PriceName = styled.input<{ setting: string }>`
   width: 100%;
-  height: 44%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 16px;
-  text-align: center;
-  &::placeholder {
-    color: ${({ theme, setting }) =>
-      setting === "income" ? theme.colors.primary : theme.colors.secondary};
-    font-weight: 600;
-  }
-
-  transform: scale(0.6);
-  transform-origin: left top;
-  padding-left: 30%;
+  border-bottom: 2px solid white;
 `;
 
 export const Price = styled.input.attrs({
   type: "number",
 })<{ setting: string }>`
   width: 100%;
-  height: 60%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 800;
-  text-align: center;
-  padding: 0;
-  border: none;
-  outline: none;
+  border-bottom: 2px solid white;
+  color: white;
+  font-size: 17px;
+  padding-left: 5px;
+`;
 
-  -moz-appearance: textfield;
-  appearance: textfield;
-
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    display: none;
-  }
-
-  &::placeholder {
-    color: ${({ theme, setting }) =>
-      setting === "income" ? theme.colors.primary : theme.colors.secondary};
-    font-weight: 600;
-  }
+export const TagMenu = styled.div`
+  width: 100%;
+  height: 10%;
 `;
