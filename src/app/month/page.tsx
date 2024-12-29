@@ -10,6 +10,9 @@ export default function Month() {
   const { selectedDate } = useCalendarContext();
   const router = useRouter(); // useRouter 대신 next/navigation의 useRouter 사용
   const {
+    totalByYear,
+    totalByDay,
+    totalByMonth,
     maxIncomeTagByYear,
     maxOutcomeTagByYear,
     maxIncomeTagByMonth,
@@ -33,8 +36,9 @@ export default function Month() {
             {maxIncomeTagByYear.tag !== "No Tag" &&
               maxIncomeTagByYear.income > 0 && (
                 <>
-                  주로 {maxIncomeTagByYear.tag}를 통해{" "}
-                  {maxIncomeTagByYear.income.toLocaleString()}원을 벌었네요{" "}
+                  주로 {maxIncomeTagByYear.tag} 를 통해{" "}
+                  {maxIncomeTagByYear.income.toLocaleString()}
+                  원을 벌었네요{" "}
                 </>
               )}
             {maxOutcomeTagByYear.tag !== "No Tag" &&
@@ -43,7 +47,9 @@ export default function Month() {
                   주로 {maxOutcomeTagByYear.tag}에{" "}
                   {maxOutcomeTagByYear.outcome.toLocaleString()}원을 썼네요
                 </>
-              )}
+              )}{" "}
+            전체적으론 {totalByYear.toLocaleString()}원을{" "}
+            {totalByYear > 0 ? "벌었네요" : "손해네요"}
           </>
         </S.PriceInformContainer>
         <S.DateContainer>
@@ -72,7 +78,9 @@ export default function Month() {
                   주로 {maxOutcomeTagByMonth.tag}에{" "}
                   {maxOutcomeTagByMonth.outcome.toLocaleString()}원을 썼네요
                 </>
-              )}
+              )}{" "}
+            전체적으론 {totalByMonth.toLocaleString()}원을{" "}
+            {totalByMonth > 0 ? "벌었네요" : "손해네요"}
           </>
         </S.PriceInformContainer>
       </S.InformationContainer>
@@ -98,7 +106,9 @@ export default function Month() {
                   주로 {maxOutcomeTagByDay.tag}에{" "}
                   {maxOutcomeTagByDay.outcome.toLocaleString()}원을 썼네요
                 </>
-              )}
+              )}{" "}
+            전체적으론 {totalByDay.toLocaleString()}원을{" "}
+            {totalByDay > 0 ? "벌었네요" : "손해네요"}
           </>
         </S.PriceInformContainer>
         <S.DateContainer onClick={handleRouteToDay}>

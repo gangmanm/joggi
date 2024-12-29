@@ -27,6 +27,8 @@ export const useBudgetByTag = () => {
 
   const calculateByScope = (scope: "year" | "month" | "day") => {
     const grouped: Record<string, { income: number; outcome: number }> = {};
+    let totalIncome = 0;
+    let totalOutcome = 0;
 
     budgets.forEach((budget) => {
       const date = budget.date || budget.created_at;
@@ -53,8 +55,10 @@ export const useBudgetByTag = () => {
 
       if (isIncome) {
         grouped[key].income += amount;
+        totalIncome += amount;
       } else {
         grouped[key].outcome += amount;
+        totalOutcome += amount;
       }
     });
 
@@ -66,7 +70,7 @@ export const useBudgetByTag = () => {
       })
     );
 
-    return result;
+    return { result, totalIncome, totalOutcome };
   };
 
   const yearlyData = useMemo(
@@ -83,51 +87,54 @@ export const useBudgetByTag = () => {
   );
 
   const maxIncomeTagByYear = useMemo(() => {
-    return yearlyData.reduce(
+    return yearlyData.result.reduce(
       (acc, item) => (item.income > acc.income ? item : acc),
       { tag: "No Tag", income: 0, outcome: 0 }
     );
-  }, [yearlyData]);
+  }, [yearlyData.result]);
 
   const maxOutcomeTagByYear = useMemo(() => {
-    return yearlyData.reduce(
+    return yearlyData.result.reduce(
       (acc, item) => (item.outcome > acc.outcome ? item : acc),
       { tag: "No Tag", income: 0, outcome: 0 }
     );
-  }, [yearlyData]);
+  }, [yearlyData.result]);
 
   const maxIncomeTagByMonth = useMemo(() => {
-    return monthlyData.reduce(
+    return monthlyData.result.reduce(
       (acc, item) => (item.income > acc.income ? item : acc),
       { tag: "No Tag", income: 0, outcome: 0 }
     );
-  }, [monthlyData]);
+  }, [monthlyData.result]);
 
   const maxOutcomeTagByMonth = useMemo(() => {
-    return monthlyData.reduce(
+    return monthlyData.result.reduce(
       (acc, item) => (item.outcome > acc.outcome ? item : acc),
       { tag: "No Tag", income: 0, outcome: 0 }
     );
-  }, [monthlyData]);
+  }, [monthlyData.result]);
 
   const maxIncomeTagByDay = useMemo(() => {
-    return dailyData.reduce(
+    return dailyData.result.reduce(
       (acc, item) => (item.income > acc.income ? item : acc),
       { tag: "No Tag", income: 0, outcome: 0 }
     );
-  }, [dailyData]);
+  }, [dailyData.result]);
 
   const maxOutcomeTagByDay = useMemo(() => {
-    return dailyData.reduce(
+    return dailyData.result.reduce(
       (acc, item) => (item.outcome > acc.outcome ? item : acc),
       { tag: "No Tag", income: 0, outcome: 0 }
     );
-  }, [dailyData]);
+  }, [dailyData.result]);
 
   return {
-    yearlyData,
-    monthlyData,
-    dailyData,
+    yearlyData: yearlyData.result,
+    monthlyData: monthlyData.result,
+    dailyData: dailyData.result,
+    totalByYear: yearlyData.totalIncome - yearlyData.totalOutcome,
+    totalByMonth: monthlyData.totalIncome - monthlyData.totalOutcome,
+    totalByDay: dailyData.totalIncome - dailyData.totalOutcome,
     maxIncomeTagByYear,
     maxOutcomeTagByYear,
     maxIncomeTagByMonth,

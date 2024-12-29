@@ -54,7 +54,6 @@ export const SubText = styled.div`
 export const MarginBottom = styled.div`
   width: 100%;
   height: 100px;
-  background-color: red;
 `;
 
 export const PriceInformContainer = styled.div<{
@@ -67,9 +66,35 @@ export const PriceInformContainer = styled.div<{
   border-radius: 10px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   padding: 10px;
   color: #787878;
   font-weight: 700;
   margin-left: ${({ $isLeft }) => ($isLeft ? "8px" : "0px")};
   margin-right: ${({ $isLeft }) => ($isLeft ? "0px" : "8px")};
+`;
+
+export const IncomeInformation = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  font-size: 15px;
+  color: ${({ theme }) => theme.colors.point};
+`;
+export const OutcomeInformation = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  font-size: 15px;
+  color: ${({ theme }) => theme.colors.point};
+`;
+
+export const TotalInformation = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
 `;

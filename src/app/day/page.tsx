@@ -135,7 +135,6 @@ export default function Home() {
     return <S.MainContainer>{error}</S.MainContainer>;
   }
 
-  // selectedDate와 일치하는 항목 필터링
   const filteredEntries = entries.filter(
     (entry) => entry.date === selectedDate.date
   );

@@ -59,6 +59,7 @@ export const Day = styled.div<{
   $isSelectedDate: boolean;
   $isSunday: boolean;
   $isProfit: boolean;
+  $isCurrentDate: boolean;
 }>`
   width: 100%;
   height: 100%;
@@ -67,11 +68,14 @@ export const Day = styled.div<{
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: ${({ $isProfit, theme }) =>
-    $isProfit ? "#ffffff" : theme.colors.point};
+  color: ${({ $isCurrentDate, $isProfit, theme }) =>
+    $isCurrentDate
+      ? "#860000" // Set red color for current date
+      : $isProfit
+      ? "#ffffff"
+      : theme.colors.point};
   border: 3px solid
-    ${({ $isSelectedDate, theme }) =>
-      $isSelectedDate ? "#951111" : "transparent"};
+    ${({ $isSelectedDate }) => ($isSelectedDate ? "#951111" : "transparent")};
   background-color: ${({ $isProfit, theme }) =>
     $isProfit ? theme.colors.point : theme.colors.secondary};
 

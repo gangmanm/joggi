@@ -16,7 +16,7 @@ const CalendarBody: React.FC = () => {
   const weeks = ["일", "월", "화", "수", "목", "금", "토"];
   const { daysInMonth, selectedDate, currentDate } = useCalendarContext();
   const [entries, setEntries] = useState<Budget[]>([]);
-
+  const now = new Date();
   const supabase = createClient();
 
   // daysInMonth 배열의 타입 변환
@@ -81,6 +81,15 @@ const CalendarBody: React.FC = () => {
             <S.Day
               onClick={() => selectedDate.selectDate(date.date)}
               $isCurrentMonth={currentDate.month === date.month}
+              $isCurrentDate={
+                date.date ===
+                `${new Date().getFullYear()}-${String(
+                  new Date().getMonth() + 1
+                ).padStart(2, "0")}-${String(new Date().getDate()).padStart(
+                  2,
+                  "0"
+                )}`
+              }
               $isSelectedDate={selectedDate.date === date.date}
               $isSunday={date.dayIndexOfWeek === 0}
               className={date.month}
