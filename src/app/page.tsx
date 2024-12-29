@@ -52,7 +52,7 @@ export default function Home() {
     <S.Main>
       <S.ImageContainer>
         <Image
-          src="/image/logo.png"
+          src="/image/jogi-logo.png"
           alt="로고 아이콘"
           layout="fill"
           objectFit="contain"

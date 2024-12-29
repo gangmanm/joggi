@@ -11,6 +11,9 @@ export const theme = {
     secondary: "#FFE1A5",
     point: "#E7740F",
     white: "#FFFFFF",
+    mutual: "#5C165B",
+    income: "#D02A2A",
+    outcome: "#170CB7",
   },
 
   fontsize: {

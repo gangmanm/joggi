@@ -24,14 +24,14 @@ export const Title = styled.div`
   height: 76px;
   font-size: 67px;
   font-weight: 900;
-  color: ${({ theme }) => theme.colors.point};
+  color: ${({ theme }) => theme.colors.mutual};
   text-align: center;
 `;
 
 export const LoginButton = styled.div`
   width: 150px;
   height: 47px;
-  background-color: ${({ theme }) => theme.colors.point};
+  background-color: ${({ theme }) => theme.colors.mutual};
   box-shadow: inset 0px 3px 3px rgba(110, 110, 110, 0.3);
   display: flex;
   justify-content: center;
