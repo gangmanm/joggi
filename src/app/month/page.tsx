@@ -31,7 +31,11 @@ export default function Month() {
     <S.MainContainer>
       <Menu />
       <S.InformationContainer>
-        <S.PriceInformContainer $isLeft={false}>
+        <S.DateContainer>
+          <S.DateText>{year}년</S.DateText>
+          <S.SubText>당신은</S.SubText>
+        </S.DateContainer>
+        <S.PriceInformContainer $isLeft={true}>
           <>
             {maxIncomeTagByYear.tag !== "No Tag" &&
               maxIncomeTagByYear.income > 0 && (
@@ -52,18 +56,9 @@ export default function Month() {
             {totalByYear > 0 ? "벌었네요" : "손해네요"}
           </>
         </S.PriceInformContainer>
-        <S.DateContainer>
-          <S.DateText>{year}년</S.DateText>
-          <S.SubText>당신은</S.SubText>
-        </S.DateContainer>
       </S.InformationContainer>
       <S.InformationContainer>
-        <S.DateContainer>
-          {" "}
-          <S.DateText>{month}월</S.DateText>
-          <S.SubText>당신은</S.SubText>
-        </S.DateContainer>
-        <S.PriceInformContainer $isLeft={true}>
+        <S.PriceInformContainer $isLeft={false}>
           <>
             {maxIncomeTagByMonth.tag !== "No Tag" &&
               maxIncomeTagByMonth.income > 0 && (
@@ -83,6 +78,11 @@ export default function Month() {
             {totalByMonth > 0 ? "벌었네요" : "손해네요"}
           </>
         </S.PriceInformContainer>
+        <S.DateContainer>
+          {" "}
+          <S.DateText>{month}월</S.DateText>
+          <S.SubText>당신은</S.SubText>
+        </S.DateContainer>
       </S.InformationContainer>
 
       {/* 캘린더 헤더 및 본문 */}
@@ -91,7 +91,11 @@ export default function Month() {
 
       {/* 선택된 날짜 정보 */}
       <S.InformationContainer>
-        <S.PriceInformContainer $isLeft={false}>
+        <S.DateContainer onClick={handleRouteToDay}>
+          <S.DateText>{day}일</S.DateText>
+          <S.SubText>당신은</S.SubText>
+        </S.DateContainer>
+        <S.PriceInformContainer $isLeft={true}>
           <>
             {maxIncomeTagByDay.tag !== "No Tag" &&
               maxIncomeTagByDay.income > 0 && (
@@ -111,10 +115,6 @@ export default function Month() {
             {totalByDay > 0 ? "벌었네요" : "손해네요"}
           </>
         </S.PriceInformContainer>
-        <S.DateContainer onClick={handleRouteToDay}>
-          <S.DateText>{day}일</S.DateText>
-          <S.SubText>당신은</S.SubText>
-        </S.DateContainer>
       </S.InformationContainer>
       <S.MarginBottom></S.MarginBottom>
     </S.MainContainer>
