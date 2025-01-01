@@ -155,13 +155,14 @@ export default function Home() {
           setting={setting}
           toggleGeneratePriceAction={toggleGeneratePriceAction}
           totalAmount={formattedTotal}
+          setSettingAction={setSetting}
         />
         <S.TotalMainContainer>
           <S.TotalSubContainer setting="income" onClick={toggleSettingAction}>
             <S.TotalSubText>
               <S.SubHeaderText setting={setting}>수입</S.SubHeaderText>
               <S.SubTotalText setting={setting}>
-                {formattedIncomeTotal}
+                +{formattedIncomeTotal}
               </S.SubTotalText>
             </S.TotalSubText>
           </S.TotalSubContainer>
@@ -170,7 +171,7 @@ export default function Home() {
             <S.TotalSubText>
               <S.SubHeaderText setting={setting}>지출</S.SubHeaderText>
               <S.SubTotalText setting={setting}>
-                {formattedOutcomeTotal}
+                -{formattedOutcomeTotal}
               </S.SubTotalText>
             </S.TotalSubText>
           </S.TotalSubContainer>
