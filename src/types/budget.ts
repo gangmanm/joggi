@@ -7,6 +7,7 @@ export type Budget = {
   tag: string | null;
   user_id: string | null;
   date: string | null;
+  color: string | null;
 };
 
 export type InputValue = {

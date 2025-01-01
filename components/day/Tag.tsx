@@ -23,8 +23,14 @@ export default function Tag({
   onTagChangeAction,
 }: TagProps) {
   const [tags, setTags] = useState<TagRow[]>([]);
+  const [selectedTagId, setSelectedTagId] = useState<string | null>(null);
 
-  const handleSelectTag = (tagName: string, tagColor: string) => {
+  const handleSelectTag = (
+    tagId: string,
+    tagName: string,
+    tagColor: string
+  ) => {
+    setSelectedTagId(tagId);
     setTagAction(tagName);
     setTagColorAction(tagColor);
     onTagChangeAction(tagName);
@@ -35,6 +41,16 @@ export default function Tag({
       try {
         const fetchedTags = await getTag(userId);
         setTags(fetchedTags);
+
+        // 기본적으로 첫 번째 태그 선택
+        if (fetchedTags.length > 0) {
+          const firstTag = fetchedTags[0];
+          handleSelectTag(
+            firstTag.id,
+            firstTag.name || "태그",
+            firstTag.color || ""
+          );
+        }
       } catch (err) {
         console.error("Failed to fetch tags:", err);
       }
@@ -51,7 +67,10 @@ export default function Tag({
         <S.TagBox
           key={tag.id}
           setting={setting}
-          onClick={() => handleSelectTag(tag.name || "태그", tag.color || "")}
+          selected={selectedTagId === tag.id} // 선택된 태그인지 확인
+          onClick={() =>
+            handleSelectTag(tag.id, tag.name || "태그", tag.color || "")
+          }
         >
           <S.TagColor tagcolor={tag.color || ""} />
           <S.TagText tagcolor={tag.color || ""}>{tag.name}</S.TagText>

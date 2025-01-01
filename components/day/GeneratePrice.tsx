@@ -9,7 +9,7 @@ interface PriceProps {
   onSourceChangeAction: (value: string) => void;
   onAmountChangeAction: (value: string) => void;
   onTagChangeAction: (value: string) => void;
-  onKeyDownAction: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onAddBudgetAction: () => void;
   userId: string;
 }
 
@@ -18,7 +18,7 @@ export default function GeneratePrice({
   onSourceChangeAction,
   onAmountChangeAction,
   onTagChangeAction,
-  onKeyDownAction,
+  onAddBudgetAction,
   userId,
 }: PriceProps) {
   const [tag, setTag] = useState("태그");
@@ -26,6 +26,9 @@ export default function GeneratePrice({
 
   return (
     <S.MainContainer setting={setting} tagcolor={tagColor}>
+      <S.Header>
+        <S.HeaderButton onClick={() => onAddBudgetAction()}>+</S.HeaderButton>
+      </S.Header>
       <S.InputContainer>
         <S.InputTopContainer>
           <S.InputTagContainer tagcolor={tagColor}>{tag}</S.InputTagContainer>
@@ -35,7 +38,6 @@ export default function GeneratePrice({
                 setting === "income" ? "자세한 수입 출처" : "자세한 지출 출처"
               }
               onChange={(e) => onSourceChangeAction(e.target.value)}
-              onKeyDown={onKeyDownAction}
               setting={setting}
             />
           </S.InputNameContainer>
@@ -44,7 +46,6 @@ export default function GeneratePrice({
           <S.Price
             setting={setting}
             onChange={(e) => onAmountChangeAction(e.target.value)}
-            onKeyDown={onKeyDownAction}
             placeholder="금액"
           />
         </S.InputBottomContainer>

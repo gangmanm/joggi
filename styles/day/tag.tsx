@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const TagContainer = styled.div`
   width: 100%;
-  height: 50%;
+  height: 60%;
   margin-bottom: 10px;
   background-color: white;
   border-radius: 7px;
@@ -10,19 +10,23 @@ export const TagContainer = styled.div`
   padding: 10px;
 `;
 
-export const TagBox = styled.div<{ setting: string }>`
+export const TagBox = styled.div<{ setting: string; selected: boolean }>`
   width: 70px;
   height: 70px;
-  margin-left: 7px;
-  margin-right: 7px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin: 5px 7px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 
-  border: 1px solid black;
+  border: ${({ selected, setting, theme }) =>
+    selected
+      ? `2px solid ${
+          setting === "income" ? theme.colors.income : theme.colors.outcome
+        }`
+      : "2px solid gray"};
+
+  cursor: pointer;
 `;
 
 export const TagText = styled.div<{ tagcolor: string }>`

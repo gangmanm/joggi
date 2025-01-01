@@ -18,7 +18,6 @@ export const MenuContainer = styled.div`
   width: 450px;
   height: 100%;
   z-index: 10;
-  background-color: red;
 `;
 
 export const Header = styled.div`

@@ -7,7 +7,8 @@ export const MainContainer = styled.div<{ setting: string; tagcolor: string }>`
     width: 100vw;
     height: 50vh;
   }
-  background-color: ${({ tagcolor }) => tagcolor};
+  background-color: ${({ tagcolor, theme }) =>
+    tagcolor ? tagcolor : theme.colors.mutual};
   position: fixed;
   bottom: 0;
   align-items: center;
@@ -15,11 +16,27 @@ export const MainContainer = styled.div<{ setting: string; tagcolor: string }>`
   border-radius: 36px 36px 0px 0px;
   padding: 20px;
 `;
+export const Header = styled.div`
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+`;
 
+export const HeaderButton = styled.div`
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+`;
 export const InputContainer = styled.div`
   width: 100%;
-  height: 30%;
-  margin-top: 30px;
+  height: 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,6 +104,10 @@ export const PriceName = styled.input<{ setting: string }>`
   align-items: center;
   font-size: 16px;
   border-bottom: 2px solid white;
+
+  &::placeholder {
+    color: white;
+  }
 `;
 
 export const Price = styled.input.attrs({
@@ -102,6 +123,10 @@ export const Price = styled.input.attrs({
   color: white;
   font-size: 17px;
   padding-left: 5px;
+
+  &::placeholder {
+    color: white;
+  }
 `;
 
 export const TagMenu = styled.div`

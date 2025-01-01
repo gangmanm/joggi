@@ -1,10 +1,9 @@
 import { styled } from "styled-components";
 
-export const MainContainer = styled.div<{ setting: string }>`
+export const MainContainer = styled.div<{ setting: string; color: string }>`
   width: 100%;
   height: 45px;
-  background-color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.secondary : theme.colors.point};
+  background-color: ${({ color }) => color};
   display: flex;
   align-items: center;
   margin-top: 12px;
@@ -12,17 +11,13 @@ export const MainContainer = styled.div<{ setting: string }>`
   padding: 8px;
 `;
 
-export const TagContainer = styled.div<{ setting: string }>`
+export const TagContainer = styled.div<{ setting: string; color: string }>`
   width: 30%;
   height: 100%;
   font-weight: 700;
   font-size: 13px;
-  background-color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.point : theme.colors.secondary};
-
-  color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.secondary : theme.colors.point};
-
+  background-color: white;
+  color: ${({ color }) => color};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,17 +26,14 @@ export const TagContainer = styled.div<{ setting: string }>`
 export const PriceContainer = styled.div<{ setting: string }>`
   width: calc(70% - 30px);
   height: 100%;
-  color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.point : theme.colors.secondary};
+  color: white;
 `;
 
-export const DeleteContainer = styled.div<{ setting: string }>`
+export const DeleteContainer = styled.div<{ color: string }>`
   width: 30px;
   height: 30px;
-  color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.secondary : theme.colors.point};
-  background-color: ${({ theme, setting }) =>
-    setting === "income" ? theme.colors.point : theme.colors.secondary};
+  color: ${({ color }) => color};
+  background-color: white;
   border-radius: 100%;
   display: flex;
   justify-content: center;

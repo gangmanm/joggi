@@ -1,6 +1,4 @@
 "use client";
-
-import { useEffect, useState } from "react";
 import * as S from "../../styles/day/total-price";
 
 interface PriceProps {
@@ -24,7 +22,7 @@ export default function TotalPrice({
           {parseInt(totalAmount) > 0
             ? `+${totalAmount}`
             : parseInt(totalAmount) < 0
-            ? `-${totalAmount}`
+            ? `${totalAmount}`
             : totalAmount}
         </S.TotalPriceText>
       </S.TotalPriceContainer>
