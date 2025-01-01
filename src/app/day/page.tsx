@@ -158,7 +158,11 @@ export default function Home() {
           setSettingAction={setSetting}
         />
         <S.TotalMainContainer>
-          <S.TotalSubContainer setting="income" onClick={toggleSettingAction}>
+          <S.TotalSubContainer
+            setting="income"
+            onClick={toggleSettingAction}
+            margin={"0px"}
+          >
             <S.TotalSubText>
               <S.SubHeaderText setting={setting}>수입</S.SubHeaderText>
               <S.SubTotalText setting={setting}>
@@ -166,8 +170,11 @@ export default function Home() {
               </S.SubTotalText>
             </S.TotalSubText>
           </S.TotalSubContainer>
-          <S.GraphContainer setting={setting}></S.GraphContainer>
-          <S.TotalSubContainer setting="outcome" onClick={toggleSettingAction}>
+          <S.TotalSubContainer
+            setting="outcome"
+            onClick={toggleSettingAction}
+            margin={"10px"}
+          >
             <S.TotalSubText>
               <S.SubHeaderText setting={setting}>지출</S.SubHeaderText>
               <S.SubTotalText setting={setting}>

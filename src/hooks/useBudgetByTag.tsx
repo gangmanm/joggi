@@ -26,7 +26,10 @@ export const useBudgetByTag = () => {
   const selectedDay = selectedDate.date; // YYYY-MM-DD
 
   const calculateByScope = (scope: "year" | "month" | "day") => {
-    const grouped: Record<string, { income: number; outcome: number }> = {};
+    const grouped: Record<
+      string,
+      { income: number; outcome: number; color: string }
+    > = {};
     let totalIncome = 0;
     let totalOutcome = 0;
 
@@ -50,7 +53,11 @@ export const useBudgetByTag = () => {
       const isIncome = budget.setting === "income";
 
       if (!grouped[key]) {
-        grouped[key] = { income: 0, outcome: 0 };
+        grouped[key] = {
+          income: 0,
+          outcome: 0,
+          color: budget.color || "#cccccc",
+        };
       }
 
       if (isIncome) {
@@ -63,10 +70,11 @@ export const useBudgetByTag = () => {
     });
 
     const result = Object.entries(grouped).map(
-      ([tag, { income, outcome }]) => ({
+      ([tag, { income, outcome, color }]) => ({
         tag,
         income,
         outcome,
+        color,
       })
     );
 

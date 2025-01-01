@@ -23,6 +23,7 @@ export default function Tag({
   onTagChangeAction,
 }: TagProps) {
   const [tags, setTags] = useState<TagRow[]>([]);
+  const [filteredTags, setFilteredTags] = useState<TagRow[]>([]);
   const [selectedTagId, setSelectedTagId] = useState<string | null>(null);
 
   const handleSelectTag = (
@@ -61,9 +62,25 @@ export default function Tag({
     }
   }, [userId]);
 
+  useEffect(() => {
+    // setting 값에 따라 태그 필터링
+    const filtered = tags.filter((tag) => tag.setting === setting);
+    setFilteredTags(filtered);
+
+    // 필터링된 첫 번째 태그 자동 선택
+    if (filtered.length > 0) {
+      const firstFilteredTag = filtered[0];
+      handleSelectTag(
+        firstFilteredTag.id,
+        firstFilteredTag.name || "태그",
+        firstFilteredTag.color || ""
+      );
+    }
+  }, [tags, setting]);
+
   return (
     <S.TagContainer>
-      {tags.map((tag) => (
+      {filteredTags.map((tag) => (
         <S.TagBox
           key={tag.id}
           setting={setting}

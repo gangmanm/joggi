@@ -82,7 +82,10 @@ export const TotalText = styled.div<{ setting: string }>`
   justify-content: center;
 `;
 
-export const TotalSubContainer = styled.div<{ setting: string }>`
+export const TotalSubContainer = styled.div<{
+  setting: string;
+  margin: string;
+}>`
   width: 100%;
   height: 100%;
   background-color: ${({ theme, setting }) =>
@@ -93,12 +96,14 @@ export const TotalSubContainer = styled.div<{ setting: string }>`
   flex-direction: column;
   align-items: center;
   color: white;
+
+  /* margin-left 동적 설정 */
+  margin-left: ${({ margin }) => margin};
 `;
 
 export const GraphContainer = styled.div<{ setting: string }>`
   width: 100%;
   height: 100%;
-  background-color: red;
 `;
 
 export const SubHeaderText = styled.div<{ setting: string }>`
@@ -112,13 +117,23 @@ export const SubHeaderText = styled.div<{ setting: string }>`
 
 export const SubTotalText = styled.div<{ setting: string }>`
   width: 100%;
-  width: 100%;
-  height: 100%;
+  height: auto; /* 높이를 텍스트 내용에 맞게 자동 조정 */
   font-size: 20px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
+
+  /* 줄바꿈 처리 */
+  white-space: normal; /* 줄바꿈 허용 */
+  word-break: break-word; /* 긴 단어가 있을 경우 줄바꿈 처리 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+  padding: 10px; /* 내부 여백 추가 */
+
+  /* 최대 너비 제한 (필요한 경우 추가) */
+  max-width: 100%; /* 컨테이너 너비를 초과하지 않도록 제한 */
+  overflow-wrap: break-word; /* 텍스트가 넘칠 경우 줄바꿈 */
 `;
 
 export const PriceContainer = styled.div`

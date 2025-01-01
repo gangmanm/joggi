@@ -25,8 +25,9 @@ export const TagContainer = styled.div<{ setting: string; color: string }>`
 
 export const PriceContainer = styled.div<{ setting: string }>`
   width: calc(70% - 30px);
-  height: 100%;
+  height: auto;
   color: white;
+  font-size: 16px; /* 기본 글자 크기 */
 `;
 
 export const DeleteContainer = styled.div<{ color: string }>`
@@ -58,4 +59,15 @@ export const Price = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 800;
+
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+
+  ${({ children }) =>
+    typeof children === "string" && children.length > 20
+      ? `
+      font-size: 12px; /* 글자 크기를 작게 설정 */
+    `
+      : ""}
 `;
