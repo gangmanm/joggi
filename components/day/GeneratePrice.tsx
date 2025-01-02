@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import * as S from "../../styles/day/generate-price";
 import { useState } from "react";
 import Tag from "./Tag";
@@ -23,6 +24,13 @@ export default function GeneratePrice({
 }: PriceProps) {
   const [tag, setTag] = useState("태그");
   const [tagColor, setTagColor] = useState("");
+
+  const router = useRouter();
+
+  const handleRouteToTag = (setting: string) => {
+    const queryString = `?setting=${encodeURIComponent(setting)}`;
+    router.push(`/tag${queryString}`);
+  };
 
   return (
     <S.MainContainer setting={setting} tagcolor={tagColor}>
@@ -50,7 +58,9 @@ export default function GeneratePrice({
           />
         </S.InputBottomContainer>
       </S.InputContainer>
-      <S.TagMenu></S.TagMenu>
+      <S.TagMenu onClick={() => handleRouteToTag(setting)}>
+        태그 추가하기
+      </S.TagMenu>
       <Tag
         setting={setting}
         userId={userId}

@@ -5,6 +5,7 @@ import StyledComponentsRegistry from "./registry";
 import LoadingWrapper from "../../components/LoadingWrapper";
 import { CalendarContext } from "../../components/month/useCalendarContext";
 import useCalendar from "../hooks/useCalendar";
+import { SessionProvider } from "./context/SessionContext";
 
 const metadata = {
   title: "JOGI",
@@ -32,7 +33,9 @@ export default function RootLayout({
         <body>
           <CalendarContext.Provider value={calendar}>
             <StyledComponentsRegistry>
-              <LoadingWrapper>{children}</LoadingWrapper>
+              <SessionProvider>
+                <LoadingWrapper>{children}</LoadingWrapper>
+              </SessionProvider>
             </StyledComponentsRegistry>
           </CalendarContext.Provider>
         </body>
