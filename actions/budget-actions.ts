@@ -18,6 +18,35 @@ async function getSupabaseClient() {
   }
 }
 
+// 태그 업데이트
+export async function updateTag(
+  tagId: string,
+  tagData: Partial<Omit<TagRow, "id" | "user_id">> // 업데이트할 필드만 전달
+): Promise<TagRow | null> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { data, error } = await supabase
+      .from("tag")
+      .update(tagData)
+      .eq("id", tagId)
+      .select(); // 업데이트된 데이터를 반환
+
+    if (error) {
+      console.error("Error updating tag:", error.message);
+      return null;
+    }
+
+    return data[0] || null; // 업데이트된 첫 번째 태그 반환
+  } catch (err) {
+    console.error(
+      "Unexpected error in updateTag:",
+      err instanceof Error ? err.message : err
+    );
+    return null;
+  }
+}
+
 // 태그 가져오기
 export async function getTag(userId: string): Promise<TagRow[]> {
   try {

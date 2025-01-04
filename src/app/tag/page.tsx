@@ -6,6 +6,7 @@ import {
   getBudget,
   deleteBudget,
   deleteTag,
+  updateTag,
 } from "../../../actions/budget-actions";
 import { useSessionContext } from "../context/SessionContext";
 import { Database } from "../../../src/types/supabase";
@@ -29,28 +30,56 @@ export default function Tag() {
   } | null>(null);
   const [selectedTag, setSelectedTag] = useState<TagRow | null>(null);
   const [warningOpen, setWarningOpen] = useState(false);
+  const [tagButtonName, setTagButtonName] = useState("태그 추가하기");
 
   const handleAddTagAction = async () => {
-    if (!newTagName) {
-      alert("태그 명을 입력하세요");
-    }
-    try {
-      const newTag: Omit<Tag, "id"> = {
+    if (tagButtonName === "태그 추가하기") {
+      if (!newTagName) {
+        alert("태그 명을 입력하세요");
+      }
+
+      const tagExist = tags.filter((tag) => tag.name === newTagName);
+
+      if (tagExist.length > 0) {
+        alert("이미 존재하는 태그입니다.");
+        return;
+      }
+      try {
+        const newTag: Omit<Tag, "id"> = {
+          name: newTagName,
+          color,
+          setting: setting || "income",
+          created_at: new Date().toISOString(),
+          user_id: session?.user.id || "",
+        };
+        const success = await addTag(newTag);
+
+        if (!success) throw new Error("Add Tag failed");
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      if (!selectedTag || !selectedTag.id) {
+        console.error("Selected tag or tag ID is missing.");
+        return;
+      }
+
+      const updatedTag = await updateTag(selectedTag.id, {
         name: newTagName,
-        color,
-        setting: setting || "income",
-        created_at: new Date().toISOString(),
-        user_id: session?.user.id || "",
-      };
-      const success = await addTag(newTag);
+        color: color,
+      });
 
-      if (!success) throw new Error("Add Tag failed");
-
-      const userTags = await getTag(session?.user.id || "");
-      setTags(userTags || []);
-    } catch (err) {
-      console.error(err);
+      if (updatedTag) {
+        alert("태그가 수정되었습니다");
+        setTagButtonName("태그 추가하기");
+        setNewTagName("");
+      } else {
+        console.error("Failed to update tag.");
+      }
     }
+
+    const userTags = await getTag(session?.user.id || "");
+    setTags(userTags || []);
   };
 
   const handleMenuClick = (event: React.MouseEvent, tag: TagRow) => {
@@ -91,6 +120,11 @@ export default function Tag() {
       console.error("Failed to delete budgets:", err);
       alert("예산 삭제 중 오류가 발생했습니다.");
     }
+  };
+  const onClickEdit = () => {
+    setTagButtonName("태그 편집하기");
+    setNewTagName(selectedTag?.name || ""); // 기본값 처리
+    setColor(selectedTag?.color || ""); // 기본값 처리
   };
 
   const closeMenu = () => {
@@ -176,7 +210,7 @@ export default function Tag() {
             setting={setting || "income"}
             onClick={handleAddTagAction}
           >
-            태그 추가하기
+            {tagButtonName}
           </S.TagAddButton>
         </S.TagColorBox>
       </S.TagGenerate>
@@ -213,7 +247,7 @@ export default function Tag() {
             left: menuPosition.x,
           }}
         >
-          <S.TagMenuText>편집하기</S.TagMenuText>
+          <S.TagMenuText onClick={onClickEdit}>편집하기</S.TagMenuText>
           <S.TagMenuText onClick={() => setWarningOpen(true)}>
             삭제하기
           </S.TagMenuText>
