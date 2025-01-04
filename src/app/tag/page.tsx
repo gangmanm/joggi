@@ -56,7 +56,7 @@ export default function Tag() {
   const handleMenuClick = (event: React.MouseEvent, tag: TagRow) => {
     event.stopPropagation();
     const rect = (event.target as HTMLElement).getBoundingClientRect();
-    setMenuPosition({ x: rect.right - 70, y: rect.top + 20 });
+    setMenuPosition({ x: rect.left + rect.width / 3, y: rect.top + 20 });
     setSelectedTag(tag);
   };
 

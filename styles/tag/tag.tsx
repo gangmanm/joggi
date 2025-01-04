@@ -79,21 +79,19 @@ export const TagGenerateInput = styled.input<{ tagcolor: string }>`
 `;
 
 export const TagContainer = styled.div`
-  width: 100%;
+  width: 90%;
   max-height: 60%;
-  margin-bottom: 10px;
   border-radius: 7px;
-  display: flex;
-  flex-wrap: wrap; /* 가로로 꽉 차면 다음 줄로 이동 */
-  gap: 5px; /* 요소 간 간격 설정 */
-  align-items: flex-start; /* 세로 방향 간격 최소화 */
-  overflow-y: scroll;
+  display: grid; /* Grid 레이아웃 사용 */
+  grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
+  align-items: flex-start;
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+  gap: 10px;
 `;
 
 export const TagBox = styled.div`
-  width: 70px;
+  width: 100%;
   height: 90px;
-  margin: 5px 7px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -164,4 +162,10 @@ export const TagMenuText = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 12px;
+  background-color: transparent; /* 기본 배경색 */
+  transition: background-color 0.3s; /* 부드러운 전환 효과 */
+
+  &:hover {
+    background-color: #9658d7; /* hover 시 배경색 */
+  }
 `;

@@ -9,6 +9,8 @@ export const TagContainer = styled.div`
   display: flex;
   flex-wrap: wrap; /* 가로로 꽉 차면 다음 줄로 이동 */
   padding: 10px;
+  display: grid; /* Grid 레이아웃 사용 */
+  grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
   overflow-y: scroll;
 `;
 
