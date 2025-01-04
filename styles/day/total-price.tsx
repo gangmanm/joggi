@@ -15,6 +15,7 @@ export const TotalPriceContainer = styled.div<{ setting: string }>`
     `linear-gradient(to left, ${theme.colors.outcome}, ${theme.colors.income})`};
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -23,6 +24,14 @@ export const TotalPriceContainer = styled.div<{ setting: string }>`
   margin-right: 5px;
 `;
 
+export const SelectedDate = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+`;
 export const TotalPriceText = styled.div<{ setting: string }>`
   width: 100%;
   font-size: 18px;

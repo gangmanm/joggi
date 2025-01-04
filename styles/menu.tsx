@@ -4,7 +4,8 @@ export const MenuContainer = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 8px; /* 원형으로 만듭니다 */
-  background-color: #ff9a2f; /* 배경색을 지정 (필요에 따라 변경) */
+  background-color: ${({ theme }) =>
+    theme.colors.mutual}; /* 배경색을 지정 (필요에 따라 변경) */
   position: fixed;
   bottom: 30px;
   right: 30px;
@@ -38,7 +39,8 @@ export const SubMenuImageContainer = styled.div`
 export const MenuOpen = styled.div`
   width: 50px; /* 네모박스의 너비 */
   height: 150px; /* 네모박스의 높이 */
-  background-color: #ff9a2f; /* 네모박스의 배경색 */
+  background-color: ${({ theme }) =>
+    theme.colors.mutual}; /* 배경색을 지정 (필요에 따라 변경) */
   position: fixed;
   bottom: 75px;
   right: 30px;

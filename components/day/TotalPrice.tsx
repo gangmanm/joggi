@@ -1,6 +1,6 @@
 "use client";
 import * as S from "../../styles/day/total-price";
-
+import useCalendarContext from "../month/useCalendarContext";
 interface PriceProps {
   setting: string;
   toggleGeneratePriceAction: () => void;
@@ -14,6 +14,8 @@ export default function TotalPrice({
   totalAmount,
   setSettingAction,
 }: PriceProps) {
+  const { selectedDate } = useCalendarContext();
+
   const onClickIncomeButton = () => {
     toggleGeneratePriceAction();
     setSettingAction("income");
@@ -29,6 +31,7 @@ export default function TotalPrice({
         +
       </S.PriceAddButton>
       <S.TotalPriceContainer setting={setting}>
+        <S.SelectedDate>{selectedDate.date}</S.SelectedDate>
         <S.TotalPriceText setting={setting}>
           {parseInt(totalAmount) > 0
             ? `+${totalAmount}`
