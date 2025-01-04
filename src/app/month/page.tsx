@@ -17,9 +17,14 @@ export default function Month() {
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [filteredBudgets, setFilteredBudgets] = useState<Budget[]>([]); // 필터링된 데이터
   const { session } = useSessionContext();
-  const [graphSetting, setGraphSetting] = useState("year");
+  const [graphSetting, setGraphSetting] = useState("day");
 
   const router = useRouter();
+
+  const handleRouteToDay = () => {
+    router.push("/day");
+  };
+
   const { yearlyData, monthlyData, dailyData } = useBudgetByTag();
 
   useEffect(() => {
@@ -35,11 +40,10 @@ export default function Month() {
     fetchBudgets();
   }, [session]);
 
-  // 날짜 기반 필터링 로직
   const [year, month, day] = selectedDate.date.split("-");
   useEffect(() => {
     const filtered = budgets.filter((budget) => {
-      if (!budget.date) return false; // date가 null 또는 undefined인 항목은 제외
+      if (!budget.date) return false;
 
       const budgetDate = new Date(budget.date);
       const selectedYear = parseInt(year, 10);
@@ -68,8 +72,10 @@ export default function Month() {
 
   return (
     <S.MainContainer>
+      <S.HeaderContainer onClick={handleRouteToDay}>
+        {year}년 {month}월 {day}일 소비 확인하기 &gt;
+      </S.HeaderContainer>
       <Menu />
-      {/* 캘린더 헤더 및 본문 */}
       <CalendarHeader />
       <CalendarBody />
       <S.DateButtonContainer>
@@ -86,8 +92,20 @@ export default function Month() {
       <S.ChartContainer>
         <DoughnutChart data={filteredBudgets} />
       </S.ChartContainer>
-      <div>{yearlyData.totalIncome}</div>
-      <S.MarginBottom></S.MarginBottom>
+      <S.TotalDataContainer setting="income">
+        {graphSetting === "year"
+          ? `${year}년 총 수입 -  ${yearlyData.totalIncome.toLocaleString()}`
+          : graphSetting === "month"
+          ? `${year}년 ${month}월 총 수입 -  ${monthlyData.totalIncome.toLocaleString()}`
+          : `${year}년 ${month}월 ${day}일 총 수입 -  ${dailyData.totalIncome.toLocaleString()}`}
+      </S.TotalDataContainer>
+      <S.TotalDataContainer setting="outcome">
+        {graphSetting === "year"
+          ? `${year}년 총 지출 -  ${yearlyData.totalOutcome.toLocaleString()}`
+          : graphSetting === "month"
+          ? `${year}년 ${month}월 총 지출 -  ${monthlyData.totalOutcome.toLocaleString()}`
+          : `${year}년 ${month}월 ${day}일 총 지출 -  ${dailyData.totalOutcome.toLocaleString()}`}
+      </S.TotalDataContainer>
     </S.MainContainer>
   );
 }

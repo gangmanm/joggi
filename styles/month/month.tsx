@@ -14,6 +14,16 @@ export const MainContainer = styled.div`
   }
 `;
 
+export const HeaderContainer = styled.div`
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: ${({ theme }) => theme.colors.mutual};
+  cursor: pointer;
+`;
+
 export const InformationContainer = styled.div`
   width: 100%;
   height: 125px;
@@ -117,6 +127,7 @@ export const DateButton = styled.div`
   color: white;
   background-color: ${({ theme }) => theme.colors.mutual};
   border-radius: 5px;
+  font-weight: 600;
 `;
 
 export const ChartContainer = styled.div`
@@ -125,4 +136,20 @@ export const ChartContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const TotalDataContainer = styled.div<{ setting: string }>`
+  width: 100%;
+  height: 50px;
+  background-color: ${({ theme, setting }) =>
+    setting === "income" ? theme.colors.income : theme.colors.outcome};
+  color: white;
+
+  border-radius: 5px;
+
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  margin-top: 10px;
 `;
