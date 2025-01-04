@@ -1,13 +1,18 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
-import { getTag, addTag } from "../../../actions/budget-actions";
+import {
+  getTag,
+  addTag,
+  getBudget,
+  deleteBudget,
+  deleteTag,
+} from "../../../actions/budget-actions";
 import { useSessionContext } from "../context/SessionContext";
 import { Database } from "../../../src/types/supabase";
 import * as S from "../../../styles/tag/tag";
 import { HexColorPicker } from "react-colorful";
 import type { Tag } from "../../types/budget";
-
+import Warning from "../../../components/Warning";
 export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
 
 export default function Tag() {
@@ -18,6 +23,12 @@ export default function Tag() {
   );
   const [color, setColor] = useState("#aabbcc");
   const [newTagName, setNewTagName] = useState<string>("");
+  const [menuPosition, setMenuPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+  const [selectedTag, setSelectedTag] = useState<TagRow | null>(null);
+  const [warningOpen, setWarningOpen] = useState(false);
 
   const handleAddTagAction = async () => {
     if (!newTagName) {
@@ -41,6 +52,61 @@ export default function Tag() {
       console.error(err);
     }
   };
+
+  const handleMenuClick = (event: React.MouseEvent, tag: TagRow) => {
+    event.stopPropagation();
+    const rect = (event.target as HTMLElement).getBoundingClientRect();
+    setMenuPosition({ x: rect.right - 70, y: rect.top + 20 });
+    setSelectedTag(tag);
+  };
+
+  const onClickDelete = async () => {
+    try {
+      if (!selectedTag) {
+        alert("삭제할 태그를 선택하세요.");
+        return;
+      }
+
+      const budgets = await getBudget(session?.user.id || "");
+
+      // 해당 태그와 연결된 예산 필터링
+      const filteredBudget = budgets.filter(
+        (budget) => budget.tag === selectedTag.name
+      );
+
+      // 예산 삭제
+      for (const budget of filteredBudget) {
+        const success = await deleteBudget(budget.budget_id);
+        if (!success) {
+          console.error(`Failed to delete budget with ID: ${budget.budget_id}`);
+        }
+      }
+
+      alert("태그와 관련된 예산이 삭제되었습니다.");
+      await deleteTag(selectedTag.id);
+      const userTags = await getTag(session?.user.id || "");
+      setTags(userTags || []);
+      setWarningOpen(false);
+    } catch (err) {
+      console.error("Failed to delete budgets:", err);
+      alert("예산 삭제 중 오류가 발생했습니다.");
+    }
+  };
+
+  const closeMenu = () => {
+    setMenuPosition(null);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      closeMenu();
+    };
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   const getQueryParam = (param: string): string | undefined => {
     if (typeof window === "undefined") return undefined; // Ensure browser environment
     try {
@@ -78,7 +144,6 @@ export default function Tag() {
     fetchTags();
   }, [session?.user?.id]);
 
-  // Filter tags by "setting"
   const filteredTags = tags.filter((tag) => tag.setting === setting);
 
   return (
@@ -126,14 +191,45 @@ export default function Tag() {
                 }}
                 tagcolor={tag.color || "#ccc"}
               >
-                {tag.name || "기본 태그 이름"}
+                {tag.name}
               </S.TagText>
+              <S.TagMenu
+                tagcolor={tag.color || "#ccc"}
+                onClick={(e) => handleMenuClick(e, tag)}
+              >
+                ...
+              </S.TagMenu>
             </S.TagBox>
           ))
         ) : (
           <p>해당 설정에 맞는 태그가 없습니다.</p>
         )}
       </S.TagContainer>
+      {menuPosition && selectedTag && (
+        <S.TagMenuContainer
+          style={{
+            position: "fixed",
+            top: menuPosition.y,
+            left: menuPosition.x,
+          }}
+        >
+          <S.TagMenuText>편집하기</S.TagMenuText>
+          <S.TagMenuText onClick={() => setWarningOpen(true)}>
+            삭제하기
+          </S.TagMenuText>
+          {/* 추가 메뉴 내용 */}
+          <S.TagMenuText onClick={closeMenu}>닫기</S.TagMenuText>
+        </S.TagMenuContainer>
+      )}
+      {warningOpen ? (
+        <Warning
+          message="태그를 삭제하시겠습니까? 태그로 작성된 가계 항목들도 모두 삭제됩니다."
+          onNoAction={() => setWarningOpen(false)}
+          onYesAction={onClickDelete}
+        />
+      ) : (
+        ""
+      )}
     </S.MainContainer>
   );
 }

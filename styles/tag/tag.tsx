@@ -92,7 +92,7 @@ export const TagContainer = styled.div`
 
 export const TagBox = styled.div`
   width: 70px;
-  height: 70px;
+  height: 90px;
   margin: 5px 7px;
   display: flex;
   justify-content: center;
@@ -127,6 +127,14 @@ export const TagColor = styled.div<{ tagcolor: string }>`
   background-color: ${({ tagcolor }) => tagcolor};
 `;
 
+export const TagMenu = styled.div<{ tagcolor: string }>`
+  width: 100%;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${({ tagcolor }) => tagcolor};
+`;
 export const TagAddButton = styled.div<{ setting: string }>`
   width: 100%;
   height: 30px;
@@ -139,4 +147,21 @@ export const TagAddButton = styled.div<{ setting: string }>`
   align-items: center;
   margin-top: 10px;
   border-radius: 5px;
+`;
+
+export const TagMenuContainer = styled.div`
+  width: 70px;
+  height: 60px;
+  background-color: #ceb2d0;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const TagMenuText = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
 `;
