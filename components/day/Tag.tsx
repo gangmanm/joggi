@@ -90,7 +90,14 @@ export default function Tag({
           }
         >
           <S.TagColor tagcolor={tag.color || ""} />
-          <S.TagText tagcolor={tag.color || ""}>{tag.name}</S.TagText>
+          <S.TagText
+            tagcolor={tag.color || ""}
+            style={{
+              fontSize: (tag.name ?? "").length > 5 ? "12px" : "15px",
+            }}
+          >
+            {tag.name}
+          </S.TagText>
         </S.TagBox>
       ))}
     </S.TagContainer>

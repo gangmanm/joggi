@@ -2,12 +2,14 @@ import styled from "styled-components";
 
 export const TagContainer = styled.div`
   width: 100%;
-  height: 60%;
+  max-height: 60%;
   margin-bottom: 10px;
   background-color: white;
   border-radius: 7px;
   display: flex;
+  flex-wrap: wrap; /* 가로로 꽉 차면 다음 줄로 이동 */
   padding: 10px;
+  overflow-y: scroll;
 `;
 
 export const TagBox = styled.div<{ setting: string; selected: boolean }>`

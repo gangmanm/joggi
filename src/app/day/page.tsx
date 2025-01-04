@@ -127,8 +127,8 @@ export default function Home() {
     }
   };
 
-  const toggleSettingAction = () => {
-    setSetting((prev) => (prev === "income" ? "outcome" : "income"));
+  const toggleSettingAction = (setting: string) => {
+    setSetting(setting);
   };
 
   const toggleGeneratePriceAction = () => {
@@ -160,7 +160,7 @@ export default function Home() {
         <S.TotalMainContainer>
           <S.TotalSubContainer
             setting="income"
-            onClick={toggleSettingAction}
+            onClick={() => toggleSettingAction("income")}
             margin={"0px"}
           >
             <S.TotalSubText>
@@ -172,7 +172,7 @@ export default function Home() {
           </S.TotalSubContainer>
           <S.TotalSubContainer
             setting="outcome"
-            onClick={toggleSettingAction}
+            onClick={() => toggleSettingAction("outcome")}
             margin={"10px"}
           >
             <S.TotalSubText>

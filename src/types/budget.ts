@@ -16,6 +16,11 @@ export type InputValue = {
   tag: string;
 };
 
-export type TagInputValue = {
+export type Tag = {
   name: string;
+  color: string;
+  setting: string;
+  created_at: string;
+  id: string;
+  user_id: string | null;
 };

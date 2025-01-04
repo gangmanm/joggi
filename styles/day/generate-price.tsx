@@ -132,4 +132,8 @@ export const Price = styled.input.attrs({
 export const TagMenu = styled.div`
   width: 100%;
   height: 10%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: white;
 `;
