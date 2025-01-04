@@ -6,7 +6,7 @@ import { useSessionContext } from "../context/SessionContext";
 import { Database } from "../../../src/types/supabase";
 import * as S from "../../../styles/tag/tag";
 import { HexColorPicker } from "react-colorful";
-import { Tag } from "../../types/budget";
+import type { Tag } from "../../types/budget";
 
 export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
 
