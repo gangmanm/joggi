@@ -80,12 +80,14 @@ export const TagGenerateInput = styled.input<{ tagcolor: string }>`
 
 export const TagContainer = styled.div`
   width: 100%;
+  max-height: 60%;
   margin-bottom: 10px;
   border-radius: 7px;
   display: flex;
   flex-wrap: wrap; /* 가로로 꽉 차면 다음 줄로 이동 */
   gap: 5px; /* 요소 간 간격 설정 */
   align-items: flex-start; /* 세로 방향 간격 최소화 */
+  overflow-y: scroll;
 `;
 
 export const TagBox = styled.div`

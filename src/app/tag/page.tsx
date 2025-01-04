@@ -13,11 +13,9 @@ export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
 export default function Tag() {
   const { session } = useSessionContext();
   const [tags, setTags] = useState<TagRow[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [setting, setSetting] = useState<"income" | "outcome" | undefined>(
     "income"
   );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [color, setColor] = useState("#aabbcc");
   const [newTagName, setNewTagName] = useState<string>("");
 
@@ -40,7 +38,6 @@ export default function Tag() {
       const userTags = await getTag(session?.user.id || "");
       setTags(userTags || []);
     } catch (err) {
-      setError("Failed to add tag. Please try again.");
       console.error(err);
     }
   };
@@ -65,20 +62,15 @@ export default function Tag() {
 
   const fetchTags = async () => {
     if (!session?.user?.id) {
-      setError("사용자 세션이 필요합니다.");
-      setIsLoading(false);
       return;
     }
 
     try {
       const userTags = await getTag(session.user.id);
       setTags(userTags || []);
-      setError(null);
     } catch (err) {
       console.error("Failed to fetch tags:", err);
-      setError("태그를 불러오는 데 실패했습니다.");
     } finally {
-      setIsLoading(false);
     }
   };
 
