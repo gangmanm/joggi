@@ -16,7 +16,7 @@ export const ChangeButton = styled.div`
   align-items: center;
   display: flex;
   font-size: 20px;
-  background-color: ${({ theme }) => theme.colors.point};
+  background-color: ${({ theme }) => theme.colors.mutual};
   font-weight: 700;
   color: white;
 `;
@@ -32,7 +32,7 @@ export const ButtonContainer = styled.div`
 export const MonthContainer = styled.div`
   width: 100%;
   display: flex;
-  background-color: ${({ theme }) => theme.colors.secondary};
+  background-color: ${({ theme }) => theme.colors.lightmutual};
   flex-direction: column;
 `;
 
@@ -49,7 +49,7 @@ export const CalendarItem = styled.div<{ $isSunday: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.point};
+  background-color: ${({ theme }) => theme.colors.mutual};
   color: white;
   font-weight: 600;
 `;
@@ -73,11 +73,11 @@ export const Day = styled.div<{
       ? "#860000" // Set red color for current date
       : $isProfit
       ? "#ffffff"
-      : theme.colors.point};
+      : theme.colors.mutual};
   border: 3px solid
-    ${({ $isSelectedDate }) => ($isSelectedDate ? "#951111" : "transparent")};
+    ${({ $isSelectedDate }) => ($isSelectedDate ? "#270227" : "transparent")};
   background-color: ${({ $isProfit, theme }) =>
-    $isProfit ? theme.colors.point : theme.colors.secondary};
+    $isProfit ? theme.colors.income : theme.colors.lightmutual};
 
   font-weight: 800;
 `;

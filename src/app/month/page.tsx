@@ -6,116 +6,87 @@ import useCalendarContext from "../../../components/month/useCalendarContext";
 import Menu from "../../../components/Menu";
 import { useRouter } from "next/navigation";
 import { useBudgetByTag } from "../../hooks/useBudgetByTag";
+import DoughnutChart from "../../../components/Chart";
+import { Budget } from "../../types/budget";
+import { useSessionContext } from "../context/SessionContext";
+import { useState, useEffect } from "react";
+import { getBudget } from "../../../actions/budget-actions";
+
 export default function Month() {
   const { selectedDate } = useCalendarContext();
+  const [budgets, setBudgets] = useState<Budget[]>([]);
+  const [filteredBudgets, setFilteredBudgets] = useState<Budget[]>([]); // 필터링된 데이터
+  const { session } = useSessionContext();
+  const [graphSetting, setGraphSetting] = useState("year");
+
   const router = useRouter();
-  const {
-    totalByYear,
-    totalByDay,
-    totalByMonth,
-    maxIncomeTagByYear,
-    maxOutcomeTagByYear,
-    maxIncomeTagByMonth,
-    maxOutcomeTagByMonth,
-    maxIncomeTagByDay,
-    maxOutcomeTagByDay,
-  } = useBudgetByTag();
+  const { yearlyData, monthlyData, dailyData } = useBudgetByTag();
 
-  const handleRouteToDay = () => {
-    router.push("/day");
-  };
+  useEffect(() => {
+    const fetchBudgets = async () => {
+      try {
+        const budgets = await getBudget(session?.user.id || "");
+        setBudgets(budgets.reverse());
+      } catch (error) {
+        console.error("Failed to fetch budgets:", error);
+      }
+    };
 
+    fetchBudgets();
+  }, [session]);
+
+  // 날짜 기반 필터링 로직
   const [year, month, day] = selectedDate.date.split("-");
+  useEffect(() => {
+    const filtered = budgets.filter((budget) => {
+      if (!budget.date) return false; // date가 null 또는 undefined인 항목은 제외
+
+      const budgetDate = new Date(budget.date);
+      const selectedYear = parseInt(year, 10);
+      const selectedMonth = parseInt(month, 10) - 1; // 월은 0부터 시작
+      const selectedDay = parseInt(day, 10);
+
+      if (graphSetting === "year") {
+        return budgetDate.getFullYear() === selectedYear;
+      } else if (graphSetting === "month") {
+        return (
+          budgetDate.getFullYear() === selectedYear &&
+          budgetDate.getMonth() === selectedMonth
+        );
+      } else if (graphSetting === "day") {
+        return (
+          budgetDate.getFullYear() === selectedYear &&
+          budgetDate.getMonth() === selectedMonth &&
+          budgetDate.getDate() === selectedDay
+        );
+      }
+      return true;
+    });
+
+    setFilteredBudgets(filtered);
+  }, [budgets, year, month, day, graphSetting]);
 
   return (
     <S.MainContainer>
       <Menu />
-      <S.InformationContainer>
-        <S.DateContainer>
-          <S.DateText>{year}년</S.DateText>
-          <S.SubText>당신은</S.SubText>
-        </S.DateContainer>
-        <S.PriceInformContainer $isLeft={true}>
-          <>
-            {maxIncomeTagByYear.tag !== "No Tag" &&
-              maxIncomeTagByYear.income > 0 && (
-                <>
-                  주로 {maxIncomeTagByYear.tag} 를 통해{" "}
-                  {maxIncomeTagByYear.income.toLocaleString()}
-                  원을 벌었네요{" "}
-                </>
-              )}
-            {maxOutcomeTagByYear.tag !== "No Tag" &&
-              maxOutcomeTagByYear.outcome > 0 && (
-                <>
-                  주로 {maxOutcomeTagByYear.tag}에{" "}
-                  {maxOutcomeTagByYear.outcome.toLocaleString()}원을 썼네요
-                </>
-              )}{" "}
-            전체적으론 {Math.abs(totalByYear).toLocaleString()}원{" "}
-            {totalByYear > 0 ? "벌었네요" : "손해네요"}
-          </>
-        </S.PriceInformContainer>
-      </S.InformationContainer>
-      <S.InformationContainer>
-        <S.PriceInformContainer $isLeft={false}>
-          <>
-            {maxIncomeTagByMonth.tag !== "No Tag" &&
-              maxIncomeTagByMonth.income > 0 && (
-                <>
-                  주로 {maxIncomeTagByMonth.tag}를 통해{" "}
-                  {maxIncomeTagByMonth.income.toLocaleString()}원을 벌었네요{" "}
-                </>
-              )}
-            {maxOutcomeTagByMonth.tag !== "No Tag" &&
-              maxOutcomeTagByMonth.outcome > 0 && (
-                <>
-                  주로 {maxOutcomeTagByMonth.tag}에{" "}
-                  {maxOutcomeTagByMonth.outcome.toLocaleString()}원을 썼네요
-                </>
-              )}{" "}
-            전체적으론 {Math.abs(totalByMonth).toLocaleString()}원{" "}
-            {totalByMonth > 0 ? "벌었네요" : "손해네요"}
-          </>
-        </S.PriceInformContainer>
-        <S.DateContainer>
-          {" "}
-          <S.DateText>{month}월</S.DateText>
-          <S.SubText>당신은</S.SubText>
-        </S.DateContainer>
-      </S.InformationContainer>
-
       {/* 캘린더 헤더 및 본문 */}
       <CalendarHeader />
       <CalendarBody />
-
-      {/* 선택된 날짜 정보 */}
-      <S.InformationContainer>
-        <S.DateContainer onClick={handleRouteToDay}>
-          <S.DateText>{day}일</S.DateText>
-          <S.SubText>당신은</S.SubText>
-        </S.DateContainer>
-        <S.PriceInformContainer $isLeft={true}>
-          <>
-            {maxIncomeTagByDay.tag !== "No Tag" &&
-              maxIncomeTagByDay.income > 0 && (
-                <>
-                  주로 {maxIncomeTagByDay.tag}를 통해{" "}
-                  {maxIncomeTagByDay.income.toLocaleString()}원을 벌었네요{" "}
-                </>
-              )}
-            {maxOutcomeTagByDay.tag !== "No Tag" &&
-              maxOutcomeTagByDay.outcome > 0 && (
-                <>
-                  주로 {maxOutcomeTagByDay.tag}에{" "}
-                  {maxOutcomeTagByDay.outcome.toLocaleString()}원을 썼네요
-                </>
-              )}{" "}
-            전체적으론 {Math.abs(totalByDay).toLocaleString()}원{" "}
-            {totalByDay > 0 ? "벌었네요" : "손해네요"}
-          </>
-        </S.PriceInformContainer>
-      </S.InformationContainer>
+      <S.DateButtonContainer>
+        <S.DateButton onClick={() => setGraphSetting("year")}>
+          {year}년
+        </S.DateButton>
+        <S.DateButton onClick={() => setGraphSetting("month")}>
+          {month}월
+        </S.DateButton>
+        <S.DateButton onClick={() => setGraphSetting("day")}>
+          {day}일
+        </S.DateButton>
+      </S.DateButtonContainer>
+      <S.ChartContainer>
+        <DoughnutChart data={filteredBudgets} />
+      </S.ChartContainer>
+      <div>{yearlyData.totalIncome}</div>
       <S.MarginBottom></S.MarginBottom>
     </S.MainContainer>
   );

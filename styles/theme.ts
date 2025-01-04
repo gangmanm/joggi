@@ -12,6 +12,7 @@ export const theme = {
     point: "#E7740F",
     white: "#FFFFFF",
     mutual: "#5C165B",
+    lightmutual: "#CEB9CE",
     income: "#D02A2A",
     outcome: "#170CB7",
   },

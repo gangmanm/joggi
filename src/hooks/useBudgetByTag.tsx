@@ -137,9 +137,9 @@ export const useBudgetByTag = () => {
   }, [dailyData.result]);
 
   return {
-    yearlyData: yearlyData.result,
-    monthlyData: monthlyData.result,
-    dailyData: dailyData.result,
+    yearlyData: yearlyData,
+    monthlyData: monthlyData,
+    dailyData: dailyData,
     totalByYear: yearlyData.totalIncome - yearlyData.totalOutcome,
     totalByMonth: monthlyData.totalIncome - monthlyData.totalOutcome,
     totalByDay: dailyData.totalIncome - dailyData.totalOutcome,
