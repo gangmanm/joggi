@@ -118,14 +118,17 @@ export const DateButtonContainer = styled.div`
   gap: 10px;
 `;
 
-export const DateButton = styled.div`
+export const DateButton = styled.div<{ isactive: string }>`
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  background-color: ${({ theme }) => theme.colors.mutual};
+  color: ${({ isactive, theme }) =>
+    isactive === "true" ? theme.colors.lightmutual : theme.colors.mutual};
+  background-color: ${({ isactive, theme }) =>
+    isactive === "true" ? theme.colors.mutual : theme.colors.lightmutual};
+
   border-radius: 5px;
   font-weight: 600;
 `;
