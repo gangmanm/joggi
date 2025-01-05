@@ -152,4 +152,51 @@ export const TotalDataContainer = styled.div<{ setting: string }>`
   align-items: center;
   font-weight: 500;
   margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+export const TagContainer = styled.div`
+  width: 100%;
+  max-height: 60%;
+  display: grid; /* Grid 레이아웃 사용 */
+  grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
+  align-items: flex-start;
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+  gap: 10px;
+`;
+
+export const TagBox = styled.div<{ tagcolor: string }>`
+  width: 100%;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: ${({ tagcolor }) => tagcolor};
+  cursor: pointer;
+  border-radius: 5px;
+`;
+
+export const TagText = styled.div`
+  display: flex;
+  font-weight: 500;
+  margin-top: 5px;
+  color: white;
+`;
+
+export const TagButton = styled.div<{ setting: string }>`
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+`;
+
+export const TagColor = styled.div<{ tagcolor: string }>`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: ${({ tagcolor }) => tagcolor};
 `;

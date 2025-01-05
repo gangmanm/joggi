@@ -37,7 +37,7 @@ export default function LoadingWrapper({
         <style jsx>{`
           .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
-            border-top: 4px solid #e7740f;
+            border-top: 4px solid #590456;
             border-radius: 50%;
             width: 40px;
             height: 40px;

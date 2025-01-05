@@ -11,6 +11,7 @@ import { Budget } from "../../types/budget";
 import { useSessionContext } from "../context/SessionContext";
 import { useState, useEffect } from "react";
 import { getBudget } from "../../../actions/budget-actions";
+import * as T from "../../../styles/tag/tag";
 
 export default function Month() {
   const { selectedDate } = useCalendarContext();
@@ -89,9 +90,6 @@ export default function Month() {
           {day}일
         </S.DateButton>
       </S.DateButtonContainer>
-      <S.ChartContainer>
-        <DoughnutChart data={filteredBudgets} />
-      </S.ChartContainer>
       <S.TotalDataContainer setting="income">
         {graphSetting === "year"
           ? `${year}년 총 수입 -  ${yearlyData.totalIncome.toLocaleString()}`
@@ -99,6 +97,32 @@ export default function Month() {
           ? `${year}년 ${month}월 총 수입 -  ${monthlyData.totalIncome.toLocaleString()}`
           : `${year}년 ${month}월 ${day}일 총 수입 -  ${dailyData.totalIncome.toLocaleString()}`}
       </S.TotalDataContainer>
+      <S.TagContainer>
+        {(graphSetting === "year"
+          ? yearlyData.result
+          : graphSetting === "month"
+          ? monthlyData.result
+          : dailyData.result
+        )
+          .filter((data) => data.income > 0) // income이 0보다 큰 항목만 필터링
+          .sort((a, b) => b.income - a.income)
+          .slice(0, 4) // income 기준 내림차순 정렬
+          .map((data, index) => (
+            <S.TagBox key={index} tagcolor={data.color}>
+              <S.TagText>{index + 1}위</S.TagText>
+              <S.TagText> {data.tag}</S.TagText>
+              <S.TagText
+                style={{
+                  fontSize:
+                    (data.income.toString() ?? "").length > 5 ? "10px" : "12px",
+                }}
+              >
+                {data.income.toLocaleString()}
+              </S.TagText>
+            </S.TagBox>
+          ))}
+      </S.TagContainer>
+
       <S.TotalDataContainer setting="outcome">
         {graphSetting === "year"
           ? `${year}년 총 지출 -  ${yearlyData.totalOutcome.toLocaleString()}`
@@ -106,6 +130,33 @@ export default function Month() {
           ? `${year}년 ${month}월 총 지출 -  ${monthlyData.totalOutcome.toLocaleString()}`
           : `${year}년 ${month}월 ${day}일 총 지출 -  ${dailyData.totalOutcome.toLocaleString()}`}
       </S.TotalDataContainer>
+      <S.TagContainer>
+        {(graphSetting === "year"
+          ? yearlyData.result
+          : graphSetting === "month"
+          ? monthlyData.result
+          : dailyData.result
+        )
+          .filter((data) => data.outcome > 0) // income이 0보다 큰 항목만 필터링
+          .sort((a, b) => b.outcome - a.outcome)
+          .slice(0, 4)
+          .map((data, index) => (
+            <S.TagBox key={index} tagcolor={data.color}>
+              <S.TagText>{index + 1}위</S.TagText>
+              <S.TagText> {data.tag}</S.TagText>
+              <S.TagText
+                style={{
+                  fontSize:
+                    (data.outcome.toString() ?? "").length > 5
+                      ? "10px"
+                      : "12px",
+                }}
+              >
+                {data.outcome.toLocaleString()}
+              </S.TagText>
+            </S.TagBox>
+          ))}
+      </S.TagContainer>
     </S.MainContainer>
   );
 }
