@@ -10,6 +10,7 @@ interface DayInfo {
   day: number;
   month: string;
   dayIndexOfWeek: number;
+  year: string;
 }
 
 const CalendarBody: React.FC = () => {
@@ -17,6 +18,10 @@ const CalendarBody: React.FC = () => {
   const { daysInMonth, selectedDate, currentDate } = useCalendarContext();
   const [entries, setEntries] = useState<Budget[]>([]);
   const supabase = createClient();
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1; // 0부터 시작하므로 +1
+  const currentDay = today.getDate();
 
   // daysInMonth 배열의 타입 변환
   const parsedDaysInMonth: DayInfo[] = daysInMonth.map((day) => ({
@@ -76,35 +81,36 @@ const CalendarBody: React.FC = () => {
 
       {weeksInMonth.map((week, weekIndex) => (
         <S.DayWrapper key={`week-${weekIndex}`}>
-          {week.map((date) => (
-            <S.Day
-              onClick={() => selectedDate.selectDate(date.date)}
-              $isCurrentMonth={currentDate.month === date.month}
-              $isCurrentDate={
-                date.date ===
-                `${new Date().getFullYear()}-${String(
-                  new Date().getMonth() + 1
-                ).padStart(2, "0")}-${String(new Date().getDate()).padStart(
-                  2,
-                  "0"
-                )}`
-              }
-              $isSelectedDate={selectedDate.date === date.date}
-              $isSunday={date.dayIndexOfWeek === 0}
-              className={date.month}
-              key={date.date}
-              $isProfit={incomeByDate[date.date] > 0}
-            >
-              <span>{date.day}</span>
-              {incomeByDate[date.date] !== undefined && (
-                <S.PriceContainer $isProfit={incomeByDate[date.date] > 0}>
-                  {incomeByDate[date.date] > 0
-                    ? `+ ${incomeByDate[date.date].toLocaleString()}`
-                    : `- ${Math.abs(incomeByDate[date.date]).toLocaleString()}`}
-                </S.PriceContainer>
-              )}
-            </S.Day>
-          ))}
+          {week.map((date) => {
+            console.log(currentDate); // 디버깅용 콘솔 로그
+            return (
+              <S.Day
+                onClick={() => selectedDate.selectDate(date.date)}
+                $isCurrentMonth={currentDate.month === date.month}
+                $isCurrentDate={
+                  currentYear === Number(date.year) &&
+                  currentMonth === Number(date.month) &&
+                  currentDay === date.day
+                }
+                $isSelectedDate={selectedDate.date === date.date}
+                $isSunday={date.dayIndexOfWeek === 0}
+                className={date.month}
+                key={date.date}
+                $profit={incomeByDate[date.date]}
+              >
+                <span>{date.day}</span>
+                {incomeByDate[date.date] !== undefined && (
+                  <S.PriceContainer $isProfit={incomeByDate[date.date] > 0}>
+                    {incomeByDate[date.date] > 0
+                      ? `+ ${incomeByDate[date.date].toLocaleString()}`
+                      : `- ${Math.abs(
+                          incomeByDate[date.date]
+                        ).toLocaleString()}`}
+                  </S.PriceContainer>
+                )}
+              </S.Day>
+            );
+          })}
         </S.DayWrapper>
       ))}
     </S.MonthContainer>

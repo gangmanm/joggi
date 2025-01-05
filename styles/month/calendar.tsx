@@ -58,7 +58,7 @@ export const Day = styled.div<{
   $isCurrentMonth?: boolean;
   $isSelectedDate: boolean;
   $isSunday: boolean;
-  $isProfit: boolean;
+  $profit: number;
   $isCurrentDate: boolean;
 }>`
   width: 100%;
@@ -68,16 +68,22 @@ export const Day = styled.div<{
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: ${({ $isCurrentDate, $isProfit, theme }) =>
+  color: ${({ $isCurrentDate, $profit, theme }) =>
     $isCurrentDate
-      ? "#860000" // Set red color for current date
-      : $isProfit
+      ? "#e31263" // Set red color for current date
+      : $profit > 0
+      ? "#ffffff"
+      : $profit < 0
       ? "#ffffff"
       : theme.colors.mutual};
   border: 3px solid
     ${({ $isSelectedDate }) => ($isSelectedDate ? "#270227" : "transparent")};
-  background-color: ${({ $isProfit, theme }) =>
-    $isProfit ? theme.colors.income : theme.colors.lightmutual};
+  background-color: ${({ $profit, theme }) =>
+    $profit > 0
+      ? theme.colors.income
+      : $profit < 0
+      ? theme.colors.outcome
+      : theme.colors.lightmutual};
 
   font-weight: 800;
 `;
@@ -89,6 +95,5 @@ export const PriceContainer = styled.div<{
   display: flex;
   justify-content: center;
   font-size: 6px;
-  color: ${({ $isProfit, theme }) =>
-    $isProfit ? theme.colors.secondary : theme.colors.point};
+  color: white;
 `;
