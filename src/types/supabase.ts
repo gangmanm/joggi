@@ -99,6 +99,42 @@ export type Database = {
         }
         Relationships: []
       }
+      vote: {
+        Row: {
+          content: string | null
+          created_at: string
+          dislike: number | null
+          id: number
+          image: string | null
+          like: number | null
+          price: string | null
+          title: string | null
+          user_id: string | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          dislike?: number | null
+          id?: number
+          image?: string | null
+          like?: number | null
+          price?: string | null
+          title?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          dislike?: number | null
+          id?: number
+          image?: string | null
+          like?: number | null
+          price?: string | null
+          title?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

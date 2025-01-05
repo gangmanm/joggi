@@ -17,6 +17,10 @@ export default function Menu() {
     router.push("/day");
   };
 
+  const handleRouteToVote = () => {
+    router.push("/vote");
+  };
+
   return (
     <>
       {/* 메뉴 컨테이너 클릭 시 openMenu 상태 변경 */}
@@ -34,7 +38,7 @@ export default function Menu() {
       {/* openMenu가 true일 때만 MenuOpen 표시 */}
       {openMenu && (
         <S.MenuOpen>
-          <S.SubMenuImageContainer>
+          <S.SubMenuImageContainer onClick={handleRouteToVote}>
             <Image
               src="/image/vote.png"
               alt="투표 메뉴"

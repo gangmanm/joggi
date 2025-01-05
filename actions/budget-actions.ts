@@ -7,6 +7,8 @@ export type BudgetInsert = Database["public"]["Tables"]["budget"]["Insert"];
 export type BudgetRow = Database["public"]["Tables"]["budget"]["Row"];
 export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
 export type TagInsert = Database["public"]["Tables"]["tag"]["Insert"];
+export type VoteInsert = Database["public"]["Tables"]["vote"]["Insert"];
+import { v4 as uuid } from "uuid";
 
 // 공통 Supabase 클라이언트 생성 함수
 async function getSupabaseClient() {
@@ -184,6 +186,49 @@ export async function deleteBudget(budgetId: string): Promise<boolean> {
   } catch (err) {
     console.error(
       "Unexpected error in deleteBudget:",
+      err instanceof Error ? err.message : err
+    );
+    return false;
+  }
+}
+
+export const handleAddImages = async (file: File) => {
+  const supabase = await getSupabaseClient();
+  try {
+    const newFileName = uuid();
+    const { data, error } = await supabase.storage
+      .from("images")
+      .upload(`vote/${newFileName}`, file);
+
+    if (error) {
+      console.log("파일이 업로드 되지 않습니다.", error);
+      return;
+    }
+    const res = supabase.storage.from("images").getPublicUrl(data.path);
+    return res.data.publicUrl;
+  } catch (error) {
+    console.error(
+      "알 수 없는 문제가 발생하였습니다. 다시 시도하여 주십시오.",
+      error
+    );
+  }
+};
+
+export async function addVote(voteData: VoteInsert): Promise<boolean> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { error } = await supabase.from("vote").insert(voteData);
+
+    if (error) {
+      console.error("Error adding Vote:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(
+      "Unexpected error in addVote:",
       err instanceof Error ? err.message : err
     );
     return false;
