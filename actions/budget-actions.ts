@@ -8,6 +8,7 @@ export type BudgetRow = Database["public"]["Tables"]["budget"]["Row"];
 export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
 export type TagInsert = Database["public"]["Tables"]["tag"]["Insert"];
 export type VoteInsert = Database["public"]["Tables"]["vote"]["Insert"];
+export type VoteRow = Database["public"]["Tables"]["vote"]["Row"];
 import { v4 as uuid } from "uuid";
 
 // 공통 Supabase 클라이언트 생성 함수
@@ -232,5 +233,32 @@ export async function addVote(voteData: VoteInsert): Promise<boolean> {
       err instanceof Error ? err.message : err
     );
     return false;
+  }
+}
+
+// 투표 가져오기
+export async function getVotes(): Promise<VoteRow[]> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { data, error } = await supabase.from("vote").select("*");
+
+    if (error) {
+      console.error("Error fetching votes:", error.message);
+      return [];
+    }
+
+    if (!data) {
+      console.warn("No votes found.");
+      return [];
+    }
+
+    return data;
+  } catch (err) {
+    console.error(
+      "Unexpected error in getVotes:",
+      err instanceof Error ? err.message : err
+    );
+    return [];
   }
 }

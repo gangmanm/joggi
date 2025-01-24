@@ -1,12 +1,38 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import * as S from "../../../styles/vote/vote";
-import { handleAddImages, addVote } from "../../../actions/budget-actions";
+import {
+  handleAddImages,
+  addVote,
+  getVotes,
+} from "../../../actions/budget-actions";
+import { Database } from "../../../src/types/supabase";
+import { Session } from "@supabase/supabase-js";
+export type VoteRow = Database["public"]["Tables"]["vote"]["Row"];
 
 export default function Vote() {
   const [file, setFile] = useState<File | null>(null); // 단일 파일 상태
   const [preview, setPreview] = useState<string | null>(null); // 이미지 미리보기 상태
   const inputRef = useRef<HTMLInputElement>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [votes, setVotes] = useState<VoteRow[]>([]);
+  const userId = session?.user;
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const fetchedVotes = await getVotes();
+
+        setVotes(fetchedVotes);
+      } catch (err) {
+        console.error("Failed to fetch votes:", err);
+      }
+    };
+
+    if (userId) {
+      fetchTags();
+    }
+  }, [userId]);
 
   // 파일 선택 핸들러
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +114,27 @@ export default function Vote() {
             />
             <S.UploadButton htmlFor="file-upload">이미지 선택</S.UploadButton>
           </S.ImageInput>
+        </S.ImageContainer>
+        <S.InputContainer>
+          <S.TitleInput></S.TitleInput>
+          <div onClick={onClickAddVote}>글 추가하기</div>
+        </S.InputContainer>
+      </S.VoteContainer>
+      <S.VoteContainer>
+        <S.ImageContainer>
+          <S.ImagePreview>
+            <img
+              src={
+                "https://kpcncpbypqhktrcxhgax.supabase.co/storage/v1/object/public/images/vote/ddd8ae10-d89c-4fbd-bfce-e6b085b0b281"
+              }
+              alt="미리보기"
+              style={{
+                maxWidth: "100%",
+                height: "100%",
+                border: "1px solid #ccc",
+              }}
+            />
+          </S.ImagePreview>
         </S.ImageContainer>
         <S.InputContainer>
           <S.TitleInput></S.TitleInput>

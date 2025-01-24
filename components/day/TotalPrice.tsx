@@ -1,6 +1,7 @@
 "use client";
 import * as S from "../../styles/day/total-price";
 import useCalendarContext from "../month/useCalendarContext";
+
 interface PriceProps {
   setting: string;
   toggleGeneratePriceAction: () => void;
