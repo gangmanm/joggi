@@ -9,6 +9,8 @@ import {
 import { Database } from "../../../src/types/supabase";
 import { Session } from "@supabase/supabase-js";
 export type VoteRow = Database["public"]["Tables"]["vote"]["Row"];
+import VoteList from "../../../components/vote/VoteList";
+import Image from "next/image";
 
 export default function Vote() {
   const [file, setFile] = useState<File | null>(null); // 단일 파일 상태
@@ -90,57 +92,48 @@ export default function Vote() {
         <S.MenuText>글 추가하기 +</S.MenuText>
       </S.HeaderContainer>
       <S.VoteContainer>
-        <S.ImageContainer>
-          <S.ImagePreview>
-            {preview && (
-              <img
-                src={preview}
-                alt="미리보기"
-                style={{
-                  maxWidth: "100%",
-                  height: "100%",
-                  border: "1px solid #ccc",
-                }}
+        <S.VoteHeader></S.VoteHeader>
+        <S.VoteMain>
+          <S.ImageContainer>
+            <S.ImagePreview>
+              {preview && (
+                <img
+                  src={preview}
+                  alt="미리보기"
+                  style={{
+                    maxWidth: "100%",
+                    height: "100%",
+                    border: "1px solid #ccc",
+                  }}
+                />
+              )}
+            </S.ImagePreview>
+            <S.ImageInput>
+              <S.HiddenInput
+                ref={inputRef}
+                type="file"
+                accept="image/*"
+                id="file-upload"
+                onChange={handleFileChange}
               />
-            )}
-          </S.ImagePreview>
-          <S.ImageInput>
-            <S.HiddenInput
-              ref={inputRef}
-              type="file"
-              accept="image/*"
-              id="file-upload"
-              onChange={handleFileChange}
-            />
-            <S.UploadButton htmlFor="file-upload">이미지 선택</S.UploadButton>
-          </S.ImageInput>
-        </S.ImageContainer>
-        <S.InputContainer>
-          <S.TitleInput></S.TitleInput>
-          <div onClick={onClickAddVote}>글 추가하기</div>
-        </S.InputContainer>
+              <S.UploadButton htmlFor="file-upload">이미지 선택</S.UploadButton>
+            </S.ImageInput>
+          </S.ImageContainer>
+          <S.VoteMainLeft>
+            <S.VoteTitleInput placeholder="제목을 입력하세요"></S.VoteTitleInput>
+            <S.VotePriceInput placeholder="금액"></S.VotePriceInput>
+            <S.VoteSubtitleInput placeholder="내용을 입력하세요"></S.VoteSubtitleInput>
+
+            {/* <S.InputContainer>
+            <S.TitleInput></S.TitleInput>
+            <div onClick={onClickAddVote}>글 추가하기</div>
+          </S.InputContainer> */}
+          </S.VoteMainLeft>
+        </S.VoteMain>
+
+        <S.VoteFooter></S.VoteFooter>
       </S.VoteContainer>
-      <S.VoteContainer>
-        <S.ImageContainer>
-          <S.ImagePreview>
-            <img
-              src={
-                "https://kpcncpbypqhktrcxhgax.supabase.co/storage/v1/object/public/images/vote/ddd8ae10-d89c-4fbd-bfce-e6b085b0b281"
-              }
-              alt="미리보기"
-              style={{
-                maxWidth: "100%",
-                height: "100%",
-                border: "1px solid #ccc",
-              }}
-            />
-          </S.ImagePreview>
-        </S.ImageContainer>
-        <S.InputContainer>
-          <S.TitleInput></S.TitleInput>
-          <div onClick={onClickAddVote}>글 추가하기</div>
-        </S.InputContainer>
-      </S.VoteContainer>
+      <VoteList />
     </S.MainContainer>
   );
 }
