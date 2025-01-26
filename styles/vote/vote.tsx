@@ -30,26 +30,73 @@ export const VoteContainer = styled.div`
   height: 250px;
   background-color: ${({ theme }) => theme.colors.lightmutual};
   border-radius: 10px;
-  padding: 10px;
   display: flex;
   flex-direction: column;
   margin-top: 10px;
+  padding: 20px;
 `;
 
 export const VoteHeader = styled.div`
   width: 100%;
-  height: 50px;
+  height: 30px;
+  display: flex;
+  margin-bottom: 10px;
+`;
+
+export const VoteHeaderLeft = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+export const VoteHeaderRight = styled.div`
+  width: 50%;
+  height: 100%;
 `;
 
 export const VoteMain = styled.div`
   width: 100%;
-  height: 200px;
+  height: 150px;
   display: flex;
 `;
 
 export const VoteFooter = styled.div`
   width: 100%;
-  height: 50px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+`;
+
+export const VoteFooterLeft = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+`;
+
+export const VoteFooterRight = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: blue;
+`;
+
+export const ProfileImageContainer = styled.div`
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  background-color: white;
+  overflow: hidden;
+  margin-right: 10px;
 `;
 
 export const VoteMainLeft = styled.div`
@@ -115,16 +162,18 @@ export const VoteSubtitle = styled.div`
   font-weight: 600;
 `;
 
-export const VoteSubtitleInput = styled.input`
+export const VoteSubtitleInput = styled.textarea`
   width: 100%;
+  max-width: 300px; /* 적절한 너비 제한 */
+  height: 300px;
   color: ${({ theme }) => theme.colors.mutual};
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 10px;
   text-align: center;
   font-size: 10px;
   font-weight: 600;
+  word-wrap: break-word; /* 긴 단어 줄바꿈 */
+  white-space: normal; /* 기본 줄바꿈 허용 */
+  resize: none; /* 크기 조절 비활성화 */
 `;
 
 export const VoteButtonContainer = styled.div`
@@ -183,23 +232,24 @@ export const InputContainer = styled.div`
 
 export const ImagePreview = styled.div`
   width: 100%;
-  height: 80%;
+  height: 100%;
   background-color: white;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export const ImageInput = styled.div`
-  width: 100%;
-  height: 20%;
+  height: 100%;
 `;
 
 export const ImageUploadButton = styled.input`
-  width: 90%;
-  height: 30px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 16px;
   text-align: center;
-  background-color: white;
   color: violet;
 `;
 
@@ -208,22 +258,14 @@ export const HiddenInput = styled.input`
 `;
 
 export const UploadButton = styled.label`
-  display: inline-block;
-
-  width: 100%;
-  height: 30px;
   font-size: 14px;
   font-weight: bold;
-  color: ${({ theme }) => theme.colors.lightmutual};
-  background-color: ${({ theme }) => theme.colors.mutual};
+  color: ${({ theme }) => theme.colors.mutual};
   border: none;
   border-radius: 5px;
   cursor: pointer;
-
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
+  justify-content: flex-start;
 `;
 
 export const TitleInput = styled.input`

@@ -92,7 +92,12 @@ export default function Vote() {
         <S.MenuText>글 추가하기 +</S.MenuText>
       </S.HeaderContainer>
       <S.VoteContainer>
-        <S.VoteHeader></S.VoteHeader>
+        <S.VoteHeader>
+          <S.VoteHeaderLeft>
+            <S.ProfileImageContainer></S.ProfileImageContainer>
+          </S.VoteHeaderLeft>
+          <S.VoteHeaderRight></S.VoteHeaderRight>
+        </S.VoteHeader>
         <S.VoteMain>
           <S.ImageContainer>
             <S.ImagePreview>
@@ -108,21 +113,14 @@ export default function Vote() {
                 />
               )}
             </S.ImagePreview>
-            <S.ImageInput>
-              <S.HiddenInput
-                ref={inputRef}
-                type="file"
-                accept="image/*"
-                id="file-upload"
-                onChange={handleFileChange}
-              />
-              <S.UploadButton htmlFor="file-upload">이미지 선택</S.UploadButton>
-            </S.ImageInput>
           </S.ImageContainer>
           <S.VoteMainLeft>
             <S.VoteTitleInput placeholder="제목을 입력하세요"></S.VoteTitleInput>
             <S.VotePriceInput placeholder="금액"></S.VotePriceInput>
-            <S.VoteSubtitleInput placeholder="내용을 입력하세요"></S.VoteSubtitleInput>
+            <S.VoteSubtitleInput
+              maxLength={100}
+              placeholder="내용을 입력하세요"
+            ></S.VoteSubtitleInput>
 
             {/* <S.InputContainer>
             <S.TitleInput></S.TitleInput>
@@ -131,7 +129,23 @@ export default function Vote() {
           </S.VoteMainLeft>
         </S.VoteMain>
 
-        <S.VoteFooter></S.VoteFooter>
+        <S.VoteFooter>
+          <S.VoteFooterLeft>
+            <S.ImageInput>
+              <S.HiddenInput
+                ref={inputRef}
+                type="file"
+                accept="image/*"
+                id="file-upload"
+                onChange={handleFileChange}
+              />
+            </S.ImageInput>
+            <S.UploadButton htmlFor="file-upload">이미지 선택</S.UploadButton>
+          </S.VoteFooterLeft>
+          <S.VoteFooterRight>
+            <S.UploadButton>투표 추가하기</S.UploadButton>
+          </S.VoteFooterRight>
+        </S.VoteFooter>
       </S.VoteContainer>
       <VoteList />
     </S.MainContainer>

@@ -32,45 +32,44 @@ export default function VoteList() {
     <>
       {votes.map((vote) => (
         <S.VoteContainer key={vote.id}>
-          <S.ImageContainer>
-            <S.ImagePreview>
-              <img
-                src={vote.image || ""}
-                alt="미리보기"
-                style={{
-                  maxWidth: "100%",
-                  height: "100%",
-                  border: "1px solid #ccc",
-                }}
-              />
-            </S.ImagePreview>
-          </S.ImageContainer>
-          <S.VoteMainLeft>
-            <S.VoteButtonContainer>
-              <S.LikeContainer>
-                <S.LikeImageContainer>
-                  <Image
-                    src="/image/like.png"
-                    alt="좋아요 버튼"
-                    fill
-                    style={{ objectFit: "contain" }}
-                  />
-                </S.LikeImageContainer>
-                <S.LikeAmtContainer>26</S.LikeAmtContainer>
-              </S.LikeContainer>
-              <S.LikeContainer>
-                <S.LikeImageContainer>
-                  <Image
-                    src="/image/dislike.png"
-                    alt="좋아요 버튼"
-                    fill
-                    style={{ objectFit: "contain" }}
-                  />
-                </S.LikeImageContainer>
-                <S.LikeAmtContainer>26</S.LikeAmtContainer>
-              </S.LikeContainer>
-            </S.VoteButtonContainer>
-          </S.VoteMainLeft>
+          <S.VoteHeader>
+            <S.VoteHeaderLeft>
+              <S.ProfileImageContainer></S.ProfileImageContainer>
+            </S.VoteHeaderLeft>
+            <S.VoteHeaderRight></S.VoteHeaderRight>
+          </S.VoteHeader>
+          <S.VoteMain>
+            <S.ImageContainer>
+              <S.ImagePreview>
+                <img
+                  src={vote.image || ""}
+                  alt="미리보기"
+                  style={{
+                    maxWidth: "100%",
+                    height: "100%",
+                    border: "1px solid #ccc",
+                    objectFit: "contain",
+                  }}
+                />
+              </S.ImagePreview>
+            </S.ImageContainer>
+            <S.VoteMainLeft>
+              <S.VoteTitleInput placeholder="제목을 입력하세요"></S.VoteTitleInput>
+              <S.VotePriceInput placeholder="금액"></S.VotePriceInput>
+              <S.VoteSubtitleInput
+                maxLength={100}
+                placeholder="내용을 입력하세요"
+              ></S.VoteSubtitleInput>
+            </S.VoteMainLeft>
+          </S.VoteMain>
+
+          <S.VoteFooter>
+            <S.VoteFooterLeft>
+              <S.ImageInput></S.ImageInput>
+              <S.UploadButton htmlFor="file-upload">이미지 선택</S.UploadButton>
+            </S.VoteFooterLeft>
+            <S.VoteFooterRight></S.VoteFooterRight>
+          </S.VoteFooter>
         </S.VoteContainer>
       ))}
     </>
