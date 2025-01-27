@@ -119,115 +119,109 @@ export default function VoteList({
 
   return (
     <>
-      {!isLoaded ? (
-        <Loading />
-      ) : (
-        votes.map((vote, index) => (
-          <S.VoteContainer
-            key={vote.uuid}
-            ref={index === votes.length - 1 ? lastVoteElementRefAction : null}
-          >
-            <S.VoteHeader>
-              <S.VoteHeaderLeft>
-                <S.ProfileImageContainer>
-                  <img
-                    src={vote.user_image || "/default-avatar.png"}
-                    alt="사용자 프로필"
-                    style={{
-                      maxWidth: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </S.ProfileImageContainer>
-                {vote.user_name}
-              </S.VoteHeaderLeft>
-              <S.VoteHeaderRight>
-                {formatDate(vote.created_at)}
-              </S.VoteHeaderRight>
-            </S.VoteHeader>
+      {votes.map((vote, index) => (
+        <S.VoteContainer
+          key={vote.uuid}
+          ref={index === votes.length - 1 ? lastVoteElementRefAction : null}
+        >
+          <S.VoteHeader>
+            <S.VoteHeaderLeft>
+              <S.ProfileImageContainer>
+                <img
+                  src={vote.user_image || "/default-avatar.png"}
+                  alt="사용자 프로필"
+                  style={{
+                    maxWidth: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </S.ProfileImageContainer>
+              {vote.user_name}
+            </S.VoteHeaderLeft>
+            <S.VoteHeaderRight>{formatDate(vote.created_at)}</S.VoteHeaderRight>
+          </S.VoteHeader>
 
-            <S.VoteMain>
-              <S.ImageContainer>
-                <S.ImagePreview>
-                  <Image
-                    src={vote.image || "/placeholder.png"}
-                    alt="미리보기"
-                    fill
-                    style={{
-                      border: "1px solid #ccc",
-                      objectFit: "cover",
-                      borderRadius: "12px",
-                    }}
-                  />
-                </S.ImagePreview>
-              </S.ImageContainer>
-              <S.VoteMainLeft>
-                <S.VoteTitleInput
-                  placeholder="제목"
-                  value={vote.title || ""}
-                  readOnly
+          <S.VoteMain>
+            <S.ImageContainer>
+              <S.ImagePreview>
+                <Image
+                  src={vote.image || "/placeholder.png"}
+                  alt="미리보기"
+                  fill
+                  style={{
+                    border: "1px solid #ccc",
+                    objectFit: "cover",
+                    borderRadius: "12px",
+                  }}
                 />
-                <S.VotePriceInput
-                  placeholder="금액"
-                  value={vote.price || ""}
-                  readOnly
-                />
-                <S.VoteSubtitleInput
-                  as="textarea"
-                  maxLength={100}
-                  value={vote.content || ""}
-                  readOnly
-                />
-                <S.MainLeftBottomContainer>
-                  <S.LikeContainer>
-                    <S.LikeImageContainer>
-                      <Image
-                        onClick={() => onClickAddLike(true, vote.uuid)}
-                        src="/image/like.png"
-                        alt="좋아요"
-                        fill
-                        style={{ objectFit: "contain", cursor: "pointer" }}
-                      />
-                    </S.LikeImageContainer>
-                    <S.LikeAmtContainer>
-                      {likeCounts[vote.uuid] || 0}
-                    </S.LikeAmtContainer>
-                  </S.LikeContainer>
-                  <S.LikeContainer>
-                    <S.LikeImageContainer>
-                      <Image
-                        onClick={() => onClickAddLike(false, vote.uuid)}
-                        src="/image/dislike.png"
-                        alt="싫어요"
-                        fill
-                        style={{ objectFit: "contain", cursor: "pointer" }}
-                      />
-                    </S.LikeImageContainer>
-                    <S.LikeAmtContainer>
-                      {dislikeCounts[vote.uuid] || 0}
-                    </S.LikeAmtContainer>
-                  </S.LikeContainer>
-                </S.MainLeftBottomContainer>
-              </S.VoteMainLeft>
-            </S.VoteMain>
+              </S.ImagePreview>
+            </S.ImageContainer>
+            <S.VoteMainLeft>
+              <S.VoteTitleInput
+                placeholder="제목"
+                value={vote.title || ""}
+                readOnly
+              />
+              <S.VotePriceInput
+                placeholder="금액"
+                value={vote.price || ""}
+                readOnly
+              />
+              <S.VoteSubtitleInput
+                as="textarea"
+                maxLength={100}
+                value={vote.content || ""}
+                readOnly
+              />
+              <S.MainLeftBottomContainer>
+                <S.LikeContainer>
+                  <S.LikeImageContainer>
+                    <Image
+                      onClick={() => onClickAddLike(true, vote.uuid)}
+                      src="/image/like.png"
+                      alt="좋아요"
+                      fill
+                      style={{ objectFit: "contain", cursor: "pointer" }}
+                    />
+                  </S.LikeImageContainer>
+                  <S.LikeAmtContainer>
+                    {likeCounts[vote.uuid] || 0}
+                  </S.LikeAmtContainer>
+                </S.LikeContainer>
+                <S.LikeContainer>
+                  <S.LikeImageContainer>
+                    <Image
+                      onClick={() => onClickAddLike(false, vote.uuid)}
+                      src="/image/dislike.png"
+                      alt="싫어요"
+                      fill
+                      style={{ objectFit: "contain", cursor: "pointer" }}
+                    />
+                  </S.LikeImageContainer>
+                  <S.LikeAmtContainer>
+                    {dislikeCounts[vote.uuid] || 0}
+                  </S.LikeAmtContainer>
+                </S.LikeContainer>
+              </S.MainLeftBottomContainer>
+            </S.VoteMainLeft>
+          </S.VoteMain>
 
-            <S.VoteFooter>
-              <S.VoteFooterLeft>
-                <S.UploadButton onClick={() => toggleComment(vote.uuid)}>
-                  댓글보기
+          <S.VoteFooter>
+            <S.VoteFooterLeft>
+              <S.UploadButton onClick={() => toggleComment(vote.uuid)}>
+                댓글보기
+              </S.UploadButton>
+              {vote.user_id === userId && (
+                <S.UploadButton onClick={() => handleDelete(vote.uuid)}>
+                  삭제하기
                 </S.UploadButton>
-                {vote.user_id === userId && (
-                  <S.UploadButton onClick={() => handleDelete(vote.uuid)}>
-                    삭제하기
-                  </S.UploadButton>
-                )}
-              </S.VoteFooterLeft>
-            </S.VoteFooter>
-            {openComments[vote.uuid] ? <Comment vote_uuid={vote.uuid} /> : null}
-          </S.VoteContainer>
-        ))
-      )}
+              )}
+            </S.VoteFooterLeft>
+          </S.VoteFooter>
+          {openComments[vote.uuid] ? <Comment vote_uuid={vote.uuid} /> : null}
+        </S.VoteContainer>
+      ))}
     </>
   );
 }
