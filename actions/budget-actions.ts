@@ -9,6 +9,9 @@ export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
 export type TagInsert = Database["public"]["Tables"]["tag"]["Insert"];
 export type VoteInsert = Database["public"]["Tables"]["vote"]["Insert"];
 export type VoteRow = Database["public"]["Tables"]["vote"]["Row"];
+export type LikeInsert = Database["public"]["Tables"]["like"]["Insert"];
+export type LikeRow = Database["public"]["Tables"]["like"]["Row"];
+
 import { v4 as uuid } from "uuid";
 
 // 공통 Supabase 클라이언트 생성 함수
@@ -263,11 +266,11 @@ export async function getVotes(): Promise<VoteRow[]> {
   }
 }
 
-export async function deleteVote(voteId: number): Promise<boolean> {
+export async function deleteVote(voteId: string): Promise<boolean> {
   try {
     const supabase = await getSupabaseClient();
 
-    const { error } = await supabase.from("vote").delete().eq("id", voteId);
+    const { error } = await supabase.from("vote").delete().eq("uuid", voteId);
 
     if (error) {
       console.error("Error deleting vote:", error.message);
@@ -281,5 +284,50 @@ export async function deleteVote(voteId: number): Promise<boolean> {
       err instanceof Error ? err.message : err
     );
     return false;
+  }
+}
+
+export async function addLike(likeData: LikeInsert): Promise<boolean> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { error } = await supabase.from("like").insert(likeData);
+
+    if (error) {
+      console.error("Error adding Like:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(
+      "Unexpected error in addLike:",
+      err instanceof Error ? err.message : err
+    );
+    return false;
+  }
+}
+
+export async function getLike(vote_uuid: string): Promise<LikeRow[]> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { data, error } = await supabase
+      .from("like")
+      .select("*")
+      .eq("vote_id", vote_uuid);
+
+    if (error) {
+      console.error("Error fetching tags:", error.message);
+      return [];
+    }
+
+    return data || [];
+  } catch (err) {
+    console.error(
+      "Unexpected error in getLike:",
+      err instanceof Error ? err.message : err
+    );
+    return [];
   }
 }
