@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect, AnyActionArg } from "react";
+import { useState, useRef, useEffect } from "react";
 import * as S from "../../../styles/vote/vote";
 import {
   handleAddImages,

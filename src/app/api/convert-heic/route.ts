@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-// @ts-ignore
+//@ts-expect-error tobuild
 import heicConvert from "heic-convert";
 
 export async function POST(req: NextRequest) {
