@@ -15,6 +15,8 @@ export type FriendInsert = Database["public"]["Tables"]["friend"]["Insert"];
 export type FriendRow = Database["public"]["Tables"]["friend"]["Row"];
 export type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
 export type UserRow = Database["public"]["Tables"]["users"]["Row"];
+export type CommentInsert = Database["public"]["Tables"]["comment"]["Insert"];
+export type CommentRow = Database["public"]["Tables"]["comment"]["Row"];
 
 import { v4 as uuid } from "uuid";
 
@@ -476,5 +478,79 @@ export async function getUsers(user_id: string): Promise<UserRow[]> {
       err instanceof Error ? err.message : err
     );
     return [];
+  }
+}
+
+export async function addComment(CommentData: CommentInsert): Promise<boolean> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { error } = await supabase.from("comment").insert(CommentData);
+
+    if (error) {
+      console.error("Error adding Comment:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(
+      "Unexpected error in addComment:",
+      err instanceof Error ? err.message : err
+    );
+    return false;
+  }
+}
+
+export async function getComment(vote_uuid: string): Promise<CommentRow[]> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { data, error } = await supabase
+      .from("comment")
+      .select("*")
+      .eq("vote_uuid", vote_uuid);
+
+    if (error) {
+      console.error("Error fetching comment:", error.message);
+      return [];
+    }
+
+    if (!data) {
+      console.warn("No Comment found.");
+      return [];
+    }
+
+    return data;
+  } catch (err) {
+    console.error(
+      "Unexpected error in comment:",
+      err instanceof Error ? err.message : err
+    );
+    return [];
+  }
+}
+
+export async function deleteComment(comment_id: string): Promise<boolean> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { error } = await supabase
+      .from("comment")
+      .delete()
+      .eq("id", comment_id);
+
+    if (error) {
+      console.error("Error deleting comment:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(
+      "Unexpected error in deleteComment:",
+      err instanceof Error ? err.message : err
+    );
+    return false;
   }
 }

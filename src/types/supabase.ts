@@ -45,6 +45,36 @@ export type Database = {
         }
         Relationships: []
       }
+      comment: {
+        Row: {
+          comment: string | null
+          created_at: string
+          id: string
+          user_fullname: string | null
+          user_id: string | null
+          user_image: string | null
+          vote_uuid: string | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          user_fullname?: string | null
+          user_id?: string | null
+          user_image?: string | null
+          vote_uuid?: string | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          user_fullname?: string | null
+          user_id?: string | null
+          user_image?: string | null
+          vote_uuid?: string | null
+        }
+        Relationships: []
+      }
       expense: {
         Row: {
           created_at: string

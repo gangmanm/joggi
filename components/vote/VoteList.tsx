@@ -203,14 +203,16 @@ export default function VoteList({
           </S.VoteMain>
 
           <S.VoteFooter>
-            <S.UploadButton onClick={() => toggleComment(vote.uuid)}>
-              댓글보기
-            </S.UploadButton>
-            {vote.user_id === userId && (
-              <S.UploadButton onClick={() => handleDelete(vote.uuid)}>
-                삭제하기
+            <S.VoteFooterRight>
+              <S.UploadButton onClick={() => toggleComment(vote.uuid)}>
+                댓글보기
               </S.UploadButton>
-            )}
+              {vote.user_id === userId && (
+                <S.UploadButton onClick={() => handleDelete(vote.uuid)}>
+                  삭제하기
+                </S.UploadButton>
+              )}
+            </S.VoteFooterRight>
           </S.VoteFooter>
           {openComments[vote.uuid] && <Comment vote_uuid={vote.uuid} />}
         </S.VoteContainer>

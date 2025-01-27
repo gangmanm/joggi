@@ -122,6 +122,7 @@ export default function Tag() {
       alert("예산 삭제 중 오류가 발생했습니다.");
     }
   };
+
   const onClickEdit = () => {
     setTagButtonName("태그 편집하기");
     setNewTagName(selectedTag?.name || ""); // 기본값 처리
