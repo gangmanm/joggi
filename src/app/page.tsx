@@ -3,8 +3,6 @@
 import * as S from "../../styles/main";
 import Image from "next/image";
 import { createClient } from "../../utils/supabase/client";
-import { useEffect } from "react";
-import { addUsers, getUsers } from "../../actions/budget-actions";
 
 const supabase = createClient();
 
