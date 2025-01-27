@@ -110,6 +110,8 @@ export type Database = {
           price: string | null
           title: string | null
           user_id: string | null
+          user_image: string | null
+          user_name: string | null
         }
         Insert: {
           content?: string | null
@@ -121,6 +123,8 @@ export type Database = {
           price?: string | null
           title?: string | null
           user_id?: string | null
+          user_image?: string | null
+          user_name?: string | null
         }
         Update: {
           content?: string | null
@@ -132,6 +136,8 @@ export type Database = {
           price?: string | null
           title?: string | null
           user_id?: string | null
+          user_image?: string | null
+          user_name?: string | null
         }
         Relationships: []
       }

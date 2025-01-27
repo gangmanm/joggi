@@ -7,7 +7,7 @@ import {
   getVotes,
 } from "../../../actions/budget-actions";
 import { Database } from "../../../src/types/supabase";
-import { Session } from "@supabase/supabase-js";
+import { useSessionContext } from "../context/SessionContext";
 export type VoteRow = Database["public"]["Tables"]["vote"]["Row"];
 import VoteList from "../../../components/vote/VoteList";
 import Image from "next/image";
@@ -16,25 +16,10 @@ export default function Vote() {
   const [file, setFile] = useState<File | null>(null); // 단일 파일 상태
   const [preview, setPreview] = useState<string | null>(null); // 이미지 미리보기 상태
   const inputRef = useRef<HTMLInputElement>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [votes, setVotes] = useState<VoteRow[]>([]);
+  const { session } = useSessionContext();
   const userId = session?.user;
-
-  useEffect(() => {
-    const fetchTags = async () => {
-      try {
-        const fetchedVotes = await getVotes();
-
-        setVotes(fetchedVotes);
-      } catch (err) {
-        console.error("Failed to fetch votes:", err);
-      }
-    };
-
-    if (userId) {
-      fetchTags();
-    }
-  }, [userId]);
+  const user_fullname =
+    session?.user?.identities?.[0]?.identity_data?.full_name;
 
   // 파일 선택 핸들러
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +54,7 @@ export default function Vote() {
     setPreview(null); // 미리보기 초기화
     return imageurl;
   };
+
   const onClickAddVote = async () => {
     try {
       const imageurl = await uploadFile(); // 비동기 처리
@@ -94,7 +80,21 @@ export default function Vote() {
       <S.VoteContainer>
         <S.VoteHeader>
           <S.VoteHeaderLeft>
-            <S.ProfileImageContainer></S.ProfileImageContainer>
+            <S.ProfileImageContainer>
+              <img
+                src={
+                  session?.user?.identities?.[0]?.identity_data?.avatar_url ||
+                  ""
+                }
+                alt="미리보기"
+                style={{
+                  maxWidth: "100%",
+                  height: "100%",
+                  objectFit: "fill",
+                }}
+              />
+            </S.ProfileImageContainer>
+            {user_fullname}
           </S.VoteHeaderLeft>
           <S.VoteHeaderRight></S.VoteHeaderRight>
         </S.VoteHeader>
@@ -121,11 +121,6 @@ export default function Vote() {
               maxLength={100}
               placeholder="내용을 입력하세요"
             ></S.VoteSubtitleInput>
-
-            {/* <S.InputContainer>
-            <S.TitleInput></S.TitleInput>
-            <div onClick={onClickAddVote}>글 추가하기</div>
-          </S.InputContainer> */}
           </S.VoteMainLeft>
         </S.VoteMain>
 
@@ -143,7 +138,9 @@ export default function Vote() {
             <S.UploadButton htmlFor="file-upload">이미지 선택</S.UploadButton>
           </S.VoteFooterLeft>
           <S.VoteFooterRight>
-            <S.UploadButton>투표 추가하기</S.UploadButton>
+            <S.UploadButton onClick={onClickAddVote}>
+              투표 추가하기
+            </S.UploadButton>
           </S.VoteFooterRight>
         </S.VoteFooter>
       </S.VoteContainer>

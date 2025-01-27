@@ -6,6 +6,7 @@ export type VoteRow = Database["public"]["Tables"]["vote"]["Row"];
 import { getVotes } from "../../actions/budget-actions";
 import * as S from "../../styles/vote/vote";
 import Image from "next/image";
+
 export default function VoteList() {
   const { session } = useSessionContext();
   const [votes, setVotes] = useState<VoteRow[]>([]);

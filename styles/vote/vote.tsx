@@ -7,10 +7,15 @@ export const MainContainer = styled.div`
   align-items: center;
   padding: 12px;
   z-index: 20;
-  overflow: scroll;
+  overflow: scroll; /* 스크롤바 제거 */
   @media (max-width: ${({ theme }) => theme.breakpoints.Mobile}) {
     width: 100vw;
     height: 100vh;
+  }
+
+  /* 웹킷 브라우저에서 스크롤바 숨기기 */
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
@@ -83,7 +88,6 @@ export const VoteFooterRight = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  background-color: blue;
 `;
 
 export const ProfileImageContainer = styled.div`
