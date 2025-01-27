@@ -4,7 +4,7 @@ import * as S from "../../styles/main";
 import Image from "next/image";
 import { createClient } from "../../utils/supabase/client";
 import { useEffect } from "react";
-import { addUsers } from "../../actions/budget-actions";
+import { addUsers, getUsers } from "../../actions/budget-actions";
 
 const supabase = createClient();
 
@@ -34,27 +34,42 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
+  const handleAuthChange = async () => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session) {
         console.log("사용자가 로그인했습니다:", session);
-        addUsers({
-          created_at: new Date().toISOString(),
-          user_id: session?.user?.id || "",
-          user_fullname:
-            session?.user?.identities?.[0]?.identity_data?.full_name || null,
-          user_image:
-            session?.user?.identities?.[0]?.identity_data?.avatar_url || null,
-        });
+
+        // 사용자가 이미 존재하는지 확인
+        const fetchedData = await getUsers(session.user.id);
+
+        if (!fetchedData) {
+          // 유저가 존재하지 않는 경우에만 추가
+          await addUsers({
+            created_at: new Date().toISOString(),
+            user_id: session?.user?.id || "",
+            user_fullname:
+              session?.user?.identities?.[0]?.identity_data?.full_name || null,
+            user_image:
+              session?.user?.identities?.[0]?.identity_data?.avatar_url || null,
+          });
+
+          console.log("새로운 사용자가 추가되었습니다.");
+        } else {
+          console.log("사용자가 이미 존재합니다.");
+        }
       } else {
         console.log("사용자가 로그아웃했습니다.");
       }
     });
 
-    // Cleanup the subscription
+    // Cleanup the subscription when component unmounts
     return () => subscription.unsubscribe();
+  };
+
+  useEffect(() => {
+    handleAuthChange();
   }, []);
 
   return (

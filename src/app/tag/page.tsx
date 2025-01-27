@@ -15,6 +15,7 @@ import { HexColorPicker } from "react-colorful";
 import type { Tag } from "../../types/budget";
 import Warning from "../../../components/Warning";
 export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
+import LoadingWrapper from "../../../components/LoadingWrapper";
 
 export default function Tag() {
   const { session } = useSessionContext();
@@ -181,89 +182,91 @@ export default function Tag() {
   const filteredTags = tags.filter((tag) => tag.setting === setting);
 
   return (
-    <S.MainContainer>
-      <S.Header setting={setting || "income"}>
-        {setting === "income" ? "수입" : "지출"} 태그 목록
-      </S.Header>
-      <S.TagGenerate setting={setting || "income"}>
-        <S.TagGenerateBox setting={setting || "income"}>
-          <S.TagGenerateColor tagcolor={color || "#ccc"}></S.TagGenerateColor>
-          <S.TagGenerateInput
-            tagcolor={color || "#ccc"}
-            placeholder="태그 명 입력"
-            value={newTagName}
-            onChange={(e) => {
-              if (e.target.value.length <= 6) {
-                setNewTagName(e.target.value);
-              }
-            }}
-          ></S.TagGenerateInput>
-        </S.TagGenerateBox>
-        <S.TagColorBox setting={setting || "income"}>
-          <HexColorPicker
-            color={color}
-            onChange={setColor}
-            style={{ width: "100%", height: "150px" }}
-          />
+    <LoadingWrapper>
+      <S.MainContainer>
+        <S.Header setting={setting || "income"}>
+          {setting === "income" ? "수입" : "지출"} 태그 목록
+        </S.Header>
+        <S.TagGenerate setting={setting || "income"}>
+          <S.TagGenerateBox setting={setting || "income"}>
+            <S.TagGenerateColor tagcolor={color || "#ccc"}></S.TagGenerateColor>
+            <S.TagGenerateInput
+              tagcolor={color || "#ccc"}
+              placeholder="태그 명 입력"
+              value={newTagName}
+              onChange={(e) => {
+                if (e.target.value.length <= 6) {
+                  setNewTagName(e.target.value);
+                }
+              }}
+            ></S.TagGenerateInput>
+          </S.TagGenerateBox>
+          <S.TagColorBox setting={setting || "income"}>
+            <HexColorPicker
+              color={color}
+              onChange={setColor}
+              style={{ width: "100%", height: "150px" }}
+            />
 
-          <S.TagAddButton
-            setting={setting || "income"}
-            onClick={handleAddTagAction}
+            <S.TagAddButton
+              setting={setting || "income"}
+              onClick={handleAddTagAction}
+            >
+              {tagButtonName}
+            </S.TagAddButton>
+          </S.TagColorBox>
+        </S.TagGenerate>
+        <S.TagContainer>
+          {filteredTags.length > 0 ? (
+            filteredTags.map((tag) => (
+              <S.TagBox key={tag.id}>
+                <S.TagColor tagcolor={tag.color || "#ccc"} />
+                <S.TagText
+                  style={{
+                    fontSize: (tag.name ?? "").length > 5 ? "12px" : "15px",
+                  }}
+                  tagcolor={tag.color || "#ccc"}
+                >
+                  {tag.name}
+                </S.TagText>
+                <S.TagMenu
+                  tagcolor={tag.color || "#ccc"}
+                  onClick={(e) => handleMenuClick(e, tag)}
+                >
+                  ...
+                </S.TagMenu>
+              </S.TagBox>
+            ))
+          ) : (
+            <p>해당 설정에 맞는 태그가 없습니다.</p>
+          )}
+        </S.TagContainer>
+        {menuPosition && selectedTag && (
+          <S.TagMenuContainer
+            style={{
+              position: "fixed",
+              top: menuPosition.y,
+              left: menuPosition.x,
+            }}
           >
-            {tagButtonName}
-          </S.TagAddButton>
-        </S.TagColorBox>
-      </S.TagGenerate>
-      <S.TagContainer>
-        {filteredTags.length > 0 ? (
-          filteredTags.map((tag) => (
-            <S.TagBox key={tag.id}>
-              <S.TagColor tagcolor={tag.color || "#ccc"} />
-              <S.TagText
-                style={{
-                  fontSize: (tag.name ?? "").length > 5 ? "12px" : "15px",
-                }}
-                tagcolor={tag.color || "#ccc"}
-              >
-                {tag.name}
-              </S.TagText>
-              <S.TagMenu
-                tagcolor={tag.color || "#ccc"}
-                onClick={(e) => handleMenuClick(e, tag)}
-              >
-                ...
-              </S.TagMenu>
-            </S.TagBox>
-          ))
-        ) : (
-          <p>해당 설정에 맞는 태그가 없습니다.</p>
+            <S.TagMenuText onClick={onClickEdit}>편집하기</S.TagMenuText>
+            <S.TagMenuText onClick={() => setWarningOpen(true)}>
+              삭제하기
+            </S.TagMenuText>
+            {/* 추가 메뉴 내용 */}
+            <S.TagMenuText onClick={closeMenu}>닫기</S.TagMenuText>
+          </S.TagMenuContainer>
         )}
-      </S.TagContainer>
-      {menuPosition && selectedTag && (
-        <S.TagMenuContainer
-          style={{
-            position: "fixed",
-            top: menuPosition.y,
-            left: menuPosition.x,
-          }}
-        >
-          <S.TagMenuText onClick={onClickEdit}>편집하기</S.TagMenuText>
-          <S.TagMenuText onClick={() => setWarningOpen(true)}>
-            삭제하기
-          </S.TagMenuText>
-          {/* 추가 메뉴 내용 */}
-          <S.TagMenuText onClick={closeMenu}>닫기</S.TagMenuText>
-        </S.TagMenuContainer>
-      )}
-      {warningOpen ? (
-        <Warning
-          message="태그를 삭제하시겠습니까? 태그로 작성된 가계 항목들도 모두 삭제됩니다."
-          onNoAction={() => setWarningOpen(false)}
-          onYesAction={onClickDelete}
-        />
-      ) : (
-        ""
-      )}
-    </S.MainContainer>
+        {warningOpen ? (
+          <Warning
+            message="태그를 삭제하시겠습니까? 태그로 작성된 가계 항목들도 모두 삭제됩니다."
+            onNoAction={() => setWarningOpen(false)}
+            onYesAction={onClickDelete}
+          />
+        ) : (
+          ""
+        )}
+      </S.MainContainer>
+    </LoadingWrapper>
   );
 }

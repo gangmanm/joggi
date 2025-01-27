@@ -9,14 +9,12 @@ export default function LoadingWrapper({
 }: {
   children: React.ReactNode;
 }) {
+  // 로딩 상태 관리
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsLoaded(true); // 글로벌 스타일 적용 완료
-    }, 500); // 500ms 후 로딩 상태 해제 (필요에 따라 조정)
-
-    return () => clearTimeout(timeout); // 컴포넌트 언마운트 시 클린업
+    // React가 클라이언트에서 완전히 마운트된 후 상태 변경
+    setIsLoaded(true);
   }, []);
 
   if (!isLoaded) {

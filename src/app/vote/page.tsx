@@ -14,7 +14,7 @@ import VoteList from "../../../components/vote/VoteList";
 import Image from "next/image";
 import Menu from "../../../components/Menu";
 import { useRouter } from "next/navigation";
-
+import LoadingWrapper from "../../../components/LoadingWrapper";
 export default function Vote() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -222,97 +222,99 @@ export default function Vote() {
   };
 
   return (
-    <S.MainContainer>
-      <Menu />
-      <S.HeaderContainer>
-        <S.MenuText onClick={handleRouteToFriends}>친구 목록 보기</S.MenuText>
-        <S.MenuText onClick={onClickOnlyUser}>내가 쓴 글 보기</S.MenuText>
-        <S.MenuText onClick={onClickWithFriends}>전체 글 보기</S.MenuText>
-      </S.HeaderContainer>
-      <S.VoteContainer>
-        <S.VoteHeader>
-          <S.VoteHeaderLeft>
-            <S.ProfileImageContainer>
-              <Image
-                src={user_image || ""}
-                alt="프로필 아이콘"
-                fill
-                style={{ objectFit: "contain" }}
-              />
-            </S.ProfileImageContainer>
-            {user_fullname}
-          </S.VoteHeaderLeft>
-        </S.VoteHeader>
-        <S.VoteMain>
-          <S.ImageContainer>
-            <S.ImagePreview>
-              {!preview ? (
-                <label htmlFor="file-upload">이미지 추가하기</label>
-              ) : (
-                <img
-                  src={preview}
-                  alt="미리보기"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    border: "1px solid #ccc",
-                    borderRadius: "12px",
-                  }}
+    <LoadingWrapper>
+      <S.MainContainer>
+        <Menu />
+        <S.HeaderContainer>
+          <S.MenuText onClick={handleRouteToFriends}>친구 목록 보기</S.MenuText>
+          <S.MenuText onClick={onClickOnlyUser}>내가 쓴 글 보기</S.MenuText>
+          <S.MenuText onClick={onClickWithFriends}>전체 글 보기</S.MenuText>
+        </S.HeaderContainer>
+        <S.VoteContainer>
+          <S.VoteHeader>
+            <S.VoteHeaderLeft>
+              <S.ProfileImageContainer>
+                <Image
+                  src={user_image || ""}
+                  alt="프로필 아이콘"
+                  fill
+                  style={{ objectFit: "contain" }}
                 />
-              )}
-            </S.ImagePreview>
-          </S.ImageContainer>
+              </S.ProfileImageContainer>
+              {user_fullname}
+            </S.VoteHeaderLeft>
+          </S.VoteHeader>
+          <S.VoteMain>
+            <S.ImageContainer>
+              <S.ImagePreview>
+                {!preview ? (
+                  <label htmlFor="file-upload">이미지 추가하기</label>
+                ) : (
+                  <img
+                    src={preview}
+                    alt="미리보기"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      border: "1px solid #ccc",
+                      borderRadius: "12px",
+                    }}
+                  />
+                )}
+              </S.ImagePreview>
+            </S.ImageContainer>
 
-          <S.VoteMainLeft>
-            <S.VoteTitleInput
-              placeholder="제목을 입력하세요"
-              value={title}
-              onChange={handleChangeTitle}
-            />
-            <S.VotePriceInput
-              placeholder="금액"
-              value={price}
-              onChange={handleChangePrice}
-            />
-            <S.VoteSubtitleInput
-              maxLength={100}
-              placeholder="내용을 입력하세요"
-              value={content}
-              onChange={handleChangeContent}
-            />
-          </S.VoteMainLeft>
-        </S.VoteMain>
-
-        <S.VoteFooter>
-          <S.VoteFooterLeft>
-            <S.ImageInput>
-              <S.HiddenInput
-                ref={inputRef}
-                type="file"
-                accept="image/*,.heic,.heif"
-                id="file-upload"
-                onChange={handleFileChange}
+            <S.VoteMainLeft>
+              <S.VoteTitleInput
+                placeholder="제목을 입력하세요"
+                value={title}
+                onChange={handleChangeTitle}
               />
-            </S.ImageInput>
+              <S.VotePriceInput
+                placeholder="금액"
+                value={price}
+                onChange={handleChangePrice}
+              />
+              <S.VoteSubtitleInput
+                maxLength={100}
+                placeholder="내용을 입력하세요"
+                value={content}
+                onChange={handleChangeContent}
+              />
+            </S.VoteMainLeft>
+          </S.VoteMain>
 
-            {preview && (
-              <S.UploadButton htmlFor="file-upload">
-                이미지 편집하기
+          <S.VoteFooter>
+            <S.VoteFooterLeft>
+              <S.ImageInput>
+                <S.HiddenInput
+                  ref={inputRef}
+                  type="file"
+                  accept="image/*,.heic,.heif"
+                  id="file-upload"
+                  onChange={handleFileChange}
+                />
+              </S.ImageInput>
+
+              {preview && (
+                <S.UploadButton htmlFor="file-upload">
+                  이미지 편집하기
+                </S.UploadButton>
+              )}
+            </S.VoteFooterLeft>
+            <S.VoteFooterRight>
+              <S.UploadButton onClick={onClickAddVote}>
+                투표 추가하기
               </S.UploadButton>
-            )}
-          </S.VoteFooterLeft>
-          <S.VoteFooterRight>
-            <S.UploadButton onClick={onClickAddVote}>
-              투표 추가하기
-            </S.UploadButton>
-          </S.VoteFooterRight>
-        </S.VoteFooter>
-      </S.VoteContainer>
-      <VoteList
-        originalVotes={votes}
-        lastVoteElementRefAction={lastVoteElementRef}
-      />
-    </S.MainContainer>
+            </S.VoteFooterRight>
+          </S.VoteFooter>
+        </S.VoteContainer>
+        <VoteList
+          originalVotes={votes}
+          lastVoteElementRefAction={lastVoteElementRef}
+        />
+      </S.MainContainer>
+    </LoadingWrapper>
   );
 }
