@@ -86,13 +86,38 @@ export default function Vote() {
       console.error("Failed to fetch votes:", err);
     }
   };
-
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (!event.target.files || event.target.files.length === 0) return;
 
     const file = event.target.files[0];
+
+    // 파일 확장자 검사 (HEIC 포맷인지 확인)
+    const isHEIC = file.type === "image/heic" || file.type === "image/heif";
+
+    // Safari 브라우저 감지 (User-Agent 기반)
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    if (!isHEIC) {
+      // HEIC가 아닌 경우 변환 없이 바로 미리보기 설정
+      const previewUrl = URL.createObjectURL(file);
+      setPreview(previewUrl);
+      setFile(file);
+      console.log("HEIC가 아닌 파일을 직접 미리보기로 표시");
+      return;
+    }
+
+    if (isSafari) {
+      // Safari에서는 HEIC를 직접 미리보기 표시
+      const previewUrl = URL.createObjectURL(file);
+      setPreview(previewUrl);
+      setFile(file);
+      console.log("Safari에서는 HEIC 변환 없이 미리보기 표시");
+      return;
+    }
+
+    // HEIC 파일 변환 로직
     const formData = new FormData();
     formData.append("file", file);
 
@@ -117,6 +142,7 @@ export default function Vote() {
 
       setPreview(previewUrl); // 변환된 이미지 미리보기
       setFile(jpgFile); // JPG 파일로 저장
+      console.log("HEIC 파일을 JPG로 변환하여 표시");
     } catch (error) {
       console.error("파일 업로드 및 변환 실패:", error);
     }
