@@ -208,7 +208,6 @@ export default function Vote() {
         <S.MenuText onClick={handleRouteToFriends}>친구 목록 보기</S.MenuText>
         <S.MenuText onClick={onClickOnlyUser}>내가 쓴 글 보기</S.MenuText>
         <S.MenuText onClick={onClickWithFriends}>전체 글 보기</S.MenuText>
-        <S.MenuText onClick={onClickAddVote}>글 추가하기 +</S.MenuText>
       </S.HeaderContainer>
       <S.VoteContainer>
         <S.VoteHeader>
@@ -227,19 +226,24 @@ export default function Vote() {
         <S.VoteMain>
           <S.ImageContainer>
             <S.ImagePreview>
-              {preview && (
-                <img
-                  src={preview}
+              {!preview ? (
+                <label htmlFor="file-upload">이미지 추가하기</label>
+              ) : (
+                <Image
+                  src={preview || ""}
                   alt="미리보기"
+                  fill
                   style={{
-                    maxWidth: "100%",
-                    height: "100%",
+                    objectFit: "cover", // ✅ 올바른 방식
+                    objectPosition: "center",
                     border: "1px solid #ccc",
+                    borderRadius: "12px",
                   }}
                 />
               )}
             </S.ImagePreview>
           </S.ImageContainer>
+
           <S.VoteMainLeft>
             <S.VoteTitleInput
               placeholder="제목을 입력하세요"
@@ -271,7 +275,11 @@ export default function Vote() {
                 onChange={handleFileChange}
               />
             </S.ImageInput>
-            <S.UploadButton htmlFor="file-upload">이미지 선택</S.UploadButton>
+            {preview && (
+              <S.UploadButton htmlFor="file-upload">
+                이미지 편집하기
+              </S.UploadButton>
+            )}
           </S.VoteFooterLeft>
           <S.VoteFooterRight>
             <S.UploadButton onClick={onClickAddVote}>

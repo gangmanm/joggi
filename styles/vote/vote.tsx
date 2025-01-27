@@ -23,23 +23,27 @@ export const HeaderContainer = styled.div`
   width: 100%;
   height: 30px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
 `;
 
 export const MenuText = styled.div`
   color: ${({ theme }) => theme.colors.mutual};
   cursor: pointer;
+  border-radius: 12px;
 `;
 
 export const VoteContainer = styled.div`
   width: 100%;
   height: 250px;
-  background-color: ${({ theme }) => theme.colors.lightmutual};
+  border: 3px solid ${({ theme }) => theme.colors.mutual};
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   margin-top: 10px;
-  padding: 20px;
+  padding: 10px;
 `;
 
 export const VoteHeader = styled.div`
@@ -47,6 +51,12 @@ export const VoteHeader = styled.div`
   height: 30px;
   display: flex;
   margin-bottom: 10px;
+  background-color: ${({ theme }) => theme.colors.lightmutual};
+  padding: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  color: ${({ theme }) => theme.colors.mutual};
+  border-radius: 5px;
 `;
 
 export const VoteHeaderLeft = styled.div`
@@ -75,6 +85,10 @@ export const VoteFooter = styled.div`
   height: 30px;
   display: flex;
   align-items: center;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  border-radius: 10px;
 `;
 
 export const VoteFooterLeft = styled.div`
@@ -83,7 +97,6 @@ export const VoteFooterLeft = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 10px;
 `;
 
 export const VoteFooterRight = styled.div`
@@ -235,6 +248,8 @@ export const ImageContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: ${({ theme }) => theme.colors.mutual};
+  border-radius: 12px;
 `;
 
 export const InputContainer = styled.div`
@@ -247,13 +262,15 @@ export const InputContainer = styled.div`
 `;
 
 export const ImagePreview = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.mutual};
   border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
 `;
 export const ImageInput = styled.div`
   height: 100%;
@@ -275,7 +292,6 @@ export const HiddenInput = styled.input`
 
 export const UploadButton = styled.label`
   font-size: 14px;
-  font-weight: bold;
   color: ${({ theme }) => theme.colors.mutual};
   border: none;
   border-radius: 5px;
@@ -283,6 +299,7 @@ export const UploadButton = styled.label`
   display: flex;
   justify-content: flex-start;
   margin-left: 10px;
+  font-weight: 600;
 `;
 
 export const TitleInput = styled.input`
@@ -293,6 +310,5 @@ export const TitleInput = styled.input`
   align-items: center;
   font-size: 16px;
   text-align: center;
-
   color: white;
 `;

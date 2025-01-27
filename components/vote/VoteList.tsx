@@ -157,14 +157,15 @@ export default function VoteList({
             <S.VoteMain>
               <S.ImageContainer>
                 <S.ImagePreview>
-                  <img
+                  <Image
                     src={vote.image || "/placeholder.png"}
                     alt="미리보기"
+                    fill
                     style={{
-                      maxWidth: "100%",
-                      height: "100%",
                       border: "1px solid #ccc",
-                      objectFit: "contain",
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      borderRadius: "12px",
                     }}
                   />
                 </S.ImagePreview>

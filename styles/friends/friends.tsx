@@ -24,6 +24,7 @@ export const HeaderContainer = styled.div`
   height: 30px;
   display: flex;
   justify-content: flex-end;
+  font-weight: 500;
 `;
 
 export const MenuText = styled.div`
