@@ -6,7 +6,6 @@ import { deleteVote, addLike, getLike } from "../../actions/budget-actions";
 import Image from "next/image";
 import * as S from "../../styles/vote/vote";
 import Comment from "./Comment";
-import Loading from "../Loading";
 
 export type VoteRow = Database["public"]["Tables"]["vote"]["Row"];
 
