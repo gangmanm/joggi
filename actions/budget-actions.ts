@@ -14,7 +14,7 @@ export type LikeRow = Database["public"]["Tables"]["like"]["Row"];
 export type FriendInsert = Database["public"]["Tables"]["friend"]["Insert"];
 export type FriendRow = Database["public"]["Tables"]["friend"]["Row"];
 export type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
-
+export type UserRow = Database["public"]["Tables"]["users"]["Row"];
 
 import { v4 as uuid } from "uuid";
 
@@ -244,19 +244,27 @@ export async function addVote(voteData: VoteInsert): Promise<boolean> {
 }
 
 // 투표 가져오기
-export async function getVotes(): Promise<VoteRow[]> {
+export async function getVotes(friendIds: string[]): Promise<VoteRow[]> {
   try {
     const supabase = await getSupabaseClient();
 
-    const { data, error } = await supabase.from("vote").select("*");
+    if (friendIds.length === 0) {
+      console.warn("No friend IDs provided.");
+      return [];
+    }
+
+    const { data, error } = await supabase
+      .from("vote")
+      .select("*")
+      .in("user_id", friendIds); // user_id가 friendIds 배열에 포함된 경우만 조회
 
     if (error) {
       console.error("Error fetching votes:", error.message);
       return [];
     }
 
-    if (!data) {
-      console.warn("No votes found.");
+    if (!data || data.length === 0) {
+      console.warn("No matching votes found.");
       return [];
     }
 
@@ -433,5 +441,34 @@ export async function addUsers(userData: UserInsert): Promise<boolean> {
       err instanceof Error ? err.message : err
     );
     return false;
+  }
+}
+
+export async function getUsers(user_id: string): Promise<UserRow[]> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("user_id", user_id);
+
+    if (error) {
+      console.error("Error fetching users:", error.message);
+      return [];
+    }
+
+    if (!data) {
+      console.warn("No users found.");
+      return [];
+    }
+
+    return data;
+  } catch (err) {
+    console.error(
+      "Unexpected error in users:",
+      err instanceof Error ? err.message : err
+    );
+    return [];
   }
 }

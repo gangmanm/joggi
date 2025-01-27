@@ -218,11 +218,7 @@ export default function VoteList({ originalVotes }: VoteListProps) {
               </S.VoteMainLeft>
             </S.VoteMain>
             <S.VoteFooter>
-              <S.VoteFooterLeft>
-                <S.UploadButton htmlFor="file-upload">
-                  이미지 선택
-                </S.UploadButton>
-              </S.VoteFooterLeft>
+              <S.VoteFooterLeft></S.VoteFooterLeft>
               <S.VoteFooterRight>
                 <S.UploadButton>댓글보기</S.UploadButton>
                 {vote.user_id === userId && (

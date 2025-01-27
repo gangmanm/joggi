@@ -23,7 +23,7 @@ export const HeaderContainer = styled.div`
   width: 100%;
   height: 30px;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end;
 `;
 
 export const MenuText = styled.div`
@@ -60,5 +60,45 @@ export const AddButton = styled.div`
   justify-content: flex-end;
   align-items: center;
   font-size: 20px;
+  font-weight: 700;
+`;
+
+export const FriendContainer = styled.div`
+  width: 100%;
+  height: 40px;
+  border: 2px solid ${({ theme }) => theme.colors.mutual};
+  border-radius: 15px;
+  padding: 5px 15px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  display: flex;
+`;
+
+export const ProfileImageContainer = styled.div`
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 100%;
+  background-color: white;
+  overflow: hidden;
+  margin-right: 10px;
+`;
+
+export const ProfileLeft = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
+export const DeleteButton = styled.div`
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 30px;
   font-weight: 700;
 `;
