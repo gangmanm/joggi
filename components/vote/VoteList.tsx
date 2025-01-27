@@ -37,6 +37,7 @@ export default function VoteList({
   useEffect(() => {
     setVotes(originalVotes);
     originalVotes.forEach((vote) => fetchVoteResult(vote.uuid));
+    setIsLoaded(true);
   }, [originalVotes, userId]);
 
   const formatDate = (dateString: string) => {
@@ -45,6 +46,7 @@ export default function VoteList({
       date.getMonth() + 1
     }월 ${date.getDate()}일`;
   };
+
   const fetchVoteResult = async (voteId: string) => {
     try {
       const fetchedLikes = await getLike(voteId);
@@ -68,7 +70,6 @@ export default function VoteList({
         ...prev,
         [voteId]: result?.userVoted || false,
       }));
-      setIsLoaded(true);
     } catch (error) {
       console.error(`투표 ${voteId} 데이터 불러오기 실패:`, error);
     }
