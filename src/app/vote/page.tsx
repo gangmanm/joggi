@@ -57,10 +57,6 @@ export default function Vote() {
     setTitle(event.target.value);
   };
 
-  const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPrice(event.target.value);
-  };
-
   const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
@@ -85,7 +81,6 @@ export default function Vote() {
     }
   };
 
-  // 파일 선택 핸들러
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0] || null;
     if (selectedFile) {
@@ -110,7 +105,6 @@ export default function Vote() {
     }
   };
 
-  // 파일 업로드 핸들러
   const uploadFile = async () => {
     if (!file) {
       alert("파일을 선택해주세요.");
@@ -142,9 +136,18 @@ export default function Vote() {
       });
 
       getVoteList();
+      setTitle("");
+      setPrice("");
     } catch (error) {
       console.error("Error while adding vote:", error);
     }
+  };
+
+  const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = event.target.value.replace(/[^0-9]/g, ""); // 숫자만 허용
+    const formattedValue = Number(rawValue).toLocaleString(); // 숫자 형식으로 변환
+
+    setPrice(formattedValue);
   };
 
   return (
