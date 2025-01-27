@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, AnyActionArg } from "react";
 import * as S from "../../../styles/vote/vote";
 import {
   handleAddImages,
@@ -87,18 +87,38 @@ export default function Vote() {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0] || null;
-    if (selectedFile) {
-      if (!selectedFile.type.startsWith("image/")) {
-        alert("이미지 파일만 업로드할 수 있습니다.");
-        return;
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (!event.target.files || event.target.files.length === 0) return;
+
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/convert-heic", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("서버 응답 실패");
       }
-      setFile(selectedFile);
-      setPreview(URL.createObjectURL(selectedFile));
-    } else {
-      setFile(null);
-      setPreview(null);
+
+      const blob = await response.blob();
+      const previewUrl = URL.createObjectURL(blob);
+
+      // Blob을 File 객체로 변환
+      const jpgFile = new File([blob], file.name.replace(/\.[^/.]+$/, ".jpg"), {
+        type: "image/jpeg",
+        lastModified: Date.now(),
+      });
+
+      setPreview(previewUrl); // 변환된 이미지 미리보기
+      setFile(jpgFile); // JPG 파일로 저장
+    } catch (error) {
+      console.error("파일 업로드 및 변환 실패:", error);
     }
   };
 
@@ -229,13 +249,13 @@ export default function Vote() {
               {!preview ? (
                 <label htmlFor="file-upload">이미지 추가하기</label>
               ) : (
-                <Image
-                  src={preview || ""}
+                <img
+                  src={preview}
                   alt="미리보기"
-                  fill
                   style={{
-                    objectFit: "cover", // ✅ 올바른 방식
-                    objectPosition: "center",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
                     border: "1px solid #ccc",
                     borderRadius: "12px",
                   }}
@@ -270,11 +290,12 @@ export default function Vote() {
               <S.HiddenInput
                 ref={inputRef}
                 type="file"
-                accept="image/*"
+                accept="image/*,.heic,.heif"
                 id="file-upload"
                 onChange={handleFileChange}
               />
             </S.ImageInput>
+
             {preview && (
               <S.UploadButton htmlFor="file-upload">
                 이미지 편집하기

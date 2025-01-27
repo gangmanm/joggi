@@ -1,7 +1,7 @@
 const nextConfig = {
   basePath: "",
   assetPrefix: "",
-  trailingSlash: true,
+  trailingSlash: false,
   reactStrictMode: true,
   compiler: {
     styledComponents: true,
@@ -10,7 +10,9 @@ const nextConfig = {
     unoptimized: true,
   },
   experimental: {
-    serverActions: true, // Server Actions 활성화
+    serverActions: {
+      bodySizeLimit: "50mb", // 필요에 따라 크기 조정
+    },
   },
 };
 
