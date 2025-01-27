@@ -160,7 +160,7 @@ export const TotalDataContainer = styled.div<{ setting: string }>`
 
 export const TagContainer = styled.div`
   width: 100%;
-  max-height: 60%;
+  max-height: 90px;
   display: grid; /* Grid 레이아웃 사용 */
   grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
   align-items: flex-start;
