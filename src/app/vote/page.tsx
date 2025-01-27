@@ -15,13 +15,28 @@ import Image from "next/image";
 export default function Vote() {
   const [file, setFile] = useState<File | null>(null); // 단일 파일 상태
   const [preview, setPreview] = useState<string | null>(null); // 이미지 미리보기 상태
-  const [voteNumber, setVoteNumber] = useState(0);
   const [votes, setVotes] = useState<VoteRow[]>([]);
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [content, setContent] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const { session } = useSessionContext();
   const userId = session?.user.id;
   const user_fullname =
     session?.user?.identities?.[0]?.identity_data?.full_name;
+  const user_image = session?.user?.identities?.[0]?.identity_data?.avatar_url;
+
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+
+  const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPrice(event.target.value);
+  };
+
+  const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+  };
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -77,12 +92,15 @@ export default function Vote() {
     try {
       const imageurl = await uploadFile(); // 비동기 처리
       console.log("imageurl", imageurl);
-      const success = addVote({
-        content: "새글",
+      addVote({
         created_at: new Date().toISOString(),
         image: imageurl || "",
         user_id: userId || "",
-        price: "3000",
+        price,
+        title,
+        content,
+        user_image,
+        user_name: user_fullname,
       });
 
       const fetchedVotes = await getVotes();
@@ -106,17 +124,14 @@ export default function Vote() {
         <S.VoteHeader>
           <S.VoteHeaderLeft>
             <S.ProfileImageContainer>
-              <img
+              <Image
                 src={
                   session?.user?.identities?.[0]?.identity_data?.avatar_url ||
                   ""
                 }
-                alt="미리보기"
-                style={{
-                  maxWidth: "100%",
-                  height: "100%",
-                  objectFit: "fill",
-                }}
+                alt="프로필 아이콘"
+                fill
+                style={{ objectFit: "contain" }}
               />
             </S.ProfileImageContainer>
             {user_fullname}
@@ -140,11 +155,21 @@ export default function Vote() {
             </S.ImagePreview>
           </S.ImageContainer>
           <S.VoteMainLeft>
-            <S.VoteTitleInput placeholder="제목을 입력하세요"></S.VoteTitleInput>
-            <S.VotePriceInput placeholder="금액"></S.VotePriceInput>
+            <S.VoteTitleInput
+              placeholder="제목을 입력하세요"
+              value={title}
+              onChange={handleChangeTitle}
+            ></S.VoteTitleInput>
+            <S.VotePriceInput
+              placeholder="금액"
+              value={price}
+              onChange={handleChangePrice}
+            ></S.VotePriceInput>
             <S.VoteSubtitleInput
               maxLength={100}
               placeholder="내용을 입력하세요"
+              value={content}
+              onChange={handleChangeContent}
             ></S.VoteSubtitleInput>
           </S.VoteMainLeft>
         </S.VoteMain>
@@ -169,7 +194,7 @@ export default function Vote() {
           </S.VoteFooterRight>
         </S.VoteFooter>
       </S.VoteContainer>
-      <VoteList votes={votes} />
+      <VoteList originalVotes={votes} />
     </S.MainContainer>
   );
 }

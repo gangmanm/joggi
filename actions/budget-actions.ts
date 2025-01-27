@@ -262,3 +262,24 @@ export async function getVotes(): Promise<VoteRow[]> {
     return [];
   }
 }
+
+export async function deleteVote(voteId: number): Promise<boolean> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { error } = await supabase.from("vote").delete().eq("id", voteId);
+
+    if (error) {
+      console.error("Error deleting vote:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(
+      "Unexpected error in deleteVote:",
+      err instanceof Error ? err.message : err
+    );
+    return false;
+  }
+}

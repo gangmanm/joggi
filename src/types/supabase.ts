@@ -72,6 +72,30 @@ export type Database = {
         }
         Relationships: []
       }
+      like: {
+        Row: {
+          created_at: string
+          id: string
+          like: boolean | null
+          user_id: string | null
+          vote_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          like?: boolean | null
+          user_id?: string | null
+          vote_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          like?: boolean | null
+          user_id?: string | null
+          vote_id?: string | null
+        }
+        Relationships: []
+      }
       tag: {
         Row: {
           color: string | null
@@ -112,6 +136,7 @@ export type Database = {
           user_id: string | null
           user_image: string | null
           user_name: string | null
+          uuid: string
         }
         Insert: {
           content?: string | null
@@ -125,6 +150,7 @@ export type Database = {
           user_id?: string | null
           user_image?: string | null
           user_name?: string | null
+          uuid?: string
         }
         Update: {
           content?: string | null
@@ -138,6 +164,7 @@ export type Database = {
           user_id?: string | null
           user_image?: string | null
           user_name?: string | null
+          uuid?: string
         }
         Relationships: []
       }

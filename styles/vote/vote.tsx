@@ -58,6 +58,9 @@ export const VoteHeaderLeft = styled.div`
 export const VoteHeaderRight = styled.div`
   width: 50%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
 export const VoteMain = styled.div`
@@ -188,6 +191,13 @@ export const VoteButtonContainer = styled.div`
   align-items: center;
 `;
 
+export const MainLeftBottomContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const LikeContainer = styled.div`
   width: 60px;
   height: 30px;
@@ -206,6 +216,7 @@ export const LikeImageContainer = styled.div`
   overflow: hidden;
   margin-right: 10px;
 `;
+
 export const LikeAmtContainer = styled.div`
   width: 30px;
   height: 30px;
@@ -270,6 +281,7 @@ export const UploadButton = styled.label`
   cursor: pointer;
   display: flex;
   justify-content: flex-start;
+  margin-left: 10px;
 `;
 
 export const TitleInput = styled.input`
