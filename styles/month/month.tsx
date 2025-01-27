@@ -160,7 +160,7 @@ export const TotalDataContainer = styled.div<{ setting: string }>`
 
 export const TagContainer = styled.div`
   width: 100%;
-  max-height: 90px;
+  height: 70px;
   display: grid; /* Grid 레이아웃 사용 */
   grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
   align-items: flex-start;
@@ -170,12 +170,11 @@ export const TagContainer = styled.div`
 
 export const TagBox = styled.div<{ tagcolor: string }>`
   width: 100%;
-  height: 90px;
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-
   background-color: ${({ tagcolor }) => tagcolor};
   cursor: pointer;
   border-radius: 5px;
@@ -183,9 +182,9 @@ export const TagBox = styled.div<{ tagcolor: string }>`
 
 export const TagText = styled.div`
   display: flex;
-  font-weight: 500;
-  margin-top: 5px;
   color: white;
+  font-size: 13px;
+  font-weight: 600;
 `;
 
 export const TagButton = styled.div<{ setting: string }>`
