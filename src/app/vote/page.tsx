@@ -75,10 +75,16 @@ export default function Vote() {
   };
 
   const onClickOnlyUser = () => {
-    setUserList([userId]);
+    setPage(0); // 페이지 초기화
+    setVotes([]); // 기존 투표 목록 초기화
+    setHasMore(true); // 데이터 로드 가능 상태로 변경
+    setUserList([userId]); // Only show the posts by the current user
   };
 
   const onClickWithFriends = async () => {
+    setPage(0); // 페이지 초기화
+    setVotes([]); // 기존 투표 목록 초기화
+    setHasMore(true); // 데이터 로드 가능 상태로 변경
     if (!userId) return;
 
     try {
@@ -87,12 +93,13 @@ export default function Vote() {
         .map((friend) => friend.friend_id)
         .filter((id): id is string => id !== null);
 
-      friendIds.push(userId);
-      setUserList(friendIds);
+      friendIds.push(userId); // Ensure that the current user's posts are also included
+      setUserList(friendIds); // Set the list of user IDs to include the user and their friends
     } catch (err) {
-      console.error("Failed to fetch votes:", err);
+      console.error("Failed to fetch friends:", err);
     }
   };
+
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
