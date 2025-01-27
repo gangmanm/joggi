@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import * as S from "../../styles/day/generate-price";
 import { useState } from "react";
 import Tag from "./Tag";
-import Loading from "../Loading";
 
 interface PriceProps {
   setting: string;
