@@ -10,9 +10,13 @@ export type VoteRow = Database["public"]["Tables"]["vote"]["Row"];
 
 interface VoteListProps {
   originalVotes: VoteRow[];
+  lastVoteElementRefAction: (node: HTMLElement | null) => void;
 }
 
-export default function VoteList({ originalVotes }: VoteListProps) {
+export default function VoteList({
+  originalVotes,
+  lastVoteElementRefAction,
+}: VoteListProps) {
   const { session } = useSessionContext();
   const userId = session?.user?.id;
   const [votes, setVotes] = useState<VoteRow[]>(originalVotes);
@@ -41,7 +45,6 @@ export default function VoteList({ originalVotes }: VoteListProps) {
   const fetchVoteResult = async (voteId: string) => {
     try {
       const fetchedLikes = await getLike(voteId);
-
       if (!fetchedLikes || fetchedLikes.length === 0) {
         setLikeCounts((prev) => ({ ...prev, [voteId]: 0 }));
         setDislikeCounts((prev) => ({ ...prev, [voteId]: 0 }));
@@ -51,14 +54,9 @@ export default function VoteList({ originalVotes }: VoteListProps) {
 
       const result = fetchedLikes.reduce(
         (acc, like) => {
-          if (like.like) {
-            acc.likes += 1;
-          } else {
-            acc.dislikes += 1;
-          }
-          if (like.user_id === userId) {
-            acc.userVoted = true;
-          }
+          if (like.like) acc.likes += 1;
+          else acc.dislikes += 1;
+          if (like.user_id === userId) acc.userVoted = true;
           return acc;
         },
         { likes: 0, dislikes: 0, userVoted: false }
@@ -71,6 +69,7 @@ export default function VoteList({ originalVotes }: VoteListProps) {
       console.error(`투표 ${voteId} 데이터 불러오기 실패:`, error);
     }
   };
+
   const handleDelete = async (voteId: string) => {
     try {
       const success = await deleteVote(voteId);
@@ -84,6 +83,7 @@ export default function VoteList({ originalVotes }: VoteListProps) {
       alert("삭제 중 오류가 발생했습니다.");
     }
   };
+
   const onClickAddLike = async (like: boolean, voteId: string) => {
     if (!userId) {
       alert("로그인이 필요합니다.");
@@ -96,7 +96,7 @@ export default function VoteList({ originalVotes }: VoteListProps) {
     }
 
     try {
-      const uuid = crypto.randomUUID(); // UUID 자동 생성
+      const uuid = crypto.randomUUID();
 
       await addLike({
         id: uuid,
@@ -106,7 +106,6 @@ export default function VoteList({ originalVotes }: VoteListProps) {
         vote_id: voteId,
       });
 
-      // 상태 업데이트
       if (like) {
         setLikeCounts((prev) => ({
           ...prev,
@@ -130,8 +129,11 @@ export default function VoteList({ originalVotes }: VoteListProps) {
   return (
     <>
       {votes.length > 0 ? (
-        votes.map((vote) => (
-          <S.VoteContainer key={vote.uuid}>
+        votes.map((vote, index) => (
+          <S.VoteContainer
+            key={vote.uuid}
+            ref={index === votes.length - 1 ? lastVoteElementRefAction : null}
+          >
             <S.VoteHeader>
               <S.VoteHeaderLeft>
                 <S.ProfileImageContainer>
@@ -169,7 +171,7 @@ export default function VoteList({ originalVotes }: VoteListProps) {
               </S.ImageContainer>
               <S.VoteMainLeft>
                 <S.VoteTitleInput
-                  placeholder="제목을 입력하세요"
+                  placeholder="제목"
                   value={vote.title || ""}
                   readOnly
                 />
@@ -181,7 +183,6 @@ export default function VoteList({ originalVotes }: VoteListProps) {
                 <S.VoteSubtitleInput
                   as="textarea"
                   maxLength={100}
-                  placeholder="내용을 입력하세요"
                   value={vote.content || ""}
                   readOnly
                 />

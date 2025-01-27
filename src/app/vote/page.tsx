@@ -22,6 +22,12 @@ export default function Vote() {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const limit = 2;
+  const [page, setPage] = useState(0);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const { session } = useSessionContext();
   const userId = session?.user?.id || "";
@@ -45,7 +51,7 @@ export default function Vote() {
   // 상태 변경 후 투표 목록 업데이트
   useEffect(() => {
     if (userlist.length > 0) {
-      getVoteList();
+      getVoteList(page);
     }
   }, [userlist]);
 
@@ -96,13 +102,46 @@ export default function Vote() {
     }
   };
 
-  const getVoteList = async () => {
+  const getVoteList = async (pageNumber: number) => {
+    if (!hasMore || loading) return; // 중복 호출 방지
+    setLoading(true);
+
     try {
-      const fetchedVotes = await getVotes(userlist);
-      setVotes(fetchedVotes.reverse());
-    } catch {
-      console.log("투표 목록 불러오기 실패");
+      const fetchedVotes = await getVotes(userlist, pageNumber, limit);
+
+      if (fetchedVotes.length < limit) {
+        setHasMore(false); // 더 이상 불러올 데이터가 없음
+      }
+
+      // 중복 방지를 위한 필터링 로직 추가
+      setVotes((prevVotes) => {
+        const uniqueVotes = fetchedVotes.filter(
+          (newVote) => !prevVotes.some((vote) => vote.uuid === newVote.uuid)
+        );
+        return [...prevVotes, ...uniqueVotes];
+      });
+
+      setPage((prevPage) => prevPage + 1);
+    } catch (error) {
+      console.error("투표 목록 불러오기 실패:", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  // 무한 스크롤 이벤트 핸들러
+  const lastVoteElementRef = (node: HTMLElement | null) => {
+    if (loading || !hasMore) return;
+
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        getVoteList(page);
+      }
+    });
+
+    if (node) observer.current.observe(node);
   };
 
   const uploadFile = async () => {
@@ -135,7 +174,7 @@ export default function Vote() {
         user_name: user_fullname,
       });
 
-      getVoteList();
+      getVoteList(page);
       setTitle("");
       setPrice("");
     } catch (error) {
@@ -229,7 +268,10 @@ export default function Vote() {
           </S.VoteFooterRight>
         </S.VoteFooter>
       </S.VoteContainer>
-      <VoteList originalVotes={votes} />
+      <VoteList
+        originalVotes={votes}
+        lastVoteElementRefAction={lastVoteElementRef}
+      />
     </S.MainContainer>
   );
 }

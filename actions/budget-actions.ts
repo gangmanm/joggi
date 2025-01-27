@@ -244,7 +244,11 @@ export async function addVote(voteData: VoteInsert): Promise<boolean> {
 }
 
 // 투표 가져오기
-export async function getVotes(friendIds: string[]): Promise<VoteRow[]> {
+export async function getVotes(
+  friendIds: string[],
+  pageNumber: number,
+  limit: number
+): Promise<VoteRow[]> {
   try {
     const supabase = await getSupabaseClient();
 
@@ -256,7 +260,8 @@ export async function getVotes(friendIds: string[]): Promise<VoteRow[]> {
     const { data, error } = await supabase
       .from("vote")
       .select("*")
-      .in("user_id", friendIds); // user_id가 friendIds 배열에 포함된 경우만 조회
+      .in("user_id", friendIds)
+      .range(pageNumber * limit, (pageNumber + 1) * limit - 1); // user_id가 friendIds 배열에 포함된 경우만 조회
 
     if (error) {
       console.error("Error fetching votes:", error.message);
