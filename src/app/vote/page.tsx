@@ -25,7 +25,7 @@ export default function Vote() {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef<IntersectionObserver | null>(null);
-  const limit = 2;
+  const limit = 10;
   const [page, setPage] = useState(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
