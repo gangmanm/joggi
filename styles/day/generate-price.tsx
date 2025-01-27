@@ -110,9 +110,7 @@ export const PriceName = styled.input<{ setting: string }>`
   }
 `;
 
-export const Price = styled.input.attrs({
-  type: "number",
-})<{ setting: string }>`
+export const Price = styled.input<{ setting: string }>`
   width: 100%;
   height: 100%;
   display: flex;

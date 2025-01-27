@@ -52,7 +52,12 @@ export default function GeneratePrice({
         <S.InputBottomContainer>
           <S.Price
             setting={setting}
-            onChange={(e) => onAmountChangeAction(e.target.value)}
+            onChange={(e) => {
+              const rawValue = e.target.value.replace(/[^0-9]/g, ""); // 숫자만 허용
+              const formattedValue = Number(rawValue).toLocaleString(); // 숫자 형식 변환
+              onAmountChangeAction(rawValue); // 원시 숫자 값 전달 (필요하면 이 값을 서버에 저장)
+              e.target.value = formattedValue; // 포맷된 값 UI에 반영
+            }}
             placeholder="금액"
           />
         </S.InputBottomContainer>
