@@ -50,9 +50,16 @@ export default function Vote() {
 
   // 상태 변경 후 투표 목록 업데이트
   useEffect(() => {
-    if (userlist.length > 0) {
-      getVoteList(page);
-    }
+    const fetchVotes = async () => {
+      if (userlist.length > 0) {
+        setPage(0); // 페이지 초기화
+        setVotes([]); // 기존 투표 목록 초기화
+        setHasMore(true); // 데이터 로드 가능 상태로 변경
+        await getVoteList(0); // 첫 페이지 로드
+      }
+    };
+
+    fetchVotes();
   }, [userlist]);
 
   const handleRouteToFriends = () => {
