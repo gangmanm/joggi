@@ -31,10 +31,12 @@ export default function VoteList({
   const [openComments, setOpenComments] = useState<{ [key: string]: boolean }>(
     {}
   );
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setVotes(originalVotes);
     originalVotes.forEach((vote) => fetchVoteResult(vote.uuid));
+    setIsLoaded(true);
   }, [originalVotes, userId]);
 
   const formatDate = (dateString: string) => {
@@ -115,6 +117,7 @@ export default function VoteList({
 
   return (
     <>
+      {!isLoaded && <div>Loading...</div>}
       {votes.map((vote, index) => (
         <S.VoteContainer
           key={vote.uuid}
@@ -204,7 +207,7 @@ export default function VoteList({
           </S.VoteMain>
 
           <S.VoteFooter>
-            <S.VoteFooterRight>
+            <S.VoteFooterLeft>
               <S.UploadButton onClick={() => toggleComment(vote.uuid)}>
                 댓글보기
               </S.UploadButton>
@@ -213,7 +216,7 @@ export default function VoteList({
                   삭제하기
                 </S.UploadButton>
               )}
-            </S.VoteFooterRight>
+            </S.VoteFooterLeft>
           </S.VoteFooter>
           {openComments[vote.uuid] ? <Comment vote_uuid={vote.uuid} /> : null}
         </S.VoteContainer>
