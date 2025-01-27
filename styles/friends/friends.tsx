@@ -30,6 +30,7 @@ export const HeaderContainer = styled.div`
 export const MenuText = styled.div`
   color: ${({ theme }) => theme.colors.mutual};
   cursor: pointer;
+  margin-left: 10px;
 `;
 
 export const FriendInputContainer = styled.div`

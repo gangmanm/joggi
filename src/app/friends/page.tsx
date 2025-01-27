@@ -22,6 +22,17 @@ export default function Vote() {
   const handleRouteToVote = () => {
     router.push("/vote");
   };
+
+  const handleCopyUserId = async () => {
+    try {
+      await navigator.clipboard.writeText(userId || "");
+      alert("ID가 복사되었습니다.");
+    } catch (err) {
+      console.error("복사 중 오류 발생:", err);
+      alert("복사 중 오류가 발생했습니다.");
+    }
+  };
+
   useEffect(() => {
     const fetchFriends = async () => {
       if (!userId) return;
@@ -73,6 +84,7 @@ export default function Vote() {
         <S.MenuText onClick={handleRouteToVote}>
           글 목록으로 돌아가기
         </S.MenuText>
+        <S.MenuText onClick={handleCopyUserId}>내 ID 복사하기</S.MenuText>
       </S.HeaderContainer>
       <S.FriendInputContainer>
         <S.FriendInput
@@ -83,26 +95,22 @@ export default function Vote() {
         <S.AddButton onClick={onClickAddFriend}>+</S.AddButton>
       </S.FriendInputContainer>
       <div>
-        {friends.length > 0 ? (
-          friends.map((friend) => (
-            <S.FriendContainer key={friend.friend_id}>
-              <S.ProfileLeft>
-                <S.ProfileImageContainer>
-                  <Image
-                    src={friend.friend_image || ""}
-                    alt="프로필 아이콘"
-                    fill
-                    style={{ objectFit: "contain" }}
-                  />
-                </S.ProfileImageContainer>
-                {friend.friend_fullname}
-              </S.ProfileLeft>
-              <S.DeleteButton>-</S.DeleteButton>
-            </S.FriendContainer>
-          ))
-        ) : (
-          <p>친구 목록이 없습니다.</p>
-        )}
+        {friends.map((friend) => (
+          <S.FriendContainer key={friend.friend_id}>
+            <S.ProfileLeft>
+              <S.ProfileImageContainer>
+                <Image
+                  src={friend.friend_image || ""}
+                  alt="프로필 아이콘"
+                  fill
+                  style={{ objectFit: "contain" }}
+                />
+              </S.ProfileImageContainer>
+              {friend.friend_fullname}
+            </S.ProfileLeft>
+            <S.DeleteButton>-</S.DeleteButton>
+          </S.FriendContainer>
+        ))}
       </div>
     </S.MainContainer>
   );

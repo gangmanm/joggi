@@ -43,15 +43,16 @@ export default function VoteList({
       date.getMonth() + 1
     }월 ${date.getDate()}일`;
   };
-
   const fetchVoteResult = async (voteId: string) => {
     try {
       const fetchedLikes = await getLike(voteId);
       const result = fetchedLikes?.reduce(
         (acc, like) => {
-          like.like ? acc.likes++ : acc.dislikes++;
-          if (like.user_id === userId) acc.userVoted = true;
-          return acc;
+          return {
+            likes: like.like ? acc.likes + 1 : acc.likes,
+            dislikes: !like.like ? acc.dislikes + 1 : acc.dislikes,
+            userVoted: like.user_id === userId ? true : acc.userVoted,
+          };
         },
         { likes: 0, dislikes: 0, userVoted: false }
       );
@@ -214,7 +215,7 @@ export default function VoteList({
               )}
             </S.VoteFooterRight>
           </S.VoteFooter>
-          {openComments[vote.uuid] && <Comment vote_uuid={vote.uuid} />}
+          {openComments[vote.uuid] ? <Comment vote_uuid={vote.uuid} /> : null}
         </S.VoteContainer>
       ))}
     </>
