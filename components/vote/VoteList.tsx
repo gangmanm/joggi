@@ -32,12 +32,10 @@ export default function VoteList({
   const [openComments, setOpenComments] = useState<{ [key: string]: boolean }>(
     {}
   );
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setVotes(originalVotes);
     originalVotes.forEach((vote) => fetchVoteResult(vote.uuid));
-    setIsLoaded(true);
   }, [originalVotes, userId]);
 
   const formatDate = (dateString: string) => {
