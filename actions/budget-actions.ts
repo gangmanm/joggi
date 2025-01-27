@@ -11,6 +11,10 @@ export type VoteInsert = Database["public"]["Tables"]["vote"]["Insert"];
 export type VoteRow = Database["public"]["Tables"]["vote"]["Row"];
 export type LikeInsert = Database["public"]["Tables"]["like"]["Insert"];
 export type LikeRow = Database["public"]["Tables"]["like"]["Row"];
+export type FriendInsert = Database["public"]["Tables"]["friend"]["Insert"];
+export type FriendRow = Database["public"]["Tables"]["friend"]["Row"];
+export type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
+
 
 import { v4 as uuid } from "uuid";
 
@@ -329,5 +333,105 @@ export async function getLike(vote_uuid: string): Promise<LikeRow[]> {
       err instanceof Error ? err.message : err
     );
     return [];
+  }
+}
+
+export async function addFriends(friendData: FriendInsert): Promise<boolean> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { error } = await supabase.from("friend").insert(friendData);
+
+    if (error) {
+      console.error("Error adding Vote:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(
+      "Unexpected error in addVote:",
+      err instanceof Error ? err.message : err
+    );
+    return false;
+  }
+}
+
+// 투표 가져오기
+export async function getFriends(user_id: string): Promise<FriendRow[]> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { data, error } = await supabase
+      .from("friend")
+      .select("*")
+      .eq("user_id", user_id);
+
+    if (error) {
+      console.error("Error fetching friend:", error.message);
+      return [];
+    }
+
+    if (!data) {
+      console.warn("No votes found.");
+      return [];
+    }
+
+    return data;
+  } catch (err) {
+    console.error(
+      "Unexpected error in getFriends:",
+      err instanceof Error ? err.message : err
+    );
+    return [];
+  }
+}
+
+export async function deleteFriends(
+  user_id: string,
+  friend_id: string
+): Promise<boolean> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { error } = await supabase
+      .from("friend")
+      .delete()
+      .eq("user_id", user_id)
+      .eq("friend_id", friend_id);
+
+    if (error) {
+      console.error("Error deleting friend:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(
+      "Unexpected error in deleteFriends:",
+      err instanceof Error ? err.message : err
+    );
+    return false;
+  }
+}
+
+export async function addUsers(userData: UserInsert): Promise<boolean> {
+  try {
+    const supabase = await getSupabaseClient();
+
+    const { error } = await supabase.from("users").insert(userData);
+
+    if (error) {
+      console.error("Error adding Users:", error.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(
+      "Unexpected error in addUSers:",
+      err instanceof Error ? err.message : err
+    );
+    return false;
   }
 }

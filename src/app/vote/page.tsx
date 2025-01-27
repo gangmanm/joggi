@@ -11,6 +11,8 @@ import { useSessionContext } from "../context/SessionContext";
 export type VoteRow = Database["public"]["Tables"]["vote"]["Row"];
 import VoteList from "../../../components/vote/VoteList";
 import Image from "next/image";
+import Menu from "../../../components/Menu";
+import { useRouter } from "next/navigation"; // app 라우터에서는 next/navigation 사용
 
 export default function Vote() {
   const [file, setFile] = useState<File | null>(null); // 단일 파일 상태
@@ -25,6 +27,11 @@ export default function Vote() {
   const user_fullname =
     session?.user?.identities?.[0]?.identity_data?.full_name;
   const user_image = session?.user?.identities?.[0]?.identity_data?.avatar_url;
+  const router = useRouter(); // useRouter 대신 next/navigation의 useRouter 사용
+
+  const handleRouteToFriends = () => {
+    router.push("/friends");
+  };
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -114,8 +121,9 @@ export default function Vote() {
 
   return (
     <S.MainContainer>
+      <Menu />
       <S.HeaderContainer>
-        <S.MenuText>친구 목록 보기</S.MenuText>
+        <S.MenuText onClick={handleRouteToFriends}>친구 목록 보기</S.MenuText>
         <S.MenuText>내가 쓴 글 보기</S.MenuText>
         <S.MenuText>전체 글 보기</S.MenuText>
         <S.MenuText>글 추가하기 +</S.MenuText>

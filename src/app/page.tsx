@@ -4,6 +4,7 @@ import * as S from "../../styles/main";
 import Image from "next/image";
 import { createClient } from "../../utils/supabase/client";
 import { useEffect } from "react";
+import { addUsers } from "../../actions/budget-actions";
 
 const supabase = createClient();
 
@@ -39,6 +40,14 @@ export default function Home() {
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
         console.log("사용자가 로그인했습니다:", session);
+        addUsers({
+          created_at: new Date().toISOString(),
+          user_id: session?.user?.id || "",
+          user_fullname:
+            session?.user?.identities?.[0]?.identity_data?.full_name || null,
+          user_image:
+            session?.user?.identities?.[0]?.identity_data?.avatar_url || null,
+        });
       } else {
         console.log("사용자가 로그아웃했습니다.");
       }

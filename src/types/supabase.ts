@@ -72,6 +72,30 @@ export type Database = {
         }
         Relationships: []
       }
+      friend: {
+        Row: {
+          created_at: string
+          friend_id: string | null
+          friend_image: string | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          friend_id?: string | null
+          friend_image?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          friend_id?: string | null
+          friend_image?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       like: {
         Row: {
           created_at: string
@@ -120,6 +144,30 @@ export type Database = {
           name?: string | null
           setting?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          created_at: string
+          id: number
+          user_fullname: string | null
+          user_id: string
+          user_image: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          user_fullname?: string | null
+          user_id: string
+          user_image?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          user_fullname?: string | null
+          user_id?: string
+          user_image?: string | null
         }
         Relationships: []
       }
