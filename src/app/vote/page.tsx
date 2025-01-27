@@ -15,11 +15,29 @@ import Image from "next/image";
 export default function Vote() {
   const [file, setFile] = useState<File | null>(null); // 단일 파일 상태
   const [preview, setPreview] = useState<string | null>(null); // 이미지 미리보기 상태
+  const [voteNumber, setVoteNumber] = useState(0);
+  const [votes, setVotes] = useState<VoteRow[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const { session } = useSessionContext();
-  const userId = session?.user;
+  const userId = session?.user.id;
   const user_fullname =
     session?.user?.identities?.[0]?.identity_data?.full_name;
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const fetchedVotes = await getVotes();
+        setVotes(fetchedVotes.reverse());
+        console.log(fetchedVotes);
+      } catch (err) {
+        console.error("Failed to fetch votes:", err);
+      }
+    };
+
+    if (userId) {
+      fetchTags();
+    }
+  }, [userId]);
 
   // 파일 선택 핸들러
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +81,14 @@ export default function Vote() {
         content: "새글",
         created_at: new Date().toISOString(),
         image: imageurl || "",
+        user_id: userId || "",
+        price: "3000",
       });
+
+      const fetchedVotes = await getVotes();
+      if (fetchedVotes.length > 0) {
+        setVotes(fetchedVotes.reverse());
+      }
     } catch (error) {
       console.error("Error while adding vote:", error);
     }
@@ -144,7 +169,7 @@ export default function Vote() {
           </S.VoteFooterRight>
         </S.VoteFooter>
       </S.VoteContainer>
-      <VoteList />
+      <VoteList votes={votes} />
     </S.MainContainer>
   );
 }
