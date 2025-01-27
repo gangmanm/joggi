@@ -261,7 +261,8 @@ export async function getVotes(
       .from("vote")
       .select("*")
       .in("user_id", friendIds)
-      .range(pageNumber * limit, (pageNumber + 1) * limit - 1); // user_id가 friendIds 배열에 포함된 경우만 조회
+      .order("created_at", { ascending: false }) // 최신 순 정렬
+      .range(pageNumber * limit, (pageNumber + 1) * limit - 1);
 
     if (error) {
       console.error("Error fetching votes:", error.message);

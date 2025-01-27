@@ -163,20 +163,32 @@ export default function Vote() {
     try {
       const imageurl = await uploadFile();
 
-      await addVote({
+      const newVote: VoteRow = {
+        id: 0, // 기본값으로 0 또는 적절한 값 설정 (DB에서 자동 생성되는 경우 임시값)
+        uuid: crypto.randomUUID(), // 고유 ID 생성
         created_at: new Date().toISOString(),
-        image: imageurl || "",
-        user_id: userId,
-        price,
-        title,
-        content,
-        user_image,
-        user_name: user_fullname,
-      });
+        image: imageurl || null, // null 허용 타입이므로 적용
+        user_id: userId || null, // null 허용
+        price: price || null, // 빈 문자열 방지
+        title: title || null,
+        content: content || null,
+        user_image: user_image || null,
+        user_name: user_fullname || null,
+        like: 0, // 좋아요 기본값 설정
+        dislike: 0, // 싫어요 기본값 설정
+      };
 
-      getVoteList(page);
+      // 서버에 투표 추가 요청
+      await addVote(newVote);
+
+      // 새로운 투표를 현재 목록의 최상단에 추가
+      setVotes((prevVotes) => [newVote, ...prevVotes]);
+
+      // 입력값 초기화
       setTitle("");
       setPrice("");
+      setContent("");
+      setPreview(null);
     } catch (error) {
       console.error("Error while adding vote:", error);
     }
