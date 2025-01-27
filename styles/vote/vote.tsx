@@ -37,7 +37,6 @@ export const MenuText = styled.div`
 
 export const VoteContainer = styled.div`
   width: 100%;
-  height: 250px;
   border: 3px solid ${({ theme }) => theme.colors.mutual};
   border-radius: 10px;
   display: flex;
@@ -179,7 +178,7 @@ export const VoteSubtitle = styled.div`
   align-items: center;
   padding: 10px;
   text-align: center;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
 `;
 
@@ -190,7 +189,7 @@ export const VoteSubtitleInput = styled.textarea`
   color: ${({ theme }) => theme.colors.mutual};
   padding: 10px;
   text-align: center;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
   word-wrap: break-word; /* 긴 단어 줄바꿈 */
   white-space: normal; /* 기본 줄바꿈 허용 */

@@ -191,15 +191,12 @@ export default function Vote() {
   };
 
   const uploadFile = async () => {
-    if (!file) {
-      alert("파일을 선택해주세요.");
-      return "";
+    if (!file || !title || !price || !content) {
+      alert("이미지, 제목,금액,내용을 모두 입력하세요");
+      return;
     }
 
     const imageurl = await handleAddImages(file);
-    console.log("업로드할 파일:", file);
-
-    alert(`"${file.name}" 파일이 업로드되었습니다.`);
     setFile(null);
     setPreview(null);
     return imageurl;
@@ -208,6 +205,9 @@ export default function Vote() {
   const onClickAddVote = async () => {
     try {
       const imageurl = await uploadFile();
+      if (!imageurl) {
+        return;
+      }
 
       const newVote: VoteRow = {
         id: 0, // 기본값으로 0 또는 적절한 값 설정 (DB에서 자동 생성되는 경우 임시값)
@@ -297,6 +297,7 @@ export default function Vote() {
               <S.VoteTitleInput
                 placeholder="제목을 입력하세요"
                 value={title}
+                maxLength={14}
                 onChange={handleChangeTitle}
               />
               <S.VotePriceInput
@@ -305,7 +306,7 @@ export default function Vote() {
                 onChange={handleChangePrice}
               />
               <S.VoteSubtitleInput
-                maxLength={100}
+                maxLength={50}
                 placeholder="내용을 입력하세요"
                 value={content}
                 onChange={handleChangeContent}
