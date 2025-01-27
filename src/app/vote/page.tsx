@@ -260,12 +260,14 @@ export default function Vote() {
           <S.VoteHeader>
             <S.VoteHeaderLeft>
               <S.ProfileImageContainer>
-                <Image
-                  src={user_image || ""}
-                  alt="프로필 아이콘"
-                  fill
-                  style={{ objectFit: "contain" }}
-                />
+                {user_image && (
+                  <Image
+                    src={user_image || ""}
+                    alt="프로필 아이콘"
+                    fill
+                    style={{ objectFit: "contain" }}
+                  />
+                )}
               </S.ProfileImageContainer>
               {user_fullname}
             </S.VoteHeaderLeft>
