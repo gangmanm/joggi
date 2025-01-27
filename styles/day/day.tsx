@@ -134,6 +134,7 @@ export const SubTotalText = styled.div<{ setting: string }>`
   /* 최대 너비 제한 (필요한 경우 추가) */
   max-width: 100%; /* 컨테이너 너비를 초과하지 않도록 제한 */
   overflow-wrap: break-word; /* 텍스트가 넘칠 경우 줄바꿈 */
+  cursor: pointer;
 `;
 
 export const PriceContainer = styled.div`

@@ -4,6 +4,7 @@ import * as S from "../../styles/day/tag";
 import { getTag } from "../../actions/budget-actions";
 import { useState, useEffect } from "react";
 import { Database } from "../../src/types/supabase";
+import Loading from "../Loading";
 
 export type TagRow = Database["public"]["Tables"]["tag"]["Row"];
 
@@ -25,6 +26,7 @@ export default function Tag({
   const [tags, setTags] = useState<TagRow[]>([]);
   const [filteredTags, setFilteredTags] = useState<TagRow[]>([]);
   const [selectedTagId, setSelectedTagId] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleSelectTag = (
     tagId: string,
@@ -54,6 +56,8 @@ export default function Tag({
         }
       } catch (err) {
         console.error("Failed to fetch tags:", err);
+      } finally {
+        setIsLoaded(true); // 로딩 완료 상태 업데이트
       }
     };
 
@@ -78,7 +82,7 @@ export default function Tag({
     }
   }, [tags, setting]);
 
-  return (
+  return isLoaded ? (
     <S.TagContainer>
       {filteredTags.map((tag) => (
         <S.TagBox
@@ -101,5 +105,7 @@ export default function Tag({
         </S.TagBox>
       ))}
     </S.TagContainer>
+  ) : (
+    <Loading />
   );
 }

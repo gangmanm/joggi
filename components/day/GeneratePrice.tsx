@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import * as S from "../../styles/day/generate-price";
 import { useState } from "react";
 import Tag from "./Tag";
+import Loading from "../Loading";
 
 interface PriceProps {
   setting: string;
@@ -24,7 +25,6 @@ export default function GeneratePrice({
 }: PriceProps) {
   const [tag, setTag] = useState("태그");
   const [tagColor, setTagColor] = useState("");
-
   const router = useRouter();
 
   const handleRouteToTag = (setting: string) => {
